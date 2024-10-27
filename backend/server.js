@@ -4,6 +4,7 @@ import authRouter from "./routes/auth.routes.js";
 import sequelize from "./database.js";
 
 const app = express();
+app.use(express.json())
 configDotenv();
 
 app.listen(process.env.PORT, () =>
@@ -11,6 +12,7 @@ app.listen(process.env.PORT, () =>
 );
 
 app.use(authRouter);
+
 
 // ======= PARA TESTEAR CONEXION CON BASE DE DATOS ========
 

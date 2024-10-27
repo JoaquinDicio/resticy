@@ -1,14 +1,25 @@
 import authService from "../services/auth.service.js";
 
 const authController = {
-  login(req, res) {
-    const response = authService.login();
-    res.status(200).send(response);
-  },
-  async regsiter(req, res) {
+
+  async login(req, res) {
     try {
-      const response = await authService.register();
-      res.status(200).send(response);
+      const response = await authService.login(req);
+
+      res.status(response.code).json(response.message);
+      
+    } catch (error) {
+      res.status(500).json({message: "Ha ocurrido un error al iniciar sesion", error})
+    }
+  },
+
+  async register(req, res) {
+    try {
+
+      const response = await authService.register(req);
+
+      res.status(response.code).json(response.message);
+
     } catch (e) {
       console.log("Error creando el usuario:", e);
     }

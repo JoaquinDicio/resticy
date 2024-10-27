@@ -4,7 +4,7 @@ import authController from "../controllers/auth.controller.js";
 
 const authRouter = Router();
 
-authRouter.post("/register", authController.regsiter);
+authRouter.post("/register", authController.register);
 
 authRouter.post("/login", authController.login);
 
