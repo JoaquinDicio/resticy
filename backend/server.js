@@ -1,10 +1,10 @@
 import express from "express";
 import { configDotenv } from "dotenv";
 import authRouter from "./routes/auth.routes.js";
-import sequelize from "./database.js";
+import itemsRouter from "./routes/items.routes.js";
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 configDotenv();
 
 app.listen(process.env.PORT, () =>
@@ -12,17 +12,4 @@ app.listen(process.env.PORT, () =>
 );
 
 app.use(authRouter);
-
-
-// ======= PARA TESTEAR CONEXION CON BASE DE DATOS ========
-
-async function testDatabaseConnection() {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-}
-
-app.get("/test-connection", testDatabaseConnection);
+app.use(itemsRouter);
