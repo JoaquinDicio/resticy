@@ -2,6 +2,7 @@ import express from "express";
 import { configDotenv } from "dotenv";
 import authRouter from "./routes/auth.routes.js";
 import itemsRouter from "./routes/items.routes.js";
+import ordersRouter from "./routes/orders.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -13,3 +14,4 @@ app.listen(process.env.PORT, () =>
 
 app.use(authRouter);
 app.use(itemsRouter);
+app.use(ordersRouter);
