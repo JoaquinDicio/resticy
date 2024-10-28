@@ -3,9 +3,8 @@ import bcrypt from "bcrypt";
 
 const authService = {
   async login(req) {
-
+    
     const {email, password} = req.body;
-
     const userByEmail = await User.findOne({ where: { email: email } });
 
     if(!userByEmail){
@@ -13,12 +12,12 @@ const authService = {
     }
     
     const isValidCredentials = await bcrypt.compare(password, userByEmail.password)
-    
     if(isValidCredentials){
       return {code: 200, message: "Usuario Autenticado Correctamente.", ok: true}
     }else{
       return {code: 400, message: "Credenciales invalidas.", ok: false}
     }
+    
   },
   async register(req) {
 

@@ -2,9 +2,13 @@ import express from "express";
 import { configDotenv } from "dotenv";
 import authRouter from "./routes/auth.routes.js";
 import sequelize from "./database.js";
+import cors from "cors";
 
 const app = express();
-app.use(express.json())
+
+app.use(express.json());
+app.use(cors());
+
 configDotenv();
 
 app.listen(process.env.PORT, () =>
@@ -12,7 +16,6 @@ app.listen(process.env.PORT, () =>
 );
 
 app.use(authRouter);
-
 
 // ======= PARA TESTEAR CONEXION CON BASE DE DATOS ========
 
