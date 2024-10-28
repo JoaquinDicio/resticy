@@ -4,9 +4,7 @@ const itemsService = {
   async getItemsByRestaurant(req) {
     const { restaurantID } = req.params;
     const items = await Item.findAll({
-      where: {
-        restaurant_id: restaurantID,
-      },
+      where: { restaurant_id: restaurantID },
     });
 
     return { code: 200, data: [...items], ok: true };

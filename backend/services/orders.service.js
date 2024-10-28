@@ -4,9 +4,14 @@ import OrderItem from "../models/OrderItem.js";
 const ordersService = {
   async getOrdersByRestaurant(req) {
     const { restaurantID } = req.params;
+
+    const orders = await Order.findAll({
+      where: { restaurant_id: restaurantID },
+    });
+
     return {
       code: 200,
-      message: "Ordenes del restaurante: " + restaurantID,
+      data: [...orders],
       ok: true,
     };
   },
