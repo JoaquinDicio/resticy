@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function useAuth() {
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({ emailError: null, passwordError: null, nameError: null });  
   const navigate = useNavigate();
 
   const authenticate = async (formData) => {
@@ -12,7 +12,6 @@ export default function useAuth() {
     // esta funcion puede terminar en una redireccion o bien en un cambio de estado
     // los errores deben setearse en un state al igual que el loader
     setLoading(true);
-    console.log(formData);
   };
 
   const register = async (formData) => {
@@ -23,13 +22,19 @@ export default function useAuth() {
       await axios.post("http://localhost:8080/register", formData);
       navigate("/login");
     } catch (error) {
-      setError(error.response.data)
-      console.log(error.response.data)
-    }
+      const errorData = error.response.data; 
+      
+      console.log(errorData)
 
+      if (errorData) {
+        setErrors(prev => ({
+          emailError: errorData || prev.emailError,
+        }));
+      }
+      
+    }
     setLoading(false);
-    console.log(formData);
   };
 
-  return { authenticate, register, error, isLoading };
+  return { authenticate, register, errors, isLoading };
 }
