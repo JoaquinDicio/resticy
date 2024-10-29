@@ -23,8 +23,8 @@ export default function useAuth() {
       await axios.post("http://localhost:8080/register", formData);
       navigate("/login");
     } catch (error) {
-      setError(error)
-      console.log(error)
+      setError(error.response.data)
+      console.log(error.response.data)
     }
 
     setLoading(false);

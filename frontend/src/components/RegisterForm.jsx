@@ -19,17 +19,19 @@ const RegisterForm = () => {
     // para que la logica de peticion sea aisalada del componente
     
     e.preventDefault();
-    
+
     try {
       await register(formData);
     } catch {
-      console.log(error)
+      console.log(error.value)
     }
 
   }
 
   return (
+
     <form onSubmit={handleSubmit} className="flex flex-col">
+      <p>{error || ""}</p>
       <InputField
         label="Nombre del comercio"
         type="text"
