@@ -1,7 +1,7 @@
 import React from "react";
 import RegisterForm from "../components/RegisterForm";
 
-const Register = () => {
+export default function Register() {
   return (
     <main>
       <div className="w-full min-h-screen bg-[#51161F] flex justify-center items-center">
@@ -15,7 +15,7 @@ const Register = () => {
             <div className="mb-9">
               <p className="text-2xl">
                 Registrarse o{" "}
-                <a href="#" className="text-blue-800">
+                <a href="" className="text-blue-800">
                   Iniciar Sesion
                 </a>
               </p>
@@ -26,5 +26,4 @@ const Register = () => {
       </div>
     </main>
   );
-};
-export default Register;
+}

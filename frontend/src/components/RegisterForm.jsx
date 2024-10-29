@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import InputField from "./InputField";
-import axios from "axios";
+import useAuth from "../hooks/useAuth.jsx";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({});
+  const { error, isLoading, register } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,18 +12,14 @@ const RegisterForm = () => {
       ...prevFormData,
       [name]: value,
     }));
-    console.log(formData);
   };
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
+    // esto es todo lo que debe hacer el handle submit
+    // para que la logica de peticion sea aisalada del componente
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:8080/register", formData);
-      console.log("User registered:", response.data);
-    } catch (error) {
-      console.log(error)
-    }
-  };
+    await register(formData);
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">
@@ -39,7 +36,7 @@ const RegisterForm = () => {
         type="email"
         name="email"
         value={formData.email || ""}
-        onChange={handleChange} 
+        onChange={handleChange}
         placeholder="TuEmpresa@gmail.com"
       />
       <InputField
@@ -52,8 +49,18 @@ const RegisterForm = () => {
       />
 
       <div className="flex flex-col md:flex-row items-center gap-5 mt-5">
-        <input type="submit" value="Registrarse" className="bg-[#D4AF37] px-10 py-3 rounded-[40px]" />
-        <p>¿Ya tienes una cuenta? <a href="#" className="text-blue-800">Inicia Sesion</a></p>
+        <input
+          type="submit"
+          disabled={isLoading}
+          value={isLoading ? "Cargando.." : "Registrarse"}
+          className="bg-[#D4AF37] disabled:bg-slate-200 px-10 py-3 rounded-[40px]"
+        />
+        <p>
+          ¿Ya tienes una cuenta?{" "}
+          <a href="#" className="text-blue-800">
+            Inicia Sesion
+          </a>
+        </p>
       </div>
     </form>
   );
