@@ -17,8 +17,15 @@ const RegisterForm = () => {
   async function handleSubmit(e) {
     // esto es todo lo que debe hacer el handle submit
     // para que la logica de peticion sea aisalada del componente
+    
     e.preventDefault();
-    await register(formData);
+    
+    try {
+      await register(formData);
+    } catch {
+      console.log(error)
+    }
+
   }
 
   return (

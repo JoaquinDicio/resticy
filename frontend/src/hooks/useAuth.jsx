@@ -1,8 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function useAuth() {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const authenticate = async (formData) => {
     // TODO : peticion al backend
@@ -13,9 +16,18 @@ export default function useAuth() {
   };
 
   const register = async (formData) => {
-    // TODO : peticion al backend
-    // lo mismo que la funcion anterior
+
     setLoading(true);
+
+    try {
+      await axios.post("http://localhost:8080/register", formData);
+      navigate("/login");
+    } catch (error) {
+      setError(error)
+      console.log(error)
+    }
+
+    setLoading(false);
     console.log(formData);
   };
 

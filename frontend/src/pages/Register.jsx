@@ -15,7 +15,7 @@ export default function Register() {
             <div className="mb-9">
               <p className="text-2xl">
                 Registrarse o{" "}
-                <a href="" className="text-blue-800">
+                <a href="/login" className="text-blue-800">
                   Iniciar Sesion
                 </a>
               </p>
