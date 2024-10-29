@@ -3,13 +3,7 @@ import bcrypt from "bcrypt";
 
 const authService = {
   async login(req) {
-<<<<<<< HEAD
-    
-    const {email, password} = req.body;
-=======
     const { email, password } = req.body;
-
->>>>>>> 5a3ba83726c1dd325d0e04fc7a1f55f99f99cf02
     const userByEmail = await User.findOne({ where: { email: email } });
 
     if (!userByEmail) {
@@ -19,20 +13,11 @@ const authService = {
         ok: false,
       };
     }
-<<<<<<< HEAD
-    
-    const isValidCredentials = await bcrypt.compare(password, userByEmail.password)
-    if(isValidCredentials){
-      return {code: 200, message: "Usuario Autenticado Correctamente.", ok: true}
-    }else{
-      return {code: 400, message: "Credenciales invalidas.", ok: false}
-=======
 
     const isValidCredentials = await bcrypt.compare(
       password,
       userByEmail.password
     );
-
     if (isValidCredentials) {
       return {
         code: 200,
@@ -41,9 +26,7 @@ const authService = {
       };
     } else {
       return { code: 400, message: "Credenciales invalidas.", ok: false };
->>>>>>> 5a3ba83726c1dd325d0e04fc7a1f55f99f99cf02
     }
-    
   },
   async register(req) {
     const { name, password, email } = req.body;
