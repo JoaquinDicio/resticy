@@ -1,19 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import useAxios from "../hooks/useAxios";
 
 export default function NewOrder() {
     const [items, setItems] = useState([]);
     const [formData, setFormData] = useState({ items: [] });
     const [selectedTable, setSelectedTable] = useState(1);
+    const { axiosGet, axiosPost, isLoading } = useAxios();
     const restaurantId = 1;
 
     useEffect(() => {
-        async function fetchItems() {
-            try {
-                const response = await axios.get(`http://localhost:8080/items/${restaurantId}`);
-                setItems(response.data.data);
-            } catch (error) {
-                console.error("Error fetching items:", error);
+        const fetchItems = async () => { 
+            const fetchedItems = await axiosGet(`http://localhost:8080/items/${restaurantId}`); 
+            if (fetchedItems) {
+              setItems(fetchedItems.data); 
             }
         }
         fetchItems();
@@ -101,8 +101,8 @@ export default function NewOrder() {
             table_id: selectedTable,
             items: items 
         };
-    
-        await axios.post('http://localhost:8080/orders', { order });
+        
+        axiosPost('http://localhost:8080/orders', { order })
     };
     
     return (
@@ -124,7 +124,10 @@ export default function NewOrder() {
                     </select>
                 </div>
 
-                {items.map(item => (
+                {isLoading 
+                ? (<p className="text-center text-gray-500">Cargando...</p>) 
+                : (
+                items.map(item => (
                     <div key={item.id} className="flex justify-between items-center p-4 border-b border-gray-200">
                         <div>
                             <p className="text-lg font-semibold">{item.name}</p> 
@@ -148,12 +151,14 @@ export default function NewOrder() {
                             )}
                         </div>
                     </div>
-                ))}
+                ))
+             )}
                 <button 
                     className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-200" 
                     onClick={() => placeOrder(formData)}
+                    disabled={isLoading}
                 >
-                    Hacer pedido
+                     {isLoading ? "Cargando..." : "Hacer pedido"}
                 </button>
             </div>
         </>

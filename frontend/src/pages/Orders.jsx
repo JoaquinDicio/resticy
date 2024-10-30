@@ -98,8 +98,8 @@ export default function Orders() {
             <ul className="mt-5">
               {displayOrder && (
                 <>
-                  {displayOrder.OrderItems?.map(({ Item }) => (
-                    <li className="my-2 flex justify-between">
+                  {displayOrder.OrderItems?.map(({ Item, index }) => (
+                    <li key={Item.id || index} className="my-2 flex justify-between">
                       <p>{Item.name}</p>{" "}
                       <p className="font-medium">${Item.price}</p>
                     </li>
