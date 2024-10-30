@@ -15,7 +15,7 @@ export default function Login() {
             <div className="mb-9 text-2xl flex">
               <p>
                 Iniciar Sesion o{" "}
-                <a href="#" className="text-blue-800">
+                <a href="/register" className="text-blue-800">
                   Registrarse
                 </a>
               </p>
