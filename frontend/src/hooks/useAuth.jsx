@@ -13,7 +13,7 @@ export default function useAuth() {
     try{
       await axios.post("http://localhost:8080/login", formData);
       console.log('Se redirije al dashboard [Todavia no se creo]')
-      navigate("#");
+      navigate("/orders");
     }catch(error){
       const errorData = error.response.data; 
       setErrors(prev => ({
