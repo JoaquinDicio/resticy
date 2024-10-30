@@ -16,9 +16,4 @@ const OrderItem = sequelize.define(
   }
 );
 
-OrderItem.associate = (models) => {
-  OrderItem.belongsTo(models.Order, { foreignKey: "order_id" });
-  OrderItem.belongsTo(models.Item, { foreignKey: "item_id" });
-};
-
 export default OrderItem;

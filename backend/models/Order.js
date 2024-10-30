@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database.js";
+import OrderItem from "./OrderItem.js";
 
 const Order = sequelize.define(
   "Order",
@@ -16,14 +17,5 @@ const Order = sequelize.define(
     timestamps: false,
   }
 );
-
-Order.associate = (models) => {
-  Order.belongsTo(models.Restaurant, { foreignKey: "restaurant_id" });
-  Order.belongsTo(models.Table, { foreignKey: "table_id" });
-  Order.belongsToMany(models.Item, {
-    through: models.OrderItem,
-    foreignKey: "order_id",
-  });
-};
 
 export default Order;

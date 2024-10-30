@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import socket from "../socket.js";
+import axios from "axios";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [displayOrder, setDisplayOrder] = useState(null);
+  const [selectedTable, setSelectedTable] = useState(null);
 
+  // TODO =>  esto deberia venir de la base de datos
+  // se deberia hacer un GET cuando se monta el componentn con useEffect
   const [tables, setTables] = useState([
     { id: 1, number: 22, hasOrders: false },
     { id: 2, number: 23, hasOrders: false },
@@ -14,16 +19,33 @@ export default function Orders() {
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
     return () => {
-      // funcion de limpieza del socket => Si no entendes esto lee sobre el ciclo de vida
-      // de un componente en react. sino mandame mensaje.
+      // se limpia el socket: si no lo entendes lee sobre el lifecycle de un componente, sino preguntame
       socket.off("order");
     };
   }, []);
 
+  useEffect(() => {
+    if (selectedTable) {
+      const order = orders.find((order) => order.table_id == selectedTable.id);
+      if (order) {
+        setDisplayOrder(null);
+        findOrder(order.id, (orderData) => {
+          setDisplayOrder(orderData.data.data);
+        });
+      }
+    }
+  }, [selectedTable]);
+
+  async function findOrder(orderId, callback) {
+    const orderData = await axios.get(
+      `http://localhost:8080/orders/${orderId}`
+    );
+    callback(orderData);
+  }
+
   function handleNewOrder(newOrder) {
     setOrders((prev) => [...prev, newOrder]);
     const tableId = newOrder.table_id;
-
     // actualiza el estado para mostrar la campanita en la mesa correspondiente
     setTables((prevTables) =>
       prevTables.map((table) =>
@@ -32,16 +54,21 @@ export default function Orders() {
     );
   }
 
+  function handleSelectTable(table) {
+    setSelectedTable(table);
+  }
+
   return (
     <section className="p-10 bg-gray-100 min-h-screen">
-      <h1 className="font-bold text-2xl mb-2">Pedidos pendientes</h1>
+      <h1 className="font-bold text-2xl mb-2">Mesas</h1>
       <p>Aca podés ver las ordenes que recibe tu restaurante en tiempo real.</p>
       <ul className="mt-5 flex flex-wrap gap-5">
         {/* TODO => aca deberia ir un componente tableIcon o algo similar */}
         {tables?.map((table) => (
           <li
             key={table.id}
-            className="relative shadow-sm bg-white rounded-sm flex flex-col items-center p-4 w-fit"
+            onClick={() => handleSelectTable(table)}
+            className="hover:shadow-lg duration-200 cursor-pointer relative shadow-sm bg-white rounded-sm flex flex-col items-center p-4 w-fit"
           >
             <p className="font-medium text-4xl">{table.number}</p>
             {table.hasOrders && (
@@ -52,6 +79,40 @@ export default function Orders() {
           </li>
         ))}
       </ul>
+      {/* MESA INFO */}
+      {selectedTable && (
+        <div className="bg-black-500 h-screen fixed top-0 left-0 bg-black w-full bg-opacity-70">
+          <div className="bg-white  min-w-[320px] max-w-[25vw] min-h-screen p-5">
+            <div className="flex justify-between">
+              <div>
+                <p className="text-xl font-medium">Pedidos de la mesa</p>
+                <span>Mesa {selectedTable.number}</span>
+              </div>
+              <button
+                onClick={() => setSelectedTable(null)}
+                className="text-red-500 text-sm font-medium"
+              >
+                Cerrar
+              </button>
+            </div>
+            <ul className="mt-5">
+              {displayOrder && (
+                <>
+                  {displayOrder.OrderItems?.map(({ Item }) => (
+                    <li className="my-2 flex justify-between">
+                      <p>{Item.name}</p>{" "}
+                      <p className="font-medium">${Item.price}</p>
+                    </li>
+                  ))}
+                  <p className="text-right mt-5 text-xl font-medium">
+                    TOTAL: $ {displayOrder.total_amount}
+                  </p>
+                </>
+              )}
+            </ul>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

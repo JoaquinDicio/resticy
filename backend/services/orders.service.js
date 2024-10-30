@@ -1,4 +1,5 @@
 import Order from "../models/Order.js";
+import Item from "../models/Item.js";
 import OrderItem from "../models/OrderItem.js";
 
 const ordersService = {
@@ -27,6 +28,22 @@ const ordersService = {
     });
 
     return { code: 200, data: { id: dataValues.id, ...order }, ok: true };
+  },
+
+  async getOrderById(req) {
+    const orderId = req.params.orderID;
+
+    const order = await Order.findByPk(orderId, {
+      include: [
+        {
+          model: OrderItem,
+          attributes: ["quantity", "subtotal"],
+          include: [{ model: Item, attributes: ["name", "price"] }],
+        },
+      ],
+    });
+
+    return { code: 200, data: order, ok: true };
   },
 };
 

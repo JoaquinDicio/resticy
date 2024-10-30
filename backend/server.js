@@ -1,13 +1,20 @@
 import express from "express";
 import { configDotenv } from "dotenv";
+import intializeModels from "./models/index.js";
 import cors from "cors";
 import http from "http";
+import sequelize from "./database.js";
 import { Server as SocketServer } from "socket.io";
 import authRouter from "./routes/auth.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 import ordersRouter from "./routes/orders.routes.js";
 
 const app = express();
+
+//enlaza la base de datos e inicializa los modelos
+intializeModels();
+sequelize.sync({ alter: true });
+
 const server = http.createServer(app); // crea un servidor http
 const io = new SocketServer(server, {
   cors: { origin: "http://localhost:5173" },

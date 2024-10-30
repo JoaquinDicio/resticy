@@ -5,9 +5,12 @@ const ordersRouter = Router();
 
 ordersRouter.post("/orders", ordersController.addNewOrder);
 
-ordersRouter.get(
-  "/orders/:restaurantID",
-  ordersController.getOrdersByRestaurant
-);
+//esta ruta hay que sacarla deberia estar en el router de restaurantes
+// ordersRouter.get(
+//   "/orders/:restaurantID",
+//   ordersController.getOrdersByRestaurant
+// );
+
+ordersRouter.get("/orders/:orderID", ordersController.getOrderById);
 
 export default ordersRouter;

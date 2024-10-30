@@ -20,6 +20,15 @@ const ordersController = {
       console.log("Error obteniendo las ordenes:", e);
     }
   },
+
+  async getOrderById(req, res) {
+    try {
+      const response = await ordersService.getOrderById(req);
+      res.status(response.code).json(response);
+    } catch (e) {
+      console.log("Error obteniendo la orden: ", e);
+    }
+  },
 };
 
 export default ordersController;
