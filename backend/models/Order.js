@@ -9,8 +9,9 @@ const Order = sequelize.define(
     restaurant_id: { type: DataTypes.BIGINT, allowNull: false },
     order_date: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     total_amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-    table_id: { type: DataTypes.BIGINT, allowNull: true }, // si aplicas mesas
+    table_id: { type: DataTypes.BIGINT, allowNull: true },
     complete: { type: DataTypes.BOOLEAN, defaultValue: false },
+    notes: { type: DataTypes.STRING, allowNull: true },
   },
   {
     tableName: "orders",

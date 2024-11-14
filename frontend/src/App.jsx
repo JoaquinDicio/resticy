@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import NewOrder from "./pages/NewOrder";
+import "./style.css";
 
 function App() {
   return (
