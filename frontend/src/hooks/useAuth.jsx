@@ -4,43 +4,39 @@ import { useNavigate } from "react-router-dom";
 
 export default function useAuth() {
   const [isLoading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({ emailError: null, passwordError: null, nameError: null, credentialsError: null });  
+  const [errors, setErrors] = useState({
+    emailError: null,
+    passwordError: null,
+    nameError: null,
+    credentialsError: null,
+  });
   const navigate = useNavigate();
 
   const authenticate = async (formData) => {
-
     setLoading(true);
-    try{
+    try {
       await axios.post("http://localhost:8080/login", formData);
-      console.log('Se redirije al dashboard [Todavia no se creo]')
+      //TODO => redirigir al dashboard cuando exista
       navigate("/orders");
-    }catch(error){
-      const errorData = error.response.data; 
-      setErrors(prev => ({
-        credentialsError: errorData || prev.credentialsError,
-      }));
+    } catch (error) {
+      const { response } = error;
+      setErrors(response.data.error || "Algo salio mal");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false)
-
   };
 
   const register = async (formData) => {
-
     setLoading(true);
     try {
       await axios.post("http://localhost:8080/register", formData);
       navigate("/login");
     } catch (error) {
-      const errorData = error.response.data; 
-
-      if (errorData) {
-        setErrors(prev => ({
-          emailError: errorData || prev.emailError,
-        }));
-      }
+      const { response } = error;
+      setErrors(response.data.error || "Algo salio mal");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-
   };
 
   return { authenticate, register, errors, isLoading };

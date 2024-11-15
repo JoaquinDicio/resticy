@@ -4,8 +4,7 @@ const authController = {
   async login(req, res) {
     try {
       const response = await authService.login(req);
-
-      res.status(response.code).json(response.message);
+      res.status(response.code).json(response);
     } catch (error) {
       res
         .status(500)
@@ -16,8 +15,7 @@ const authController = {
   async register(req, res) {
     try {
       const response = await authService.register(req);
-
-      res.status(response.code).json(response.message);
+      res.status(response.code).json(response);
     } catch (e) {
       console.log("Error creando el usuario:", e);
     }

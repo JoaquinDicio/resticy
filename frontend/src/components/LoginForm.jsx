@@ -3,7 +3,7 @@ import InputField from "./InputField";
 import useAuth from "../hooks/useAuth";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({});
   const { authenticate, errors, isLoading } = useAuth();
 
   const handleChange = (e) => {
@@ -20,11 +20,8 @@ const LoginForm = () => {
   }
 
   useEffect(() => {
-    if (errors.credentialsError) {
-      console.log("Errores de autenticación:", errors.credentialsError);
-    }
+    console.log(errors);
   }, [errors]);
-  
 
   return (
     <form
@@ -33,7 +30,9 @@ const LoginForm = () => {
       method="POST"
       className="flex flex-col"
     >
-      {errors.credentialsError && <p className="text-red-500">{errors.credentialsError}</p>}
+      {errors.credentials && (
+        <p className="text-red-500">{errors.credentials}</p>
+      )}
       <InputField
         label="Email"
         type="email"

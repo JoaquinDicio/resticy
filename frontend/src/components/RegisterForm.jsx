@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth.jsx";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({});
-  const { errors, isLoading, register } = useAuth(); 
+  const { errors, isLoading, register } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,8 +18,8 @@ const RegisterForm = () => {
     e.preventDefault();
     try {
       await register(formData);
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -29,11 +29,10 @@ const RegisterForm = () => {
         label="Nombre del comercio"
         type="text"
         name="name"
-        value={formData.name || ""} 
+        value={formData.name || ""}
         onChange={handleChange}
         placeholder="Pizzeria Don Juan"
       />
-      {errors.nameError && <p className="text-red-500">{errors.nameError}</p>}
       <InputField
         label="Email"
         type="email"
@@ -42,7 +41,7 @@ const RegisterForm = () => {
         onChange={handleChange}
         placeholder="TuEmpresa@gmail.com"
       />
-      {errors.emailError && <p className="text-red-500">{errors.emailError}</p>}
+      {errors.email && <p className="text-red-500">{errors.email}</p>}
       <InputField
         label="Contraseña"
         type="password"
@@ -51,7 +50,7 @@ const RegisterForm = () => {
         onChange={handleChange}
         placeholder="Ingresa una contraseña"
       />
-      {errors.passwordError && <p className="text-red-500">{errors.passwordError}</p>} 
+      {errors.password && <p className="text-red-500">{errors.password}</p>}
 
       <div className="flex flex-col md:flex-row items-center gap-5 mt-5">
         <input
