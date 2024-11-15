@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
+import ItemsSelector from "../components/ItemsSelector";
 
 export default function NewOrder() {
   const restaurantId = 1;
@@ -26,49 +27,7 @@ export default function NewOrder() {
       }
     };
     fetchItems();
-  }, []);
-
-  function addItem(itemId) {
-    const newItem = items.find((item) => item.id == itemId);
-
-    //si ya esta en el carrito
-    if (orderData.items[itemId]) {
-      const oldItem = { ...orderData.items[itemId] };
-
-      setOrderData((prev) => ({
-        ...prev,
-        items: {
-          ...prev.items,
-          [itemId]: {
-            ...oldItem,
-            quantity: oldItem.quantity + 1, //le suma uno a la cantidad vieja
-          },
-        },
-      }));
-      return;
-    }
-
-    // si no esta en el carrito
-    setOrderData((prev) => ({
-      ...prev,
-      items: {
-        ...prev.items,
-        [itemId]: { item_id: itemId, quantity: 1, price: newItem.price },
-      },
-    }));
-  }
-
-  const removeItem = (itemId) => {
-    const oldItem = { ...orderData.items[itemId] }; //item que ya estaba en el array
-
-    setOrderData((prev) => ({
-      ...prev,
-      items: {
-        ...prev.items,
-        [itemId]: { ...oldItem, quantity: oldItem.quantity - 1 },
-      },
-    }));
-  };
+  }, [restaurantId]);
 
   function formatOrderData() {
     const orderItems = [];
@@ -101,18 +60,19 @@ export default function NewOrder() {
   async function placeOrder() {
     try {
       const order = formatOrderData();
-      await axiosPost("http://localhost:8080/orders", { order });
+      if (order.items.length > 0) {
+        await axiosPost("http://localhost:8080/orders", { order });
+        setSucces(true);
+      }
     } catch (e) {
       console.log(e);
-    } finally {
-      setSucces(true);
     }
   }
 
   return (
     <>
       <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Articulos</h1>
+        <h1 className="text-2xl font-bold mb-4">Haz tu pedido</h1>
         <div className="mb-4">
           <label
             htmlFor="table-select"
@@ -138,42 +98,12 @@ export default function NewOrder() {
             ))}
           </select>
         </div>
-
-        {isLoading ? (
-          <p className="text-center text-gray-500">Cargando...</p>
-        ) : (
-          items.map((item) => (
-            <div
-              key={item.id}
-              className="flex justify-between items-center p-4 border-b border-gray-200"
-            >
-              <div>
-                <p className="text-lg font-semibold">{item.name}</p>
-                <p className="text-gray-700">${item.price}</p>
-                <p className="text-gray-500">
-                  Cantidad: {orderData.items[item.id]?.quantity || 0}
-                </p>
-              </div>
-              <div className="flex items-center">
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-                  onClick={() => addItem(item.id)}
-                >
-                  Agregar
-                </button>
-                {orderData.items[item.id]?.quantity > 0 && (
-                  <button
-                    className="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
-                    onClick={() => removeItem(item.id)}
-                  >
-                    Eliminar
-                  </button>
-                )}
-              </div>
-            </div>
-          ))
-        )}
-
+        <ItemsSelector
+          setOrderData={setOrderData}
+          orderData={orderData}
+          items={items}
+          isLoading={isLoading}
+        />
         <div className="w-full flex py-5 flex-col">
           <label htmlFor="notes">Notas del pedido:</label>
           <textarea
