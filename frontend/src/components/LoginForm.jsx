@@ -19,10 +19,6 @@ const LoginForm = () => {
     await authenticate(formData);
   }
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
@@ -40,6 +36,7 @@ const LoginForm = () => {
         onChange={handleChange}
         placeholder="TuEmpresa@gmail.com"
       />
+      {errors.email && <p className="text-red-500">{errors.email}</p>}
       <InputField
         label="Contraseña"
         type="password"

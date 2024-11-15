@@ -1,125 +1,113 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 
 export default function NewOrder() {
-  const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({ items: [] });
-  const [selectedTable, setSelectedTable] = useState(1);
-  const { axiosGet, axiosPost, isLoading } = useAxios();
   const restaurantId = 1;
+  const [items, setItems] = useState([]);
+  const [success, setSucces] = useState(false);
+  const { axiosGet, axiosPost, isLoading, isPosting } = useAxios();
+  const [orderData, setOrderData] = useState({
+    order_date: new Date().toISOString().split("T")[0],
+    restaurant_id: 1,
+    items: {},
+    notes: "",
+    table_id: 1,
+  });
 
   useEffect(() => {
     const fetchItems = async () => {
-      const fetchedItems = await axiosGet(
-        `http://localhost:8080/items/${restaurantId}`
-      );
-      if (fetchedItems) {
-        setItems(fetchedItems.data);
+      try {
+        const response = await axiosGet(
+          `http://localhost:8080/items/${restaurantId}`
+        );
+        setItems(response.data || []);
+      } catch (error) {
+        console.error("Error fetching items:", error);
       }
     };
     fetchItems();
   }, []);
 
-  const addItem = (itemId) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId
-          ? { ...item, quantity: (item.quantity || 0) + 1 }
-          : item
-      )
-    );
+  function addItem(itemId) {
+    const newItem = items.find((item) => item.id == itemId);
 
-    setFormData((prevFormData) => {
-      const existingItem = prevFormData.items.find(
-        (item) => item.id === itemId
-      );
+    //si ya esta en el carrito
+    if (orderData.items[itemId]) {
+      const oldItem = { ...orderData.items[itemId] };
 
-      if (existingItem) {
-        return {
-          ...prevFormData,
-          items: prevFormData.items.map((item) =>
-            item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-          ),
-        };
-      } else {
-        const itemToAdd = items.find((item) => item.id === itemId);
-        return {
-          ...prevFormData,
-          items: [
-            ...prevFormData.items,
-            {
-              id: itemToAdd.id,
-              name: itemToAdd.name,
-              price: itemToAdd.price,
-              quantity: 1,
-            },
-          ],
-        };
-      }
-    });
-  };
+      setOrderData((prev) => ({
+        ...prev,
+        items: {
+          ...prev.items,
+          [itemId]: {
+            ...oldItem,
+            quantity: oldItem.quantity + 1, //le suma uno a la cantidad vieja
+          },
+        },
+      }));
+      return;
+    }
+
+    // si no esta en el carrito
+    setOrderData((prev) => ({
+      ...prev,
+      items: {
+        ...prev.items,
+        [itemId]: { item_id: itemId, quantity: 1, price: newItem.price },
+      },
+    }));
+  }
 
   const removeItem = (itemId) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId && (item.quantity || 0) > 0
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
+    const oldItem = { ...orderData.items[itemId] }; //item que ya estaba en el array
+
+    setOrderData((prev) => ({
+      ...prev,
+      items: {
+        ...prev.items,
+        [itemId]: { ...oldItem, quantity: oldItem.quantity - 1 },
+      },
+    }));
+  };
+
+  function formatOrderData() {
+    const orderItems = [];
+
+    //convierte los items a [] y agrega 'subtotal'
+    for (const key in orderData.items) {
+      const currentItem = orderData.items[key];
+      orderItems.push({
+        ...currentItem,
+        subtotal: currentItem.price * currentItem.quantity,
+      });
+    }
+
+    //calcula el total
+    const totalAmount = orderItems.reduce(
+      (total, item) => total + parseFloat(item.subtotal),
+      0
     );
 
-    setFormData((prevFormData) => {
-      const existingItem = prevFormData.items.find(
-        (item) => item.id === itemId
-      );
-
-      if (existingItem) {
-        if (existingItem.quantity > 1) {
-          return {
-            ...prevFormData,
-            items: prevFormData.items.map((item) =>
-              item.id === itemId
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
-            ),
-          };
-        } else {
-          return {
-            ...prevFormData,
-            items: prevFormData.items.filter((item) => item.id !== itemId),
-          };
-        }
-      }
-
-      return prevFormData;
-    });
-  };
-
-  const placeOrder = async (formData) => {
-    const orderDate = new Date().toISOString().split("T")[0];
-
-    const items = formData.items.map((item) => ({
-      item_id: item.id,
-      quantity: item.quantity,
-      subtotal: (parseFloat(item.price) * item.quantity).toFixed(2),
-    }));
-
-    const total_amount = items
-      .reduce((total, item) => total + parseFloat(item.subtotal), 0)
-      .toFixed(2);
-
+    //construye la orden
     const order = {
-      restaurant_id: restaurantId,
-      order_date: orderDate,
-      notes: formData.notes,
-      total_amount: parseFloat(total_amount),
-      table_id: selectedTable,
-      items: items,
+      ...orderData,
+      total_amount: totalAmount.toFixed(2),
+      items: orderItems,
     };
 
-    axiosPost("http://localhost:8080/orders", { order });
-  };
+    return order;
+  }
+
+  async function placeOrder() {
+    try {
+      const order = formatOrderData();
+      await axiosPost("http://localhost:8080/orders", { order });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setSucces(true);
+    }
+  }
 
   return (
     <>
@@ -135,13 +123,20 @@ export default function NewOrder() {
           </label>
           <select
             id="table-select"
-            value={selectedTable}
-            onChange={(e) => setSelectedTable(parseInt(e.target.value))}
+            value={orderData.table_id}
+            onChange={(e) =>
+              setOrderData((prev) => ({
+                ...prev,
+                table_id: parseInt(e.target.value),
+              }))
+            }
             className="block w-full p-2 border border-gray-300 rounded-lg"
           >
-            <option value={1}>Mesa 1</option>
-            <option value={2}>Mesa 2</option>
-            <option value={3}>Mesa 3</option>
+            {[1, 2, 3].map((table) => (
+              <option key={table} value={table}>
+                Mesa {table}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -156,7 +151,9 @@ export default function NewOrder() {
               <div>
                 <p className="text-lg font-semibold">{item.name}</p>
                 <p className="text-gray-700">${item.price}</p>
-                <p className="text-gray-500">Cantidad: {item.quantity || 0}</p>
+                <p className="text-gray-500">
+                  Cantidad: {orderData.items[item.id]?.quantity || 0}
+                </p>
               </div>
               <div className="flex items-center">
                 <button
@@ -165,7 +162,7 @@ export default function NewOrder() {
                 >
                   Agregar
                 </button>
-                {item.quantity > 0 && (
+                {orderData.items[item.id]?.quantity > 0 && (
                   <button
                     className="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
                     onClick={() => removeItem(item.id)}
@@ -181,9 +178,9 @@ export default function NewOrder() {
         <div className="w-full flex py-5 flex-col">
           <label htmlFor="notes">Notas del pedido:</label>
           <textarea
-            value={formData.notes || ""}
+            value={orderData.notes}
             onChange={(e) =>
-              setFormData((prev) => ({ ...prev, notes: e.target.value }))
+              setOrderData((prev) => ({ ...prev, notes: e.target.value }))
             }
             name="notes"
             id="notes"
@@ -192,13 +189,18 @@ export default function NewOrder() {
           ></textarea>
         </div>
         <button
-          className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-200"
-          onClick={() => placeOrder(formData)}
-          disabled={isLoading}
+          className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg disabled:bg-slate-200 hover:bg-green-600 transition duration-200"
+          onClick={placeOrder}
+          disabled={isPosting}
         >
-          {isLoading ? "Cargando..." : "Hacer pedido"}
+          {isPosting ? "Enviando..." : "Hacer pedido"}
         </button>
       </div>
+      {success && (
+        <div className="bg-green-500 text-white w-full p-2 fixed bottom-0">
+          <p className="text-xl text-center">Pedido enviado con exito</p>
+        </div>
+      )}
     </>
   );
 }
