@@ -64,19 +64,19 @@ export default function ItemsSelector({
             </p>
           </div>
           <div className="flex items-center">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            <input
+              type="button"
+              value={"Agregar"}
+              className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
               onClick={() => addItem(item.id)}
-            >
-              Agregar
-            </button>
+            />
             {orderData.items[item.id]?.quantity > 0 && (
-              <button
-                className="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
+              <input
+                type="button"
+                value={"Eliminar"}
+                className="cursor-pointer ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
                 onClick={() => removeItem(item.id)}
-              >
-                Eliminar
-              </button>
+              />
             )}
           </div>
         </li>

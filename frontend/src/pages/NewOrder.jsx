@@ -7,6 +7,7 @@ export default function NewOrder() {
   const [items, setItems] = useState([]);
   const [success, setSucces] = useState(false);
   const { axiosGet, axiosPost, isLoading, isPosting } = useAxios();
+
   const [orderData, setOrderData] = useState({
     order_date: new Date().toISOString().split("T")[0],
     restaurant_id: 1,
@@ -69,9 +70,16 @@ export default function NewOrder() {
     }
   }
 
+  function isValidForm(orderData) {
+    return orderData && Object.keys(orderData.items).length > 0; //keys() retorna una coleccion de propiedades del objeto
+  }
+
   return (
     <>
-      <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <form
+        onSubmit={placeOrder}
+        className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg"
+      >
         <h1 className="text-2xl font-bold mb-4">Haz tu pedido</h1>
         <div className="mb-4">
           <label
@@ -117,14 +125,13 @@ export default function NewOrder() {
             placeholder="Ej. Hamburguesa sin ketchup"
           ></textarea>
         </div>
-        <button
-          className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg disabled:bg-slate-200 hover:bg-green-600 transition duration-200"
-          onClick={placeOrder}
-          disabled={isPosting}
-        >
-          {isPosting ? "Enviando..." : "Hacer pedido"}
-        </button>
-      </div>
+        <input
+          type="submit"
+          className="mt-4 cursor-pointer bg-green-500 text-white px-6 py-2 rounded-lg disabled:bg-slate-200 hover:bg-green-600 transition duration-200"
+          disabled={isPosting || !isValidForm()}
+          value={isPosting ? "Enviando..." : "Hacer pedido"}
+        />
+      </form>
       {success && (
         <div className="bg-green-500 text-white w-full p-2 fixed bottom-0">
           <p className="text-xl text-center">Pedido enviado con exito</p>
