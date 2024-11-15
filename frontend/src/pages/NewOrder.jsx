@@ -58,20 +58,14 @@ export default function NewOrder() {
     return order;
   }
 
-  async function placeOrder() {
-    try {
-      const order = formatOrderData();
-      if (order.items.length > 0) {
-        await axiosPost("http://localhost:8080/orders", { order });
-        setSucces(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  async function placeOrder(e) {
+    e.preventDefault();
 
-  function isValidForm(orderData) {
-    return orderData && Object.keys(orderData.items).length > 0; //keys() retorna una coleccion de propiedades del objeto
+    const order = formatOrderData();
+    if (order.items.length > 0) {
+      await axiosPost("http://localhost:8080/orders", { order });
+      setSucces(true);
+    }
   }
 
   return (
@@ -128,7 +122,7 @@ export default function NewOrder() {
         <input
           type="submit"
           className="mt-4 cursor-pointer bg-green-500 text-white px-6 py-2 rounded-lg disabled:bg-slate-200 hover:bg-green-600 transition duration-200"
-          disabled={isPosting || !isValidForm()}
+          disabled={isPosting}
           value={isPosting ? "Enviando..." : "Hacer pedido"}
         />
       </form>
