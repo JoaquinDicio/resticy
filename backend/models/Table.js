@@ -1,31 +1,32 @@
 import sequelize from "../database.js";
 import { DataTypes } from "sequelize";
 
-const Restaurant = sequelize.define(
-  "Restaurant",
+const Table = sequelize.define(
+  "Table",
   {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.TEXT,
+    restaurant_id: {
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
-    address: {
-      type: DataTypes.STRING,
+    number: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    phone: {
+    status: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: "available",
     },
   },
   {
-    tableName: "restaurants",
+    tableName: "tables",
     timestamps: false,
   }
 );
 
-export default Restaurant;
+export default Table;
