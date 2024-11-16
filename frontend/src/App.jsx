@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import NewOrder from "./pages/NewOrder";
+import NewItem from "./pages/NewItem";
 import "./style.css";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/neworder" element={<NewOrder />} />
+        <Route path="/newitem" element={<NewItem />} />
       </Routes>
     </BrowserRouter>
   );
