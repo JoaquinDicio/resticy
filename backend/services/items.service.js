@@ -11,18 +11,48 @@ const itemsService = {
   },
 
   async addNewItem(req) {
-    const { item } = req.body;
+    const { name, price, restaurant_id } = req.body;
+    const uploadedFile = req.file;
 
-    if (!item.name?.trim() || !item?.price || !item.restaurant_id) {
+    console.log(req.body);
+    console.log(uploadedFile);
+
+    // validaciones
+
+    if (!name?.trim() || !price || !restaurant_id) {
       return {
         code: 400,
-        message: "Error: el nombre y el precio son datos obligatorios",
+        message:
+          "Error: el nombre, el precio y el restaurante son obligatorios",
       };
     }
 
-    const { dataValues } = await Item.create({ ...item });
+    let imgPath = null;
+    if (uploadedFile) {
+      imgPath = `/uploads/${uploadedFile.filename}`;
+    }
 
-    return { code: 200, data: { ...dataValues }, ok: true };
+    // crea el nuevo producto en la base de datos
+    try {
+      const newItem = await Item.create({
+        name,
+        price,
+        restaurant_id,
+        img: imgPath,
+      });
+
+      return {
+        code: 200,
+        data: newItem,
+        ok: true,
+      };
+    } catch (error) {
+      console.error("Error al crear el producto:", error);
+      return {
+        code: 500,
+        message: "Error interno del servidor",
+      };
+    }
   },
 };
 

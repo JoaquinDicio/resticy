@@ -7,6 +7,7 @@ const Item = sequelize.define(
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
     name: DataTypes.TEXT,
     price: DataTypes.DECIMAL(10, 2),
+    img: DataTypes.STRING,
     restaurant_id: DataTypes.BIGINT,
   },
   {
