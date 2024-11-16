@@ -1,12 +1,13 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const authService = {
   async login(req) {
     const { email, password } = req.body;
-    const userByEmail = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email } });
 
-    if (!userByEmail) {
+    if (!user) {
       return {
         code: 400,
         error: { email: "No existe un usuario con ese email" },
@@ -14,19 +15,24 @@ const authService = {
       };
     }
 
-    const validCredentials = await bcrypt.compare(
-      password,
-      userByEmail.password
-    );
+    const validCredentials = await bcrypt.compare(password, user.password);
 
     if (validCredentials) {
+      const token = jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
       return {
         code: 200,
         message: "Usuario Autenticado Correctamente.",
         ok: true,
+        token,
       };
     }
 
+    //si las credenciales son invalidas
     return {
       code: 400,
       error: { credentials: "Credenciales inválidas" },

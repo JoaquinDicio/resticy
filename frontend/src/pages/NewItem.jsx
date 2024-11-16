@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useAxios from "../hooks/useAxios";
 import InputField from "../components/InputField";
 
-const NewItem = () => {
+export default function NewItem() {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -27,6 +27,7 @@ const NewItem = () => {
       file: file,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = "http://localhost:8080/items";
@@ -125,6 +126,4 @@ const NewItem = () => {
       </div>
     </div>
   );
-};
-
-export default NewItem;
+}

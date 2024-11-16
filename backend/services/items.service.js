@@ -14,9 +14,6 @@ const itemsService = {
     const { name, price, restaurant_id } = req.body;
     const uploadedFile = req.file;
 
-    console.log(req.body);
-    console.log(uploadedFile);
-
     // validaciones
 
     if (!name?.trim() || !price || !restaurant_id) {

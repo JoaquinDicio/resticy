@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function useAuth() {
   const [isLoading, setLoading] = useState(false);
@@ -15,8 +16,18 @@ export default function useAuth() {
   const authenticate = async (formData) => {
     setLoading(true);
     try {
-      await axios.post("http://localhost:8080/login", formData);
-      //TODO => redirigir al dashboard cuando exista
+      const { data } = await axios.post(
+        "http://localhost:8080/login",
+        formData
+      );
+
+      // guarda el token en una cookie porque local y sesion son menos seguros
+      Cookies.set("authToken", data.token, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+
       navigate("/orders");
     } catch (error) {
       const { response } = error;
