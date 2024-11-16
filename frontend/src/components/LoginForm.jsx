@@ -52,10 +52,10 @@ const LoginForm = () => {
           className="bg-[#D4AF37] px-10 py-3 rounded-[40px]"
         />
         <p className="">
-          ¿No tienes una cuenta?{" "}
+          ¿Olvidaste tu contraseña?{" "}
           <a href="/register" className="text-blue-800">
             {" "}
-            Registrarse{" "}
+            Recuperar contraseña{" "}
           </a>
         </p>
       </div>
