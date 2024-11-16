@@ -6,6 +6,8 @@ export default function InputField({
   placeholder,
   onChange,
   name,
+  value,
+  max,
 }) {
   return (
     <div className="flex flex-col">
@@ -16,6 +18,8 @@ export default function InputField({
         className="bg-transparent border-b border-b-2 border-black mb-5"
         onChange={(e) => onChange(e)}
         name={name}
+        value={value}
+        max={max}
         required
       />
     </div>

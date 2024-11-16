@@ -29,10 +29,11 @@ const itemsService = {
 
     let imgPath = null;
     if (uploadedFile) {
-      imgPath = `/uploads/${uploadedFile.filename}`;
+      imgPath = `${uploadedFile.filename}`;
     }
 
     // crea el nuevo producto en la base de datos
+
     try {
       const newItem = await Item.create({
         name,
