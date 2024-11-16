@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import useAxios from "../hooks/useAxios";
+import InputField from "../components/InputField";
 
 const NewItem = () => {
   const [formData, setFormData] = useState({
-      name: "",
-      price: "",
-      restaurant_id: "1", 
+    name: "",
+    price: "",
+    restaurant_id: "1",
   });
-  
+
   const [isPosting, setIsPosting] = useState(false);
   const [errors, setErrors] = useState(null);
   const { axiosPost } = useAxios();
@@ -16,14 +17,20 @@ const NewItem = () => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value, 
+      [name]: value,
     }));
   };
-
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevState) => ({
+      ...prevState,
+      file: file,
+    }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = "http://localhost:8080/items";
-  
+
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);
     formDataObj.append("price", formData.price);
@@ -32,7 +39,7 @@ const NewItem = () => {
     if (formData.file) {
       formDataObj.append("img", formData.file);
     }
-  
+
     try {
       setIsPosting(true);
       await axiosPost(url, formDataObj, {
@@ -42,80 +49,81 @@ const NewItem = () => {
       setErrors(error.message);
     } finally {
       setFormData({
-        item: {
-          name: "",
-          price: "",
-          restaurant_id: "1",
-        },
+        name: "",
+        price: "",
+        restaurant_id: "1",
         file: null,
       });
       setIsPosting(false);
     }
   };
-  
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevState) => ({
-      ...prevState,
-      file: file, 
-    }));
-  };
-  
   return (
-    <div>
-      <h1>Añadir un nuevo producto</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="price">Price:</label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="restaurant_id">Restaurant ID:</label>
-          <input
-            type="text"
-            id="restaurant_id"
-            name="restaurant_id" 
-            value={formData.restaurant_id}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-        <label htmlFor="img">Imagen:</label>
-        <input
-            type="file"
-            id="img"
-            name="img"
-            accept="image/*"
-            onChange={handleFileChange}
-        />
-        </div>
-        <button type="submit" disabled={isPosting}>
-          {isPosting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-      {errors && <p style={{ color: "red" }}>Error: {errors}</p>}
+    <div className="w-screen bg-[#51161F] h-screen flex justify-center items-center">
+      <div className="w-full sm:max-w-sm lg:max-w-lg bg-[#FFFFF0] rounded-[20px] p-5">
+        <h1 className="text-center text-2xl font-semibold">
+          Añadir un nuevo producto
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <InputField
+              label="Nombre del producto"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Hamburguesa"
+              required
+            />
+          </div>
+          <div>
+            <InputField
+              label="Precio"
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="Ej: 12000"
+              max="100000"
+              required
+            />
+          </div>
+          <div>
+            <InputField
+              label="Restaurant ID"
+              type="number"
+              name="restaurant_id"
+              value={formData.restaurant_id}
+              onChange={handleChange}
+              placeholder="Ej: 1"
+              required
+            />
+          </div>
+          <div className="my-5">
+            <label htmlFor="img" className="mr-4 block">
+              Imagen:
+            </label>
+            <input
+              type="file"
+              id="img"
+              name="img"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="block w-full text-sm"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-10 py-2 rounded-[20px] bg-[#d4af37] mt-5 w-full"
+            disabled={isPosting}
+          >
+            {isPosting ? "Enviando..." : "Enviar"}
+          </button>
+        </form>
+        {errors && <p className="text-red-500 text-center mt-2">{errors}</p>}
+      </div>
     </div>
-    
   );
 };
 
