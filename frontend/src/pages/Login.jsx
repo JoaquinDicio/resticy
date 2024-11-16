@@ -4,7 +4,7 @@ import LoginForm from "../components/LoginForm";
 export default function Login() {
   return (
     <main>
-      <div className="w-[100%] min-h-screen bg-[#51161F] flex justify-center items-center">
+      <div className="w-[100%] min-h-screen bg-[var(--wine-color)] flex justify-center items-center">
         <div className="flex flex-col lg:flex-row w-[70vw] rounded-lg">
           <img
             className="max-w-[400px] w-full overflow rounded-l-lg hidden md:block"
