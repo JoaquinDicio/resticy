@@ -1,4 +1,5 @@
 import Item from "../models/Item.js";
+import fs from "fs";
 
 const itemsService = {
   async getItemsByRestaurant(req) {
@@ -18,18 +19,43 @@ const itemsService = {
 
     // validaciones
 
-    if (!name?.trim() || !price || !restaurant_id) {
+    if (name === "") {
       return {
         code: 400,
-        message:
-          "Error: el nombre, el precio y el restaurante son obligatorios",
+        error: {
+          name: "El nombre es obligatorio.",
+        },
+      };
+    }
+    if (price === "") {
+      return {
+        code: 400,
+        error: {
+          price: "El precio es obligatorio",
+        },
+      };
+    }
+    if (restaurant_id === "") {
+      return {
+        code: 400,
+        error: {
+          restaurant_id: "El restaurant ID es obligatorio",
+        },
+      };
+    }
+    if (uploadedFile === null) {
+      return {
+        code: 400,
+        error: {
+          file: "La imagen es obligatoria",
+        },
       };
     }
 
+    //se crea la ruta que se guarda en la base de datos
+
     let imgPath = null;
-    if (uploadedFile) {
-      imgPath = `${uploadedFile.filename}`;
-    }
+    uploadedFile ? (imgPath = `${uploadedFile.filename}`) : "No existe la ruta";
 
     // crea el nuevo producto en la base de datos
 

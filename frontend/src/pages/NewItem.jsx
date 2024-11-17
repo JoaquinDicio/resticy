@@ -8,9 +8,7 @@ export default function NewItem() {
     price: "",
   });
 
-  const [isPosting, setIsPosting] = useState(false);
-  const [errors, setErrors] = useState(null);
-  const { axiosPost } = useAxios();
+  const { axiosPost, errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
@@ -36,10 +34,13 @@ export default function NewItem() {
     formDataObj.append("name", formData.name);
     formDataObj.append("price", formData.price);
 
-    if (formData.file) {
+    if (
+      formData.name != "" &&
+      formData.price != "" &&
+      formData.restaurant_id != ""
+    ) {
       formDataObj.append("img", formData.file);
     }
-
     try {
       setIsPosting(true);
       await axiosPost(url, formDataObj, {
@@ -77,6 +78,7 @@ export default function NewItem() {
               placeholder="Hamburguesa"
               required
             />
+            {errors && <p className="text-red-500">{errors.name}</p>}
           </div>
           <div>
             <InputField
@@ -89,6 +91,7 @@ export default function NewItem() {
               max="100000"
               required
             />
+            {errors && <p className="text-red-500">{errors.price}</p>}
           </div>
           <div className="my-5">
             <label htmlFor="img" className="mr-4 block">
@@ -113,7 +116,6 @@ export default function NewItem() {
             {isPosting ? "Enviando..." : "Enviar"}
           </button>
         </form>
-        {errors && <p className="text-red-500 text-center mt-2">{errors}</p>}
       </div>
     </div>
   );
