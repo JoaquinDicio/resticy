@@ -6,7 +6,6 @@ export default function NewItem() {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    restaurant_id: "1",
   });
 
   const [isPosting, setIsPosting] = useState(false);
@@ -36,7 +35,6 @@ export default function NewItem() {
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);
     formDataObj.append("price", formData.price);
-    formDataObj.append("restaurant_id", formData.restaurant_id);
 
     if (formData.file) {
       formDataObj.append("img", formData.file);
@@ -53,7 +51,6 @@ export default function NewItem() {
       setFormData({
         name: "",
         price: "",
-        restaurant_id: "1",
         file: null,
       });
       if (fileInputRef.current) {
@@ -90,17 +87,6 @@ export default function NewItem() {
               onChange={handleChange}
               placeholder="Ej: 12000"
               max="100000"
-              required
-            />
-          </div>
-          <div>
-            <InputField
-              label="Restaurant ID"
-              type="number"
-              name="restaurant_id"
-              value={formData.restaurant_id}
-              onChange={handleChange}
-              placeholder="Ej: 1"
               required
             />
           </div>

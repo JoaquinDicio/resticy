@@ -62,6 +62,9 @@ const authService = {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
+
+    //TODO-> crear el restaurante antes que el usuario
+
     await User.create({
       name: name,
       password: hashPassword,
