@@ -3,7 +3,18 @@ import fs from "fs";
 
 const itemsService = {
   async getItemsByRestaurant(req) {
-    const { restaurantID } = req.params;
+    let restaurantID;
+
+    // siempre que se use req.params para enviar esta informacion]
+    //debe ser para fines de VISUALIZACION y nada mas, de lo contrario se envia por token
+    if (req.user) {
+      //si viajo en el token quiere decir que esta logueado
+      restaurantID = req.user.restaurantID;
+    } else {
+      //si no esta logueado usa el parametro de la url
+      restaurantID = req.params.restaurantID;
+    }
+
     const items = await Item.findAll({
       where: { restaurant_id: restaurantID },
     });
