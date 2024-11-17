@@ -1,22 +1,16 @@
 import multer from "multer";
-import path from "path";
-import { fileURLToPath } from "url";
 
-// Definir __dirname manualmente
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// se maneja donde va a guardarse los archivos y el formato de el archivo (nombre-fecha)
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../public/uploads"));
+  destination: function (req, file, cb) {
+    cb(null, "../backend/public/uploads");
   },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName);
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
 export default upload;
