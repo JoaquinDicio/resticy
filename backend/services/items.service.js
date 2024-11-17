@@ -12,7 +12,9 @@ const itemsService = {
   },
 
   async addNewItem(req) {
-    const { name, price, restaurant_id } = req.body;
+    const { user } = req;
+    const restaurant_id = user.restaurantID;
+    const { name, price } = req.body;
     const uploadedFile = req.file;
 
     // validaciones

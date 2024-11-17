@@ -6,7 +6,6 @@ export default function NewItem() {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    restaurant_id: "1",
   });
 
   const { axiosPost, errors, isPosting } = useAxios();
@@ -34,7 +33,6 @@ export default function NewItem() {
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);
     formDataObj.append("price", formData.price);
-    formDataObj.append("restaurant_id", formData.restaurant_id);
 
     if (
       formData.name != "" &&
@@ -43,20 +41,23 @@ export default function NewItem() {
     ) {
       formDataObj.append("img", formData.file);
     }
-
-    await axiosPost(url, formDataObj, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    setFormData({
-      name: "",
-      price: "",
-      restaurant_id: "1",
-      file: null,
-    });
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    try {
+      setIsPosting(true);
+      await axiosPost(url, formDataObj, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    } catch (error) {
+      setErrors(error.message);
+    } finally {
+      setFormData({
+        name: "",
+        price: "",
+        file: null,
+      });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      setIsPosting(false);
     }
   };
 
@@ -91,18 +92,6 @@ export default function NewItem() {
               required
             />
             {errors && <p className="text-red-500">{errors.price}</p>}
-          </div>
-          <div>
-            <InputField
-              label="Restaurant ID"
-              type="number"
-              name="restaurant_id"
-              value={formData.restaurant_id}
-              onChange={handleChange}
-              placeholder="Ej: 1"
-              required
-            />
-            {errors && <p className="text-red-500">{errors.restaurant_id}</p>}
           </div>
           <div className="my-5">
             <label htmlFor="img" className="mr-4 block">
