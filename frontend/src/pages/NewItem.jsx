@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import InputField from "../components/InputField";
+import Cookies from "js-cookie";
 
 export default function NewItem() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,9 @@ export default function NewItem() {
     price: "",
   });
 
+  const [user, setUser] = useState(JSON.parse(Cookies.get("user")));
+
+  console.log(user);
   const { axiosPost, errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
 
@@ -25,7 +29,6 @@ export default function NewItem() {
       file: file,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = "http://localhost:8080/items";

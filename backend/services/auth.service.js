@@ -26,7 +26,10 @@ const authService = {
 
       return {
         code: 200,
-        message: "Usuario Autenticado Correctamente.",
+        user: {
+          restaurantID: user.restaurant_id,
+          name: user.name,
+        },
         ok: true,
         token,
       };

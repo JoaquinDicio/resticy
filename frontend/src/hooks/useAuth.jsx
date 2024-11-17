@@ -25,6 +25,13 @@ export default function useAuth() {
           secure: true,
           sameSite: "Strict",
         });
+
+        Cookies.set("user", JSON.stringify(data.user), {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+        });
+
         setIsAuth(true);
         navigate("/orders");
       }

@@ -16,21 +16,16 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-
+          <Route
+            element={<NewOrder></NewOrder>}
+            path="/neworder/:restaurantID"
+          />
           {/* Rutas protegidas */}
           <Route
             path="/orders"
             element={
               <PrivateRoute>
                 <Orders></Orders>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/neworder/:restaurantID"
-            element={
-              <PrivateRoute>
-                <NewOrder></NewOrder>
               </PrivateRoute>
             }
           />

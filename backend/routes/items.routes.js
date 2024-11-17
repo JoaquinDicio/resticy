@@ -5,11 +5,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const itemsRouter = Router();
 
-itemsRouter.get(
-  "/items/:restaurantID",
-  authMiddleware,
-  itemsController.getItemsByRestaurant
-);
+itemsRouter.get("/items/:restaurantID", itemsController.getItemsByRestaurant);
 
 itemsRouter.post(
   "/items",
