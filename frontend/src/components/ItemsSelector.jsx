@@ -54,30 +54,39 @@ export default function ItemsSelector({
       {items?.map((item) => (
         <li
           key={item.id}
-          className="flex justify-between items-center p-4 border-b border-gray-200"
+          className="flex p-4 border-b border-gray-200 flex-col"
         >
-          <div>
-            <p className="text-lg font-semibold">{item.name}</p>
-            <p className="text-gray-700">${item.price}</p>
-            <p className="text-gray-500">
-              Cantidad: {orderData.items[item.id]?.quantity || 0}
-            </p>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="button"
-              value={"Agregar"}
-              className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-              onClick={() => addItem(item.id)}
+          <div className="flex items-center gap-5">
+            <img
+              src={`http://localhost:8080/uploads/${item.img}`}
+              alt={item.name}
+              className="w-[100px] h-[100px] rounded-[200px]"
             />
+            <div>
+              <p className="text-md font-semibold break-words max-w-[10rem] md:max-w-[100%]">
+                {item.name}
+              </p>
+              <p className="text-gray-700">${item.price}</p>
+              <p className="text-gray-500">
+                Cantidad: {orderData.items[item.id]?.quantity || 0}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-end w-100 gap-4">
             {orderData.items[item.id]?.quantity > 0 && (
               <input
                 type="button"
                 value={"Eliminar"}
-                className="cursor-pointer ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
+                className="mt-5 cursor-pointer ml-2 bg-red-500 text-white px-4 py-2 rounded-lg transition duration-200"
                 onClick={() => removeItem(item.id)}
               />
             )}
+            <input
+              type="button"
+              value={"Agregar"}
+              className="mt-5 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg transition duration-200"
+              onClick={() => addItem(item.id)}
+            />
           </div>
         </li>
       ))}

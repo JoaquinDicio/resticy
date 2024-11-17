@@ -31,5 +31,6 @@ server.listen(process.env.PORT, () =>
 app.use(authRouter);
 app.use(itemsRouter);
 app.use(ordersRouter);
+app.use("/uploads", express.static("public/uploads"));
 
 export { io };

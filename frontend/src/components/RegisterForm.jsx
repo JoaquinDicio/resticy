@@ -61,8 +61,8 @@ const RegisterForm = () => {
         />
         <p>
           ¿Ya tienes una cuenta?{" "}
-          <a href="#" className="text-blue-800">
-            Inicia Sesión
+          <a href="/login" className="text-blue-800">
+            Inicia sesión
           </a>
         </p>
       </div>

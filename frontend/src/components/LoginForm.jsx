@@ -48,14 +48,14 @@ const LoginForm = () => {
         <input
           type="submit"
           disabled={isLoading}
-          value={isLoading ? "Autenticando.." : "Iniciar sesion"}
+          value={isLoading ? "Autenticando.." : "Iniciar sesión"}
           className="bg-[#D4AF37] px-10 py-3 rounded-[40px]"
         />
         <p className="">
-          ¿No tienes una cuenta?{" "}
-          <a href="#" className="text-blue-800">
+          ¿Olvidaste tu contraseña?{" "}
+          <a href="/register" className="text-blue-800">
             {" "}
-            Registrarse{" "}
+            Recuperar contraseña{" "}
           </a>
         </p>
       </div>

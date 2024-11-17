@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import useAxios from "../hooks/useAxios";
 import InputField from "../components/InputField";
 
@@ -12,6 +12,7 @@ export default function NewItem() {
   const [isPosting, setIsPosting] = useState(false);
   const [errors, setErrors] = useState(null);
   const { axiosPost } = useAxios();
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,13 +56,16 @@ export default function NewItem() {
         restaurant_id: "1",
         file: null,
       });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       setIsPosting(false);
     }
   };
 
   return (
-    <div className="w-screen bg-[#51161F] h-screen flex justify-center items-center">
-      <div className="w-full sm:max-w-sm lg:max-w-lg bg-[#FFFFF0] rounded-[20px] p-5">
+    <div className="w-screen bg-[var(--wine-color)] h-screen flex justify-center items-center">
+      <div className="w-full sm:max-w-sm lg:max-w-lg bg-[var(--marfil-color)] rounded-lg p-5">
         <h1 className="text-center text-2xl font-semibold">
           Añadir un nuevo producto
         </h1>
@@ -110,6 +114,7 @@ export default function NewItem() {
               name="img"
               accept="image/*"
               onChange={handleFileChange}
+              ref={fileInputRef}
               className="block w-full text-sm"
               required
             />
