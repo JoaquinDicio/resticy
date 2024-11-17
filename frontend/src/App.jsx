@@ -1,39 +1,58 @@
-import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import NewOrder from "./pages/NewOrder";
 import NewItem from "./pages/NewItem";
-import Cookies from "js-cookie";
+import AuthContextProvider from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 import "./style.css";
+import TableManager from "./pages/TableManager";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!Cookies.get("authToken")
-  );
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
 
-        {/* Rutas protegidas */}
-        <Route
-          path="/orders"
-          element={isAuthenticated ? <Orders /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/neworder"
-          element={isAuthenticated ? <NewOrder /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/newitem"
-          element={isAuthenticated ? <NewItem /> : <Navigate to="/login" />}
-        />
-      </Routes>
-    </BrowserRouter>
+          {/* Rutas protegidas */}
+          <Route
+            path="/orders"
+            element={
+              <PrivateRoute>
+                <Orders></Orders>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/neworder"
+            element={
+              <PrivateRoute>
+                <NewOrder></NewOrder>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/newitem"
+            element={
+              <PrivateRoute>
+                <NewItem></NewItem>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/tables"
+            element={
+              <PrivateRoute>
+                <TableManager></TableManager>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }
 

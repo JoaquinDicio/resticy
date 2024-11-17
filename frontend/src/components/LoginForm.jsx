@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InputField from "./InputField";
 import useAuth from "../hooks/useAuth";
 
-const LoginForm = () => {
+export default function LoginForm() {
   const [formData, setFormData] = useState({});
   const { authenticate, errors, isLoading } = useAuth();
 
@@ -61,6 +62,4 @@ const LoginForm = () => {
       </div>
     </form>
   );
-};
-
-export default LoginForm;
+}

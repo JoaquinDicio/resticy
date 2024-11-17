@@ -19,7 +19,7 @@ const authService = {
 
     if (validCredentials) {
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email, restaurantID: user.restaurant_id },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );

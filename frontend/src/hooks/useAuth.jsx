@@ -1,16 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, redirect } from "react-router-dom";
 import Cookies from "js-cookie";
+import { AuthContext } from "../context/AuthContext";
 
 export default function useAuth() {
+  const { setIsAuth } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({
-    emailError: null,
-    passwordError: null,
-    nameError: null,
-    credentialsError: null,
-  });
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const authenticate = async (formData) => {
@@ -21,14 +18,16 @@ export default function useAuth() {
         formData
       );
 
-      // guarda el token en una cookie porque local y sesion son menos seguros
-      Cookies.set("authToken", data.token, {
-        expires: 7,
-        secure: true,
-        sameSite: "Strict",
-      });
-
-      navigate("/orders");
+      if (data.token) {
+        // guarda el token en una cookie porque local y sesion son menos seguros
+        Cookies.set("authToken", data.token, {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+        });
+        setIsAuth(true);
+        navigate("/orders");
+      }
     } catch (error) {
       const { response } = error;
       setErrors(response.data.error || "Algo salio mal");

@@ -8,6 +8,7 @@ import { Server as SocketServer } from "socket.io";
 import authRouter from "./routes/auth.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 import ordersRouter from "./routes/orders.routes.js";
+import tablesRouter from "./routes/tables.routes.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ server.listen(process.env.PORT, () =>
 app.use(authRouter);
 app.use(itemsRouter);
 app.use(ordersRouter);
+app.use(tablesRouter);
 app.use("/uploads", express.static("public/uploads"));
 
 export { io };
