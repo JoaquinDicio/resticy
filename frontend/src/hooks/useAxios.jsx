@@ -32,7 +32,8 @@ export default function useAxios() {
       const response = await axios.post(url, data, axiosConfig);
       return response.data;
     } catch (error) {
-      setErrors(error);
+      const { response } = error;
+      setErrors(response.data.error);
     } finally {
       setIsPosting(false);
     }
