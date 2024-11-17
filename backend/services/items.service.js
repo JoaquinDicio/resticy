@@ -1,4 +1,5 @@
 import Item from "../models/Item.js";
+import fs from "fs";
 
 const itemsService = {
   async getItemsByRestaurant(req) {
@@ -24,10 +25,10 @@ const itemsService = {
       };
     }
 
+    //se crea la ruta que se guarda en la base de datos
+
     let imgPath = null;
-    if (uploadedFile) {
-      imgPath = `${uploadedFile.filename}`;
-    }
+    uploadedFile ? (imgPath = `${uploadedFile.filename}`) : "No existe la ruta";
 
     // crea el nuevo producto en la base de datos
 
