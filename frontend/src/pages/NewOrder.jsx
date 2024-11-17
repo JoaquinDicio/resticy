@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import ItemsSelector from "../components/ItemsSelector";
+import { useParams } from "react-router-dom";
 
 export default function NewOrder() {
-  const restaurantId = 1;
   const [items, setItems] = useState([]);
   const [success, setSucces] = useState(false);
   const { axiosGet, axiosPost, isLoading, isPosting } = useAxios();
+  const { restaurantID } = useParams();
 
   const [orderData, setOrderData] = useState({
     order_date: new Date().toISOString().split("T")[0],
-    restaurant_id: 1,
+    restaurant_id: restaurantID,
     items: {},
     notes: "",
     table_id: 1,
@@ -20,15 +21,16 @@ export default function NewOrder() {
     const fetchItems = async () => {
       try {
         const response = await axiosGet(
-          `http://localhost:8080/items/${restaurantId}`
+          `http://localhost:8080/items/${restaurantID}`
         );
+        console.log(response);
         setItems(response.data || []);
       } catch (error) {
         console.error("Error fetching items:", error);
       }
     };
     fetchItems();
-  }, [restaurantId]);
+  }, []);
 
   function formatOrderData() {
     const orderItems = [];

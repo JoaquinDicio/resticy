@@ -42,12 +42,10 @@ export default function NewItem() {
       formDataObj.append("img", formData.file);
     }
     try {
-      setIsPosting(true);
       await axiosPost(url, formDataObj, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     } catch (error) {
-      setErrors(error.message);
     } finally {
       setFormData({
         name: "",
@@ -57,7 +55,6 @@ export default function NewItem() {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      setIsPosting(false);
     }
   };
 

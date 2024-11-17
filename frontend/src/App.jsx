@@ -6,8 +6,8 @@ import NewOrder from "./pages/NewOrder";
 import NewItem from "./pages/NewItem";
 import AuthContextProvider from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
-import "./style.css";
 import TableManager from "./pages/TableManager";
+import "./style.css";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
             }
           />
           <Route
-            path="/neworder"
+            path="/neworder/:restaurantID"
             element={
               <PrivateRoute>
                 <NewOrder></NewOrder>
