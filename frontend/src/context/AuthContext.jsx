@@ -14,12 +14,13 @@ export default function AuthContextProvider({ children }) {
   }, []);
 
   function logout() {
-    Cookies.set("authToken", null);
+    Cookies.remove("authToken");
+    Cookies.remove("user");
     setIsAuth(false);
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isAuth, setIsAuth }}>
+    <AuthContext.Provider value={{ user, setUser, isAuth, setIsAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );

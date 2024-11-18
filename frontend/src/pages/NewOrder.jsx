@@ -1,37 +1,19 @@
-import { useEffect, useState } from "react";
-import useAxios from "../hooks/useAxios";
+import { useState } from "react";
 import ItemsSelector from "../components/ItemsSelector";
 import { useParams } from "react-router-dom";
+import useAxios from "../hooks/useAxios";
 
 export default function NewOrder() {
-  const [items, setItems] = useState([]);
   const [success, setSucces] = useState(false);
-  const { axiosGet, axiosPost, isLoading, isPosting } = useAxios();
+  const { axiosPost, isPosting } = useAxios();
   const { restaurantID } = useParams();
 
   const [orderData, setOrderData] = useState({
     order_date: new Date().toISOString().split("T")[0],
-    restaurant_id: restaurantID,
     items: {},
     notes: "",
     table_id: 1,
   });
-
-  async function fetchItems() {
-    try {
-      const response = await axiosGet(
-        `http://localhost:8080/items/${restaurantID}`
-      );
-      console.log(response);
-      setItems(response.data || []);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
   function formatOrderData() {
     const orderItems = [];
@@ -54,6 +36,7 @@ export default function NewOrder() {
     //construye la orden
     const order = {
       ...orderData,
+      restaurant_id: restaurantID,
       total_amount: totalAmount.toFixed(2),
       items: orderItems,
     };
@@ -105,12 +88,7 @@ export default function NewOrder() {
             </select>
           </div>
           <div className="mb-4 overflow-y-auto">
-            <ItemsSelector
-              setOrderData={setOrderData}
-              orderData={orderData}
-              items={items}
-              isLoading={isLoading}
-            />
+            <ItemsSelector setOrderData={setOrderData} orderData={orderData} />
           </div>
           <div className="w-full flex py-5 flex-col">
             <label htmlFor="notes">Notas del pedido:</label>

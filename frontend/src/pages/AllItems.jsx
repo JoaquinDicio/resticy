@@ -5,10 +5,10 @@ import axios from "axios";
 import InputField from "../components/InputField";
 
 export default function AllItems() {
-  //se trae el dato de restaurantID mediante la cookie guardada
-  const [user, setUser] = useState(JSON.parse(Cookies.get("user")));
+  //obtiene la informacion del usuario en la cookie guardada
+  const user = useState(JSON.parse(Cookies.get("user")));
   const [items, setItems] = useState([]);
-  const { axiosGet } = useAxios();
+  const { axiosGet, isLoading } = useAxios();
 
   //sidebar
   const [selectedItem, setSelectedItem] = useState(null);
@@ -21,6 +21,9 @@ export default function AllItems() {
   });
 
   //modal
+  //NOTA -> El modal solo se abre cuando hay un item seleccionado
+  // setSelectedItem e ItemToDelete funcionan para lo mismo
+  // buscale la vuelta para reducir la cantidad de estados
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
@@ -78,8 +81,7 @@ export default function AllItems() {
   }
 
   // se cargan los productos mediante axios utilizando el id de la cookie
-
-  async function fetchItems(id) {
+  async function fetchItems() {
     try {
       const response = await axiosGet(
         `http://localhost:8080/items/${user.restaurantID}`
@@ -107,7 +109,7 @@ export default function AllItems() {
     <div className="min-h-screen bg-[var(--wine-color)]">
       <h1 className="text-white text-xl text-center">Productos</h1>
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-6 p-4">
-        {items && items.length > 0 ? (
+        {!isLoading && items?.length > 0 ? (
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
               <img
@@ -137,7 +139,7 @@ export default function AllItems() {
           ))
         ) : (
           <p className="text-white text-center text-lg col-span-full">
-            No existen productos cargados.
+            {isLoading ? "Cargando..." : "No existen productos"}
           </p>
         )}
       </div>

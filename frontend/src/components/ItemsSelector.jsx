@@ -1,12 +1,29 @@
-export default function ItemsSelector({
-  items,
-  isLoading,
-  setOrderData,
-  orderData,
-}) {
+import { useEffect, useState } from "react";
+import useAxios from "../hooks/useAxios";
+import { useParams } from "react-router-dom";
+
+export default function ItemsSelector({ setOrderData, orderData }) {
+  const { axiosGet, isLoading } = useAxios();
+  const [items, setItems] = useState(null);
+  const { restaurantID } = useParams();
+
+  useEffect(() => {
+    async function fetchItems() {
+      try {
+        const response = await axiosGet(
+          `http://localhost:8080/items/${restaurantID}`
+        );
+        setItems(response.data || []);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    }
+
+    fetchItems();
+  }, []);
+
   function addItem(itemId) {
     const newItem = items.find((item) => item.id == itemId);
-
     //si ya esta en el carrito
     if (orderData.items[itemId]) {
       const oldItem = { ...orderData.items[itemId] };

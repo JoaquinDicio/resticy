@@ -1,26 +1,18 @@
-import { where } from "sequelize";
 import Item from "../models/Item.js";
 import fs from "fs";
 
 const itemsService = {
   async getItemsByRestaurant(req) {
-    let restaurantID;
+    const { restaurantID } = req.params;
 
-    // siempre que se use req.params para enviar esta informacion]
-    //debe ser para fines de VISUALIZACION y nada mas, de lo contrario se envia por token
-    if (req.user) {
-      //si viajo en el token quiere decir que esta logueado
-      restaurantID = req.user.restaurantID;
-    } else {
-      //si no esta logueado usa el parametro de la url
-      restaurantID = req.params.restaurantID;
+    try {
+      const items = await Item.findAll({
+        where: { restaurant_id: restaurantID },
+      });
+      return { code: 200, data: [...items], ok: true };
+    } catch (e) {
+      console.log("Error obteniendo los items:", e);
     }
-
-    const items = await Item.findAll({
-      where: { restaurant_id: restaurantID },
-    });
-
-    return { code: 200, data: [...items], ok: true };
   },
 
   async addNewItem(req) {
@@ -96,30 +88,13 @@ const itemsService = {
   async deleteItem(req) {
     const { id } = req.params;
 
-    //si el id no existe
-    if (!id) {
-      return {
-        code: 400,
-        error: {
-          message: "El ID del item es obligatorio.",
-        },
-      };
-    }
-
-    const item = await Item.findOne({
-      where: {
-        id: id,
-      },
-    });
-
     try {
-      //busca el item y lo destruye mediante el ID
+      const item = Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
 
+      //busca el item y lo destruye mediante el ID
       const itemToDestroy = await Item.destroy({
         where: { id },
       });
-
-      //si no existe devuelve un mensaje de error
 
       if (!itemToDestroy) {
         return {
@@ -129,9 +104,7 @@ const itemsService = {
           },
         };
       }
-
       //elimina el archivo usando la ruta del img
-
       fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
         if (err) {
           console.error("Ocurrio un error al eliminar el archivo:", err);
@@ -159,22 +132,7 @@ const itemsService = {
     const { name, price, id } = req.body;
 
     try {
-      //si no se manda un id devuelve un error
-
-      if (!id) {
-        return {
-          code: 404,
-          error: {
-            message: "No se ha proporcionado ningun id",
-          },
-        };
-      }
-
-      //si existe el id busca el item para actualizar
-
       const item = await Item.findByPk(id);
-
-      //si no existe un producto con ese id devuelve un error
 
       if (!item) {
         return {
@@ -185,7 +143,7 @@ const itemsService = {
         };
       }
 
-      //si todo sale bien, se actualiza el producto deseado
+      //si existe el item, se actualiza el producto deseado
       await item.update({
         name: name || item.name,
         price: price || item.price,
@@ -197,7 +155,9 @@ const itemsService = {
           message: "Producto actualizado con exito",
         },
       };
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error actualizando el producto:", e);
+    }
   },
 };
 
