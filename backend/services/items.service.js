@@ -91,6 +91,66 @@ const itemsService = {
       };
     }
   },
+
+  async deleteItem(req) {
+    const { id } = req.params;
+
+    if (!id) {
+      return {
+        code: 400,
+        error: {
+          message: "El ID del item es obligatorio.",
+        },
+      };
+    }
+
+    const item = await Item.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    try {
+      //busca el item para destruir mediante el ID
+
+      const itemToDestroy = await Item.destroy({
+        where: { id },
+      });
+
+      //si no existe devuelve un mensaje de error
+      if (!itemToDestroy) {
+        return {
+          code: 404,
+          error: {
+            message: "El item no fue encontrado.",
+          },
+        };
+      }
+
+      //elimina el archivo usando la ruta del img
+
+      fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
+        if (err) {
+          console.error("Ocurrio un error al eliminar el archivo:", err);
+          return;
+        }
+      });
+
+      return {
+        code: 200,
+        message: "El item fue eliminado exitosamente.",
+        ok: true,
+      };
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      return {
+        code: 500,
+        error: {
+          message: "Error interno del servidor al eliminar el producto.",
+        },
+      };
+    }
+  },
 };
 
 export default itemsService;

@@ -10,26 +10,24 @@
   --yellow-color: #d4af37;
   --marfil-color: #fffff0;
 }
-
-/* Estilo para el contenedor del scrollbar */
+body {
+  background-color: var(--wine-color);
+}
 ::-webkit-scrollbar {
-  width: 5px; /* Ancho del scrollbar */
-  height: 10px; /* Alto del scrollbar en caso de ser horizontal */
+  width: 5px;
+  height: 10px;
 }
 
-/* Estilo para el fondo del scrollbar */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color de fondo del scrollbar */
-  border-radius: 10px; /* Bordes redondeados */
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
-/* Estilo para el "thumb" (parte que se mueve) */
 ::-webkit-scrollbar-thumb {
-  background: #888; /* Color del thumb */
-  border-radius: 10px; /* Bordes redondeados */
+  background: #888;
+  border-radius: 10px;
 }
 
-/* Estilo para el "thumb" cuando está en hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color del thumb al pasar el ratón */
+  background: #555;
 }

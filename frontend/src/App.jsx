@@ -8,6 +8,7 @@ import AuthContextProvider from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import TableManager from "./pages/TableManager";
 import "./style.css";
+import AllItems from "./pages/AllItems";
 
 function App() {
   return (
@@ -42,6 +43,14 @@ function App() {
             element={
               <PrivateRoute>
                 <TableManager></TableManager>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/allItems"
+            element={
+              <PrivateRoute>
+                <AllItems></AllItems>
               </PrivateRoute>
             }
           />

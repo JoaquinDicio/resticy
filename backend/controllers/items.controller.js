@@ -18,6 +18,15 @@ const itemsController = {
       console.log("Error agregando el producto:", e);
     }
   },
+
+  async deleteItem(req, res) {
+    try {
+      const response = await itemsService.deleteItem(req);
+      res.status(response.code).json(response);
+    } catch (e) {
+      console.log("Error al eliminar el producto", e);
+    }
+  },
 };
 
 export default itemsController;

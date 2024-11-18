@@ -17,18 +17,19 @@ export default function NewOrder() {
     table_id: 1,
   });
 
+  async function fetchItems() {
+    try {
+      const response = await axiosGet(
+        `http://localhost:8080/items/${restaurantID}`
+      );
+      console.log(response);
+      setItems(response.data || []);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  }
+
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axiosGet(
-          `http://localhost:8080/items/${restaurantID}`
-        );
-        console.log(response);
-        setItems(response.data || []);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
     fetchItems();
   }, []);
 

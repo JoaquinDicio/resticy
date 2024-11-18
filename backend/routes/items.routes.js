@@ -13,5 +13,5 @@ itemsRouter.post(
   upload.single("img"),
   itemsController.addNewItem
 );
-
+itemsRouter.delete("/itemDelete/:id", itemsController.deleteItem);
 export default itemsRouter;
