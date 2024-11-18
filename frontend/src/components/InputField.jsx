@@ -8,6 +8,7 @@ export default function InputField({
   name,
   value,
   max,
+  defaultValue,
 }) {
   return (
     <div className="flex flex-col">
@@ -20,6 +21,7 @@ export default function InputField({
         name={name}
         value={value}
         max={max}
+        defaultValue={defaultValue}
         required
       />
     </div>

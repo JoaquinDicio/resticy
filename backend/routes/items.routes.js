@@ -14,4 +14,6 @@ itemsRouter.post(
   itemsController.addNewItem
 );
 
+itemsRouter.put("/items", itemsController.updateItem);
+itemsRouter.delete("/itemDelete/:id", itemsController.deleteItem);
 export default itemsRouter;

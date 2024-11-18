@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import Item from "../models/Item.js";
 import fs from "fs";
 
@@ -90,6 +91,113 @@ const itemsService = {
         message: "Error interno del servidor",
       };
     }
+  },
+
+  async deleteItem(req) {
+    const { id } = req.params;
+
+    //si el id no existe
+    if (!id) {
+      return {
+        code: 400,
+        error: {
+          message: "El ID del item es obligatorio.",
+        },
+      };
+    }
+
+    const item = await Item.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    try {
+      //busca el item y lo destruye mediante el ID
+
+      const itemToDestroy = await Item.destroy({
+        where: { id },
+      });
+
+      //si no existe devuelve un mensaje de error
+
+      if (!itemToDestroy) {
+        return {
+          code: 404,
+          error: {
+            message: "El item no fue encontrado.",
+          },
+        };
+      }
+
+      //elimina el archivo usando la ruta del img
+
+      fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
+        if (err) {
+          console.error("Ocurrio un error al eliminar el archivo:", err);
+          return;
+        }
+      });
+
+      return {
+        code: 200,
+        message: "El item fue eliminado exitosamente.",
+        ok: true,
+      };
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      return {
+        code: 500,
+        error: {
+          message: "Error interno del servidor al eliminar el producto.",
+        },
+      };
+    }
+  },
+
+  async updateItem(req) {
+    const { name, price, id } = req.body;
+
+    try {
+      //si no se manda un id devuelve un error
+
+      if (!id) {
+        return {
+          code: 404,
+          error: {
+            message: "No se ha proporcionado ningun id",
+          },
+        };
+      }
+
+      //si existe el id busca el item para actualizar
+
+      const item = await Item.findByPk(id);
+
+      //si no existe un producto con ese id devuelve un error
+
+      if (!item) {
+        return {
+          code: 404,
+          error: {
+            message: "No existe un producto con ese id para actualizar",
+          },
+        };
+      }
+
+      //si todo sale bien, se actualiza el producto deseado
+      await item.update({
+        name: name || item.name,
+        price: price || item.price,
+      });
+
+      return {
+        code: 200,
+        error: {
+          message: "Producto actualizado con exito",
+        },
+      };
+    } catch (error) {}
   },
 };
 
