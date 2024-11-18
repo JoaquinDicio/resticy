@@ -27,6 +27,15 @@ const itemsController = {
       console.log("Error al eliminar el producto", e);
     }
   },
+
+  async updateItem(req, res) {
+    try {
+      const response = await itemsService.updateItem(req);
+      res.status(response.code).json(response);
+    } catch (e) {
+      console.log("Error al actualizar el producto", e);
+    }
+  },
 };
 
 export default itemsController;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
 import axios from "axios";
+import InputField from "../components/InputField";
 
 export default function AllItems() {
   //se trae el dato de restaurantID mediante la cookie guardada
@@ -12,6 +13,12 @@ export default function AllItems() {
   //sidebar
   const [selectedItem, setSelectedItem] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  //valores del formulario para actualizar
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+  });
 
   //modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,6 +46,32 @@ export default function AllItems() {
     await fetchItems();
   }
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const updateData = { ...formData, id: selectedItem?.id };
+
+    await axios.put("http://localhost:8080/items", updateData);
+
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === updateData.id
+          ? { ...item, name: updateData.name, price: updateData.price }
+          : item
+      )
+    );
+
+    closeSidebar();
+  }
+
   function closeModal() {
     setIsModalOpen(false);
     setItemToDelete(null);
@@ -60,6 +93,15 @@ export default function AllItems() {
   useEffect(() => {
     fetchItems();
   }, []);
+
+  useEffect(() => {
+    if (selectedItem) {
+      setFormData({
+        name: selectedItem.name || "",
+        price: selectedItem.price || "",
+      });
+    }
+  }, [selectedItem]);
 
   return (
     <div className="min-h-screen bg-[var(--wine-color)]">
@@ -133,19 +175,23 @@ export default function AllItems() {
             <h2 className="text-xl font-bold mb-4">Editar Producto</h2>
             <form>
               <div className="mb-4">
-                <label className="block text-gray-700">Nombre</label>
-                <input
+                <InputField
+                  label="Nombre"
                   type="text"
+                  placeholder="Hamburguesa"
+                  onChange={handleChange}
+                  name="name"
                   defaultValue={selectedItem?.name}
-                  className="w-full border rounded-lg p-2"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700">Precio</label>
-                <input
+                <InputField
+                  label="Precio"
                   type="number"
+                  placeholder="12000"
+                  onChange={handleChange}
+                  name="price"
                   defaultValue={selectedItem?.price}
-                  className="w-full border rounded-lg p-2"
                 />
               </div>
               <div className="flex justify-between">
@@ -158,6 +204,7 @@ export default function AllItems() {
                 </button>
                 <button
                   type="submit"
+                  onClick={handleSubmit}
                   className="bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg"
                 >
                   Guardar

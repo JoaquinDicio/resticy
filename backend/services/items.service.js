@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import Item from "../models/Item.js";
 import fs from "fs";
 
@@ -95,6 +96,7 @@ const itemsService = {
   async deleteItem(req) {
     const { id } = req.params;
 
+    //si el id no existe
     if (!id) {
       return {
         code: 400,
@@ -111,13 +113,14 @@ const itemsService = {
     });
 
     try {
-      //busca el item para destruir mediante el ID
+      //busca el item y lo destruye mediante el ID
 
       const itemToDestroy = await Item.destroy({
         where: { id },
       });
 
       //si no existe devuelve un mensaje de error
+
       if (!itemToDestroy) {
         return {
           code: 404,
@@ -150,6 +153,51 @@ const itemsService = {
         },
       };
     }
+  },
+
+  async updateItem(req) {
+    const { name, price, id } = req.body;
+
+    try {
+      //si no se manda un id devuelve un error
+
+      if (!id) {
+        return {
+          code: 404,
+          error: {
+            message: "No se ha proporcionado ningun id",
+          },
+        };
+      }
+
+      //si existe el id busca el item para actualizar
+
+      const item = await Item.findByPk(id);
+
+      //si no existe un producto con ese id devuelve un error
+
+      if (!item) {
+        return {
+          code: 404,
+          error: {
+            message: "No existe un producto con ese id para actualizar",
+          },
+        };
+      }
+
+      //si todo sale bien, se actualiza el producto deseado
+      await item.update({
+        name: name || item.name,
+        price: price || item.price,
+      });
+
+      return {
+        code: 200,
+        error: {
+          message: "Producto actualizado con exito",
+        },
+      };
+    } catch (error) {}
   },
 };
 
