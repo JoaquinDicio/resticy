@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
-import axios from "axios";
 import Sidebar from "../components/Sidebar";
 import ConfirmDelete from "../components/ConfirmDelete";
 
