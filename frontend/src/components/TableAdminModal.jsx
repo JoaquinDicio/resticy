@@ -8,12 +8,12 @@ export default function TableAdminModal({
   setShowModal,
 }) {
   const [newTable, setNewTable] = useState({ number: "" });
-  const { axiosPost, isPosting, errors } = useAxios();
+  const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
 
   async function handleSubmit(e) {
     e.preventDefault();
     const response = await axiosPost("http://localhost:8080/tables", newTable);
-    // si todo salio bien agrega la mesa al array para no tener que llamar de nuevo a la API
+    //si esta todo ok agrega la mesa al array, evitando llamar de nuevo a la API
     if (response.ok) {
       setTables((prev) => [...prev, { ...response.data }]);
       setNewTable({ number: "" });
@@ -21,20 +21,41 @@ export default function TableAdminModal({
     }
   }
 
-  function handleDelete() {}
+  async function handleDelete(tableID) {
+    const response = await axiosDelete(
+      `http://localhost:8080/tables/${tableID}`
+    );
+
+    if (response.ok) {
+      setTables(tables.filter((table) => table.id !== tableID));
+    }
+  }
+
+  function refetch(response) {
+    // si todo salio bien agrega la mesa al array para no tener que llamar de nuevo a la API
+  }
 
   return (
     showModal && (
       <div className="bg-black/60 w-full h-screen flex flex-col items-center justify-center fixed top-0">
         <div className="px-5 py-8 mb-2 bg-white w-fit h-fit rounded-lg">
           <p>Mesas actuales</p>
-          <ul className="pb-5 max-h-[60vh] overflow-y-scroll">
+          <ul className="my-5 max-h-[60vh] overflow-y-scroll">
             {tables.length == 0 && (
               <i className="text-sm">No hay mesas para mostrar</i>
             )}
             {tables.map((table) => (
-              <li>
+              <li
+                key={table.id}
+                className="flex justify-between text-sm w-full p-2"
+              >
                 <p>Mesa {table.number}</p>
+                <button
+                  onClick={() => handleDelete(table.id)}
+                  className="bg-red-500 text-white px-1 rounded"
+                >
+                  Eliminar
+                </button>
               </li>
             ))}
           </ul>
@@ -64,7 +85,7 @@ export default function TableAdminModal({
         </div>
         <input
           type="button"
-          value={"Cancelar"}
+          value={"Cerrar"}
           className="p-2 text-white font-medium text-sm cursor-pointer"
           onClick={() => setShowModal(false)}
         />

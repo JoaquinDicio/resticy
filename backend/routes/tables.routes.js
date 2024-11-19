@@ -6,7 +6,6 @@ const tablesRouter = Router();
 
 tablesRouter.get(
   "/tables/:restaurantID?",
-  authMiddleware,
   tablesController.getTablesByRestaurant
 );
 

@@ -1,12 +1,16 @@
 import { useEffect } from "react";
 import useAxios from "../hooks/useAxios";
+import Cookies from "js-cookie";
 
 export default function TableSelector({ tables, setSelectedTable, setTables }) {
+  const user = JSON.parse(Cookies.get("user") || "{}");
   const { axiosGet, isLoading } = useAxios();
 
   useEffect(() => {
     async function getTables() {
-      const response = await axiosGet("http://localhost:8080/tables"); // el back extrae del token nuestro restaurant_id asi que ya sabe que mesas traer
+      const response = await axiosGet(
+        `http://localhost:8080/tables/${user.restaurantID}`
+      );
       setTables(response.data);
     }
 
@@ -21,7 +25,7 @@ export default function TableSelector({ tables, setSelectedTable, setTables }) {
     <>
       <ul className="mt-5 flex flex-wrap flex-wrap gap-5">
         {isLoading && <p>Cargando mesas...</p>}
-        {tables.length == 0 && (
+        {tables?.length == 0 && (
           <i className="text-[var(--yellow-color)]">
             No hay mesas para mostrar
           </i>

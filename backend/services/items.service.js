@@ -87,12 +87,10 @@ const itemsService = {
 
   async deleteItem(req) {
     const { id } = req.params;
-    console.log("el id es: ", id);
+
     try {
       const item = await Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
-
       //elimina el archivo usando la ruta del img
-
       if (item) {
         console.log(item);
         fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
