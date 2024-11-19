@@ -39,5 +39,39 @@ export default function useAxios() {
     }
   };
 
-  return { axiosGet, axiosPost, isLoading, isPosting, errors };
+  const axiosPut = async (url, data) => {
+    setLoading(true);
+    try {
+      const response = await axios.put(url, data, axiosConfig);
+      return response.data;
+    } catch (error) {
+      const { response } = error;
+      setErrors(response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const axiosDelete = async (url) => {
+    setLoading(true);
+    try {
+      const response = await axios.delete(url, axiosConfig);
+      return response.data;
+    } catch (error) {
+      const { response } = error;
+      setErrors(response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    axiosGet,
+    axiosPost,
+    axiosPut,
+    axiosDelete,
+    isLoading,
+    isPosting,
+    errors,
+  };
 }

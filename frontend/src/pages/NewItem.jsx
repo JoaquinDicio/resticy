@@ -58,7 +58,7 @@ export default function NewItem() {
   };
 
   return (
-    <div className="w-screen bg-[var(--wine-color)] h-screen flex justify-center items-center">
+    <div className=" bg-[var(--wine-color)] h-screen flex justify-center items-center">
       <div className="w-full sm:max-w-sm lg:max-w-lg bg-[var(--marfil-color)] rounded-lg p-5">
         <h1 className="text-center text-2xl font-semibold">
           Añadir un nuevo producto
