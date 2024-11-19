@@ -87,9 +87,21 @@ const itemsService = {
 
   async deleteItem(req) {
     const { id } = req.params;
-
+    console.log("el id es: ", id);
     try {
-      const item = Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
+      const item = await Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
+
+      //elimina el archivo usando la ruta del img
+
+      if (item) {
+        console.log(item);
+        fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
+          if (err) {
+            console.error("Ocurrio un error al eliminar el archivo:", err);
+            return;
+          }
+        });
+      }
 
       //busca el item y lo destruye mediante el ID
       const itemToDestroy = await Item.destroy({
@@ -104,13 +116,6 @@ const itemsService = {
           },
         };
       }
-      //elimina el archivo usando la ruta del img
-      fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
-        if (err) {
-          console.error("Ocurrio un error al eliminar el archivo:", err);
-          return;
-        }
-      });
 
       return {
         code: 200,

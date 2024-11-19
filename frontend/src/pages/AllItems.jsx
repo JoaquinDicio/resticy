@@ -16,38 +16,39 @@ export default function AllItems() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
+  }
 
-  const handleEdit = (item) => {
+  function handleEdit(item) {
     setSelectedItem(item);
     setFormData({
       name: item.name,
       price: item.price,
     });
     setIsSidebarOpen(true);
-  };
+  }
 
-  const handleDelete = (item) => {
+  function handleDelete(item) {
     setSelectedItem(item);
     setIsModalOpen(true);
-  };
+  }
 
-  const confirmDelete = async () => {
+  async function confirmDelete(id) {
     if (selectedItem) {
+      console.log(selectedItem);
       await axiosDelete(`http://localhost:8080/itemDelete/${selectedItem.id}`);
       setIsModalOpen(false);
       setSelectedItem(null);
       await fetchItems();
     }
-  };
+  }
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const updateData = { ...formData, id: selectedItem?.id };
@@ -64,9 +65,9 @@ export default function AllItems() {
 
     setIsSidebarOpen(false);
     setSelectedItem(null);
-  };
+  }
 
-  const fetchItems = async () => {
+  async function fetchItems() {
     try {
       const response = await axiosGet(
         `http://localhost:8080/items/${user.restaurantID}`
@@ -75,7 +76,7 @@ export default function AllItems() {
     } catch (error) {
       console.error("Error fetching items:", error);
     }
-  };
+  }
 
   useEffect(() => {
     fetchItems();
