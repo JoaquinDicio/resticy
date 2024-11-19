@@ -1,68 +1,59 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
-import axios from "axios";
-import InputField from "../components/InputField";
+import Sidebar from "../components/Sidebar";
+import ConfirmDelete from "../components/ConfirmDelete";
 
 export default function AllItems() {
-  //obtiene la informacion del usuario en la cookie guardada
-  const user = useState(JSON.parse(Cookies.get("user")));
+  const [user, setUser] = useState(() =>
+    JSON.parse(Cookies.get("user") || "{}")
+  );
   const [items, setItems] = useState([]);
-  const { axiosGet, isLoading } = useAxios();
-
-  //sidebar
+  const { axiosGet, axiosPut, axiosDelete, isLoading } = useAxios();
   const [selectedItem, setSelectedItem] = useState(null);
+  const [formData, setFormData] = useState({ name: "", price: "" });
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  //valores del formulario para actualizar
-  const [formData, setFormData] = useState({
-    name: "",
-    price: "",
-  });
-
-  //modal
-  //NOTA -> El modal solo se abre cuando hay un item seleccionado
-  // setSelectedItem e ItemToDelete funcionan para lo mismo
-  // buscale la vuelta para reducir la cantidad de estados
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
 
-  function handleEdit(item) {
-    setSelectedItem(item);
-    setIsSidebarOpen(true);
-  }
-
-  function closeSidebar() {
-    setIsSidebarOpen(false);
-    setSelectedItem(null);
-  }
-
-  function handleDelete(item) {
-    setItemToDelete(item);
-    setIsModalOpen(true);
-  }
-
-  async function confirmDelete(id) {
-    await axios.delete(`http://localhost:8080/itemDelete/${id}}`);
-    setIsModalOpen(false);
-    setItemToDelete(null);
-    await fetchItems();
-  }
-
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
+  }
+
+  function handleEdit(item) {
+    setSelectedItem(item);
+    setFormData({
+      name: item.name,
+      price: item.price,
+    });
+    setIsSidebarOpen(true);
+  }
+
+  function handleDelete(item) {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  }
+
+  async function confirmDelete(id) {
+    if (selectedItem) {
+      console.log(selectedItem);
+      await axiosDelete(`http://localhost:8080/itemDelete/${selectedItem.id}`);
+      setIsModalOpen(false);
+      setSelectedItem(null);
+      await fetchItems();
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     const updateData = { ...formData, id: selectedItem?.id };
 
-    await axios.put("http://localhost:8080/items", updateData);
+    await axiosPut("http://localhost:8080/items", updateData);
 
     setItems((prevItems) =>
       prevItems.map((item) =>
@@ -72,15 +63,10 @@ export default function AllItems() {
       )
     );
 
-    closeSidebar();
+    setIsSidebarOpen(false);
+    setSelectedItem(null);
   }
 
-  function closeModal() {
-    setIsModalOpen(false);
-    setItemToDelete(null);
-  }
-
-  // se cargan los productos mediante axios utilizando el id de la cookie
   async function fetchItems() {
     try {
       const response = await axiosGet(
@@ -95,15 +81,6 @@ export default function AllItems() {
   useEffect(() => {
     fetchItems();
   }, []);
-
-  useEffect(() => {
-    if (selectedItem) {
-      setFormData({
-        name: selectedItem.name || "",
-        price: selectedItem.price || "",
-      });
-    }
-  }, [selectedItem]);
 
   return (
     <div className="min-h-screen bg-[var(--wine-color)]">
@@ -144,78 +121,21 @@ export default function AllItems() {
         )}
       </div>
 
-      {/* modal de confirmación */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-lg font-bold mb-4">¿Estás seguro?</h2>
-            <p className="mb-4 text-gray-700">
-              ¿Seguro que deseas eliminar <strong>{itemToDelete?.name}</strong>?
-            </p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => confirmDelete(itemToDelete?.id)}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg"
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        selectedItem={selectedItem}
+        formData={formData}
+        onClose={() => setIsSidebarOpen(false)}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
 
-      {/* sidebar */}
-      {isSidebarOpen && (
-        <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300">
-          <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">Editar Producto</h2>
-            <form>
-              <div className="mb-4">
-                <InputField
-                  label="Nombre"
-                  type="text"
-                  placeholder="Hamburguesa"
-                  onChange={handleChange}
-                  name="name"
-                  defaultValue={selectedItem?.name}
-                />
-              </div>
-              <div className="mb-4">
-                <InputField
-                  label="Precio"
-                  type="number"
-                  placeholder="12000"
-                  onChange={handleChange}
-                  name="price"
-                  defaultValue={selectedItem?.price}
-                />
-              </div>
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  onClick={closeSidebar}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  onClick={handleSubmit}
-                  className="bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg"
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ConfirmDelete
+        isOpen={isModalOpen}
+        item={selectedItem}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => confirmDelete(selectedItem?.id)}
+      />
     </div>
   );
 }
