@@ -5,7 +5,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 const tablesRouter = Router();
 
 tablesRouter.get(
-  "/tables",
+  "/tables/:restaurantID?",
   authMiddleware,
   tablesController.getTablesByRestaurant
 );

@@ -3,10 +3,16 @@ import Table from "../models/Table.js";
 const tablesService = {
   async getTablesByRestaurant(req) {
     try {
-      const { user } = req;
+      let restaurantID;
+
+      if (req.params.restaurantID) {
+        restaurantID = req.params.restaurantID;
+      } else {
+        restaurantID = req.user.restaurantID;
+      }
 
       const tables = await Table.findAll({
-        where: { restaurant_id: user.restaurantID },
+        where: { restaurant_id: restaurantID },
       });
 
       return { code: 200, data: [...tables], ok: true };

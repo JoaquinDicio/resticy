@@ -18,7 +18,9 @@ export default function NewOrder() {
 
   useEffect(() => {
     async function getTables() {
-      const response = await axiosGet("http://localhost:8080/tables");
+      const response = await axiosGet(
+        `http://localhost:8080/tables/${restaurantID}`
+      );
       setTables(response.data);
     }
 
