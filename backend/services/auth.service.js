@@ -72,8 +72,8 @@ const authService = {
 
     const restaurant = await Restaurant.create({
       name: name,
-      address: "No hay una direccion por ahora",
-      phone: "No hay un telefono por ahora",
+      address: "No hay una direccion por ahora.",
+      phone: "No hay un telefono por ahora.",
     });
 
     await User.create({
