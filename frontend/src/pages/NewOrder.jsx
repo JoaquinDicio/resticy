@@ -13,7 +13,7 @@ export default function NewOrder() {
     order_date: new Date().toISOString().split("T")[0],
     items: {},
     notes: "",
-    table_id: 1,
+    table_id: 0,
   });
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function NewOrder() {
           <div className="mb-4">
             <label
               htmlFor="table-select"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block hidden text-sm font-medium text-gray-700 mb-1"
             >
               Selecciona una mesa:
             </label>
@@ -89,6 +89,7 @@ export default function NewOrder() {
               }
               className="block w-full p-2 border border-gray-300 rounded-lg"
             >
+              <option value="0">Selecciona tu mesa</option>
               {tables?.map((table) => (
                 <option key={table.id} value={table.id}>
                   Mesa {table.number}
