@@ -31,10 +31,6 @@ export default function TableAdminModal({
     }
   }
 
-  function refetch(response) {
-    // si todo salio bien agrega la mesa al array para no tener que llamar de nuevo a la API
-  }
-
   return (
     showModal && (
       <div className="bg-black/60 w-full h-screen flex flex-col items-center justify-center fixed top-0">

@@ -3,8 +3,10 @@ import SideTableInfo from "../components/SideTableInfo.jsx";
 import TableSelector from "../components/TableSelector.jsx";
 import TableAdminModal from "../components/TableAdminModal.jsx";
 import socket from "../socket.js";
+import useAxios from "../hooks/useAxios.jsx";
 
 export default function Orders() {
+  const { axiosGet } = useAxios();
   const [orders, setOrders] = useState([]);
   const [displayOrder, setDisplayOrder] = useState(null);
   const [selectedTable, setSelectedTable] = useState(null);
@@ -18,6 +20,20 @@ export default function Orders() {
       // se duplica todo.
       socket.off("order");
     };
+  }, []);
+
+  useEffect(() => {
+    async function getPendingOrders() {
+      const response = await axiosGet(
+        "http://localhost:8080/restaurants/orders"
+      );
+
+      response.data.forEach((order) => {
+        handleNewOrder(order);
+      });
+    }
+
+    getPendingOrders();
   }, []);
 
   function handleNewOrder(newOrder) {

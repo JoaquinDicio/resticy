@@ -9,6 +9,7 @@ import authRouter from "./routes/auth.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 import ordersRouter from "./routes/orders.routes.js";
 import tablesRouter from "./routes/tables.routes.js";
+import restaurantsRouter from "./routes/restaurants.routes.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(authRouter);
 app.use(itemsRouter);
 app.use(ordersRouter);
 app.use(tablesRouter);
+app.use(restaurantsRouter);
 app.use("/uploads", express.static("public/uploads"));
 
 export { io };
