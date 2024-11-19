@@ -10,4 +10,12 @@ tablesRouter.get(
   tablesController.getTablesByRestaurant
 );
 
+tablesRouter.delete(
+  "/tables/:tableID",
+  authMiddleware,
+  tablesController.deleteTableById
+);
+
+tablesRouter.post("/tables", authMiddleware, tablesController.createTable);
+
 export default tablesRouter;

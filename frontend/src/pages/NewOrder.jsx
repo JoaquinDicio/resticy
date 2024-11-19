@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ItemsSelector from "../components/ItemsSelector";
 import { useParams } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 
 export default function NewOrder() {
   const [success, setSucces] = useState(false);
-  const { axiosPost, isPosting } = useAxios();
+  const [tables, setTables] = useState([]);
+  const { axiosPost, isPosting, axiosGet } = useAxios();
   const { restaurantID } = useParams();
 
   const [orderData, setOrderData] = useState({
@@ -15,9 +16,17 @@ export default function NewOrder() {
     table_id: 1,
   });
 
+  useEffect(() => {
+    async function getTables() {
+      const response = await axiosGet("http://localhost:8080/tables");
+      setTables(response.data);
+    }
+
+    getTables();
+  }, []);
+
   function formatOrderData() {
     const orderItems = [];
-
     //convierte los items a [] y agrega 'subtotal'
     for (const key in orderData.items) {
       const currentItem = orderData.items[key];
@@ -80,9 +89,9 @@ export default function NewOrder() {
               }
               className="block w-full p-2 border border-gray-300 rounded-lg"
             >
-              {[1, 2, 3].map((table) => (
-                <option key={table} value={table}>
-                  Mesa {table}
+              {tables?.map((table) => (
+                <option key={table.id} value={table.id}>
+                  Mesa {table.number}
                 </option>
               ))}
             </select>

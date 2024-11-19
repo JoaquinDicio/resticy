@@ -16,6 +16,7 @@ export default function useAxios() {
 
   async function axiosGet(url) {
     setLoading(true);
+    setErrors(null);
     try {
       const response = await axios.get(url, axiosConfig);
       return response.data;
@@ -34,6 +35,7 @@ export default function useAxios() {
     } catch (error) {
       const { response } = error;
       setErrors(response.data.error);
+      return response.data;
     } finally {
       setIsPosting(false);
     }
@@ -43,6 +45,7 @@ export default function useAxios() {
     setLoading(true);
     try {
       const response = await axios.put(url, data, axiosConfig);
+      console.log(response);
       return response.data;
     } catch (error) {
       const { response } = error;
