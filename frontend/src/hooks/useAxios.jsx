@@ -14,7 +14,7 @@ export default function useAxios() {
     },
   };
 
-  const axiosGet = async (url) => {
+  async function axiosGet(url) {
     setLoading(true);
     try {
       const response = await axios.get(url, axiosConfig);
@@ -24,9 +24,9 @@ export default function useAxios() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const axiosPost = async (url, data) => {
+  async function axiosPost(url, data) {
     setIsPosting(true);
     try {
       const response = await axios.post(url, data, axiosConfig);
@@ -37,9 +37,9 @@ export default function useAxios() {
     } finally {
       setIsPosting(false);
     }
-  };
+  }
 
-  const axiosPut = async (url, data) => {
+  async function axiosPut(url, data) {
     setLoading(true);
     try {
       const response = await axios.put(url, data, axiosConfig);
@@ -50,9 +50,9 @@ export default function useAxios() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const axiosDelete = async (url) => {
+  async function axiosDelete(url) {
     setLoading(true);
     try {
       const response = await axios.delete(url, axiosConfig);
@@ -63,7 +63,7 @@ export default function useAxios() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return {
     axiosGet,

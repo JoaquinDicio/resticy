@@ -3,16 +3,14 @@ import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
 import Sidebar from "../components/Sidebar";
 import ConfirmDelete from "../components/ConfirmDelete";
+import { Link } from "react-router-dom";
 
 export default function AllItems() {
-  const [user, setUser] = useState(() =>
-    JSON.parse(Cookies.get("user") || "{}")
-  );
+  const user = JSON.parse(Cookies.get("user") || "{}");
   const [items, setItems] = useState([]);
   const { axiosGet, axiosPut, axiosDelete, isLoading } = useAxios();
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({ name: "", price: "" });
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -123,7 +121,6 @@ export default function AllItems() {
 
       <Sidebar
         isOpen={isSidebarOpen}
-        selectedItem={selectedItem}
         formData={formData}
         onClose={() => setIsSidebarOpen(false)}
         onChange={handleChange}
