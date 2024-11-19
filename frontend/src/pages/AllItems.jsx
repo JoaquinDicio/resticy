@@ -133,6 +133,15 @@ export default function AllItems() {
         onClose={() => setIsModalOpen(false)}
         onConfirm={() => confirmDelete(selectedItem?.id)}
       />
+
+      <div className="fixed bottom-0 right-0 p-5">
+        <Link
+          to={"/newItem"}
+          className="rounded-lg bg-[var(--yellow-color)] text-white font-medium px-2 py-3"
+        >
+          + Nuevo producto
+        </Link>
+      </div>
     </div>
   );
 }
