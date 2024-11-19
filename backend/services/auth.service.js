@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import Restaurant from "../models/Restaurant.js";
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -66,14 +68,20 @@ const authService = {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    //TODO-> crear el restaurante antes que el usuario
+    //se crea el restaurante antes que el usuario para luego asignarle el restaurant.id
+
+    const restaurant = await Restaurant.create({
+      name: name,
+      address: "No hay una direccion por ahora.",
+      phone: "No hay un telefono por ahora.",
+    });
 
     await User.create({
       name: name,
       password: hashPassword,
       email: email,
       role_id: 1,
-      restaurant_id: 1,
+      restaurant_id: restaurant.id,
     });
 
     return { code: 200, message: "Usuario creado correctamente", ok: true };
