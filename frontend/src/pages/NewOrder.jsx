@@ -124,7 +124,7 @@ export default function NewOrder() {
         </form>
         {success && (
           <div className="bg-green-500 text-white w-full p-2 fixed bottom-0">
-            <p className="text-xl text-center">Pedido enviado con exito</p>
+            <p className="text-xl text-center">Pedido enviado con éxito</p>
           </div>
         )}
       </div>
