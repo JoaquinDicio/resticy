@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import TableManager from "./pages/TableManager";
 import "./style.css";
 import AllItems from "./pages/AllItems";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
@@ -17,10 +18,9 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route
-            element={<NewOrder></NewOrder>}
-            path="/neworder/:restaurantID"
-          />
+          <Route element={<NewOrder />} path="/neworder/:restaurantID" />
+          <Route element={<LandingPage />} path="/landing" />
+
           {/* Rutas protegidas */}
           <Route
             path="/orders"
