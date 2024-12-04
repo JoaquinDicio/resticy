@@ -139,7 +139,7 @@ export default function LandingPage() {
           />
           <div className="mt-10 md:px-10">
             <p className="font-light text-sm my-2">Servicio Eficiente</p>
-            <p className="font-[800] md:font-[900] text-2xl md:text-5xl text-[--dark-color]">
+            <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
               Realiza pagos por <br />
               <span className="text-[--yellow-color]">Mercado pago</span>
             </p>
@@ -163,7 +163,7 @@ export default function LandingPage() {
             className="md:w-[350px] h-fit object-cover px-10"
           />
           <div className="w-full px-10">
-            <p className="font-[800] md:font-[900] mt-5 text-2xl md:text-5xl text-[--dark-color]">
+            <p className="font-[800] md:font-[900] mt-5 text-3xl md:text-5xl text-[--dark-color]">
               Registra tu restaurante <br className="md:hidden" /> y empieza a
               ser más <span className="text-[--yellow-color]">eficiente</span>
             </p>
@@ -183,7 +183,7 @@ export default function LandingPage() {
       </section>
       <section className="bg-[--yellow-color] py-14 px-10">
         <div className="mx-auto w-full max-w-[1100px] md:px-10">
-          <p className="font-[800] md:font-[900] text-2xl md:text-5xl text-[--dark-color]">
+          <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
             Selecciona el{" "}
             <span className="text-[--marfil-color]">plan ideal</span> <br />{" "}
             para tu negocio
@@ -271,7 +271,7 @@ export default function LandingPage() {
       </section>
       <section className="bg-white px-10 py-16 min-h-[70vh] flex flex-col justify-center items-center">
         <div className="max-w-[1100px]">
-          <p className="font-[800] md:font-[900] text-2xl md:text-5xl text-center pb-12 lg:pb-24 text-[--dark-color]">
+          <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-center pb-12 lg:pb-24 text-[--dark-color]">
             Un sistema innovador
           </p>
           <div>
@@ -298,10 +298,12 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <footer className="p-10 max-w-[1100px] mx-auto flex justify-around">
+      <footer className="p-10 max-w-[1100px] mx-auto flex flex-col md:flex-row justify-around">
         <div className="text-white text-sm">
-          <p className="font-bold mb-4 text-[--yellow-color]">Sobre resticy</p>
-          <nav>
+          <p className="font-bold mb-4 text-2xl text-[--yellow-color]">
+            Sobre resticy
+          </p>
+          <nav className="mb-4">
             <ul className="font-lighter">
               <li>
                 <a href="">Funcionalidades</a>
@@ -322,8 +324,10 @@ export default function LandingPage() {
           </nav>
         </div>
         <div className="text-white text-sm">
-          <p className="font-bold mb-4 text-[--yellow-color]">Recursos</p>
-          <nav>
+          <p className="font-bold mb-4 text-2xl text-[--yellow-color]">
+            Recursos
+          </p>
+          <nav className="mb-4">
             <ul className="font-lighter">
               <li>
                 <a href="">Preguntas frecuentes</a>
@@ -332,8 +336,10 @@ export default function LandingPage() {
           </nav>
         </div>
         <div className="text-white text-sm">
-          <p className="font-bold mb-4 text-[--yellow-color]">Dónde estamos</p>
-          <nav>
+          <p className="font-bold mb-4 text-2xl text-[--yellow-color]">
+            Dónde estamos
+          </p>
+          <nav className="mb-4">
             <ul className="font-lighter">
               <li>
                 <a href="">
@@ -344,8 +350,10 @@ export default function LandingPage() {
           </nav>
         </div>
         <div className="text-white text-sm">
-          <p className="font-bold mb-4 text-[--yellow-color]">Contacto</p>
-          <nav>
+          <p className="font-bold mb-4 text-2xl text-[--yellow-color]">
+            Contacto
+          </p>
+          <nav className="mb-4">
             <ul className="font-lighter">
               <li>
                 <a href="">(+54) 12341234</a>
