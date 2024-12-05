@@ -3,6 +3,7 @@
 * {
   font-family: "Raleway";
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 :root {
   --dark-color: #333333;

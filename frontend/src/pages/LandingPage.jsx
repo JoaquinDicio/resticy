@@ -6,6 +6,7 @@ import sencilloIcon from "../assets/icon-3.png";
 import waveDk from "../assets/wave-dk.svg";
 import adaptableIcon from "../assets/icon-2.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   const [showMenu, setShowMenu] = useState(false);
@@ -26,23 +27,29 @@ export default function LandingPage() {
         >
           <ul className="flex gap-3 flex-col md:flex-row">
             <li>
-              <a href="">Home</a>
+              <a href="#home">Home</a>
             </li>
             <li>
-              <a href="">Funcionalidades</a>
+              <a href="#functions">Funcionalidades</a>
             </li>
             <li>
-              <a href="">Planes</a>
+              <a href="#plans">Planes</a>
             </li>
           </ul>
         </nav>
         <div className="hidden md:flex gap-3 ">
-          <button className="border border-1 border-[--yellow-color] text-white rounded-lg px-4 py-2">
+          <Link
+            to="/login"
+            className="border border-1 border-[--yellow-color] text-white rounded-lg px-4 py-2"
+          >
             Iniciar sesión
-          </button>
-          <button className="bg-[--yellow-color] text-white rounded-lg px-4 py-2">
+          </Link>
+          <Link
+            to="/register"
+            className="bg-[--yellow-color] text-white rounded-lg px-4 py-2"
+          >
             Registrarse
-          </button>
+          </Link>
         </div>
       </header>
       <section
@@ -91,7 +98,10 @@ export default function LandingPage() {
         ></path>
       </svg>
 
-      <section className="bg-[--marfil-color] min-h-[70vh] pb-14 flex justify-center">
+      <section
+        id="functions"
+        className="bg-[--marfil-color] min-h-[70vh] pb-14 flex justify-center"
+      >
         <div className="lg:flex-row lg:max-w-[1100px] flex flex-col items-center">
           <img
             src={mackMockup}
@@ -134,7 +144,7 @@ export default function LandingPage() {
         <div className="flex items-center flex-col px-10 md:flex-row max-w-[1100px]">
           <img
             src={iphoneMp}
-            className="w-full object-cover md:w-full md:max-w-[300px] md:w-[600px] md:h-fit h-[40vh]"
+            className="w-fit object-cover h-[400px] md:w-full md:max-w-[300px] md:w-[600px] md:h-fit"
             alt="Iphone con mercado pago"
           />
           <div className="mt-10 md:px-10">
@@ -181,7 +191,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="bg-[--yellow-color] py-14 px-10">
+      <section id="plans" className="bg-[--yellow-color] py-14 px-10">
         <div className="mx-auto w-full max-w-[1100px] md:px-10">
           <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
             Selecciona el{" "}
@@ -275,23 +285,26 @@ export default function LandingPage() {
             Un sistema innovador
           </p>
           <div>
-            <div className="flex gap-5 overflow-x-scroll no-scrollbar mx-auto">
-              <div className="min-w-fit md:min-w-[200px] flex flex-col items-center justify-center">
-                <img src={sencilloIcon} className="object-cover" />
-                <p className="font-light text-center text-sm md:text-xl px-5 pt-6">
-                  Contamos con una interfaz intuitiva, fácil de usar y moderna.
+            <div className="flex gap-5 overflow-x-scroll max-w-[100vw] no-scrollbar mx-auto">
+              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
+                <p className="font-medium text-2xl pb-2">Sencillo y actual</p>
+                <p className="text-sm">
+                  Contamos con una interfaz intuitiva, fácil de usar y moderna
                 </p>
               </div>
-              <div className="min-w-fit md:min-w-[200px] flex flex-col items-center justify-center">
-                <img src={adaptableIcon} className="object-cover" />
-                <p className="font-light text-center text-sm md:text-xl px-5 pt-6">
-                  Contamos con una interfaz intuitiva, fácil de usar y moderna.
+              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
+                <p className="font-medium text-2xl pb-2">Sencillo y actual</p>
+                <p className="text-sm">
+                  Contamos con una interfaz intuitiva, fácil de usar y moderna
                 </p>
               </div>
-              <div className="min-w-fit md:min-w-[200px] flex flex-col items-center justify-center">
-                <img src={interfazIcon} className="object-cover" />
-                <p className="font-light text-center text-sm md:text-xl px-5 pt-6">
-                  Contamos con una interfaz intuitiva, fácil de usar y moderna.
+              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
+                <p className="font-medium text-2xl pb-2">Sencillo y actual</p>
+                <p className="text-sm">
+                  Contamos con una interfaz intuitiva, fácil de usar y moderna
                 </p>
               </div>
             </div>
@@ -306,10 +319,10 @@ export default function LandingPage() {
           <nav className="mb-4">
             <ul className="font-lighter">
               <li>
-                <a href="">Funcionalidades</a>
+                <a href="#functions">Funcionalidades</a>
               </li>
               <li>
-                <a href="">Precios</a>
+                <a href="#prices">Precios</a>
               </li>
               <li>
                 <a href="">Historias de éxito</a>
