@@ -48,14 +48,14 @@ export default function Orders() {
   }
 
   return (
-    <section className="bg-gray-100 min-h-screen flex">
+    <section className="bg-gray-100 min-h-screen flex ">
       <SideTableInfo
         orders={orders}
         setDisplayOrder={setDisplayOrder}
         displayOrder={displayOrder}
         selectedTable={selectedTable}
       />
-      <div className="p-10">
+      <div className="p-10 pt-20">
         <h1 className="font-bold text-2xl mb-2">Mesas</h1>
         <p>
           Aqui podrás ver las ordenes que recibe tu restaurante en tiempo real.

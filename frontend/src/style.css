@@ -48,3 +48,17 @@ svg {
     scrollbar-width: none; /* Firefox */
   }
 }
+.banner1 {
+  background-image: url("./assets/Banner1.png");
+}
+.banner2 {
+  background-image: url("./assets/Banner2.png");
+}
+@media (max-width: 768px) {
+  .banner1 {
+    background-image: url("./assets/Banner1-responsive.png");
+  }
+  .banner2 {
+    background-image: url("./assets/Banner2-responsive.png");
+  }
+}

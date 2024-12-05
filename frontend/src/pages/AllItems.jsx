@@ -81,7 +81,7 @@ export default function AllItems() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--wine-color)]">
+    <div className="min-h-screen bg-[var(--wine-color)] pt-20">
       <h1 className="text-white text-xl text-center">Productos</h1>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6 p-4">
         {!isLoading && items?.length > 0 ? (

@@ -1,4 +1,4 @@
-import mackMockup from "../assets/macbook.png";
+import mackMockup from "../assets/Macbook.png";
 import iphoneMp from "../assets/iphonemp.png";
 import logoGris from "../assets/logotitulo.png";
 import interfazIcon from "../assets/icon-1.png";
@@ -7,18 +7,19 @@ import waveDk from "../assets/wave-dk.svg";
 import adaptableIcon from "../assets/icon-2.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import logo from "../assets/favicon.png";
+import imageLanding from "../assets/imagen-landing.jpg";
 export default function LandingPage() {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
     <>
-      <header className="bg-[--wine-color] text-white flex justify-between items-center py-4 px-10 md:px-20 fixed flex w-full flex-wrap">
+      <header className="bg-[--wine-color] z-20 text-white flex justify-between items-center py-4 px-10 md:px-20 fixed flex w-full flex-wrap">
         <i
           onClick={() => setShowMenu(!showMenu)}
           class="fa-solid fa-bars text-3xl md:hidden text-[--yellow-color]"
         ></i>
-        <p>LOGO</p>
+        <img className="w-[40px] h-[40px]" src={logo} alt="Logo Resticy" />
         <button className="bg-transparent md:hidden text-[--wine-color] font-bold rounded-sm px-2 py-1"></button>
         <nav
           className={`md:px-10 py-5 md:py-0 md:pt-0 w-[100vw] md:flex-1 md:block ${
@@ -27,7 +28,7 @@ export default function LandingPage() {
         >
           <ul className="flex gap-3 flex-col md:flex-row">
             <li>
-              <a href="#home">Home</a>
+              <a href="#home">Inicio</a>
             </li>
             <li>
               <a href="#functions">Funcionalidades</a>
@@ -54,9 +55,9 @@ export default function LandingPage() {
       </header>
       <section
         id="home"
-        className="px-12 pt-20 min-h-[60vh] flex justify-center items-center"
+        className="bg-cover pt-20  flex flex-col justify-center items-center bg-no-repeat z-50 md:px-0 bg-red-200 banner1"
       >
-        <div className="md:flex justify-between max-w-[1000px] md:mt-20">
+        <div className="md:flex px-12 md:px-0 justify-between max-w-[1000px] md:mt-20">
           <div>
             <p className="text-white mb-2 font-light text-[.95rem]">
               Software de gestión para restaurantes
@@ -70,6 +71,7 @@ export default function LandingPage() {
             </p>
             <p className="text-white text-xl mt-5 font-light">
               Impulsa tu negocio desde
+              <br />
               <span className="font-bold"> $20.000 por mes</span>
             </p>
             <button className="bg-[--yellow-color] text-white px-4 py-2 rounded mt-10">
@@ -78,34 +80,34 @@ export default function LandingPage() {
           </div>
           <div className="hidden md:flex px-10 max-w-[600px] justify-center">
             <img
-              src="https://img.freepik.com/foto-gratis/vista-lateral-hombre-tableta_23-2148560449.jpg"
+              src={imageLanding}
               alt="hombre realizando pedido con tablet"
               className="rounded-3xl object-cover"
             />
           </div>
         </div>
+        <img className="hidden md:block w-full" src={waveDk} />
+        <svg
+          className="md:hidden"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1420 300"
+        >
+          <path
+            fill="#fffff0"
+            fill-opacity="1"
+            d="M0,128L80,149.3C160,171,320,213,480,229.3C640,245,800,235,960,202.7C1120,171,1280,117,1360,90.7L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+          ></path>
+        </svg>
       </section>
-      <img className="hidden md:block mt-16" src={waveDk} />
-      <svg
-        className="md:hidden"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1420 300"
-      >
-        <path
-          fill="#fffff0"
-          fill-opacity="1"
-          d="M0,128L80,149.3C160,171,320,213,480,229.3C640,245,800,235,960,202.7C1120,171,1280,117,1360,90.7L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-        ></path>
-      </svg>
 
       <section
         id="functions"
-        className="bg-[--marfil-color] min-h-[70vh] pb-14 flex justify-center"
+        className="bg-[--marfil-color] min-h-[75vh]  pb-14 flex justify-center"
       >
-        <div className="lg:flex-row lg:max-w-[1100px] flex flex-col items-center">
+        <div className="lg:flex-row lg:max-w-[1200px] flex flex-col items-center">
           <img
             src={mackMockup}
-            className="object-cover h-[40vh] md:h-fit md:w-[500px]"
+            className="object-cover h-[40vh] md:h-fit md:w-[600px]"
             alt="mackbook realizando pedido"
           />
           <div className="px-10 mt-10">
@@ -155,7 +157,7 @@ export default function LandingPage() {
             </p>
             <p className="pt-8 pb-6 md:text-xl">
               <strong className="text-[--yellow-color]">Resticy </strong>
-              permite realizar pagos fácilmente a través de Mercado Pago.
+              permite realizar pagos fácilmente a través de Mercado pago.
               Brindando
               <strong> comodidad y seguridad</strong> en cada transacción.
             </p>
@@ -165,8 +167,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="bg-[--marfil-color]  min-h-[70vh] flex items-center md:px-20 py-32">
-        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse">
+      <section className="bg-[--marfil-color]  min-h-[70vh] flex items-center md:px-20 py-32 banner2">
+        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col md:flex-row items-center">
           <img
             src={logoGris}
             alt="Logo de resticy"
@@ -174,8 +176,8 @@ export default function LandingPage() {
           />
           <div className="w-full px-10">
             <p className="font-[800] md:font-[900] mt-5 text-3xl md:text-5xl text-[--dark-color]">
-              Registra tu restaurante <br className="md:hidden" /> y empieza a
-              ser más <span className="text-[--yellow-color]">eficiente</span>
+              Registra tu restaurante <br /> y empieza a ser más{" "}
+              <span className="text-[--yellow-color]">eficiente</span>
             </p>
             <p className="pt-8 text-sm md:text-xl">
               Comienza a probar nuestro{" "}
@@ -199,7 +201,7 @@ export default function LandingPage() {
             para tu negocio
           </p>
           <div className="flex mt-5 md:mt-16 gap-5 overflow-x-scroll no-scrollbar">
-            <div className="min-w-fit md:min-w-[250px] rounded-3xl bg-[--marfil-color] p-8 pb-10">
+            <div className="min-w-fit md:min-w-[250px] relative rounded-3xl bg-[--marfil-color] md:w-[100%] p-8 pb-10">
               <div className="flex justify-between">
                 <p className="font-bold text-xl mb-2">Plan inicial</p>
                 <div className="rounded-full w-[35px] flex items-center justify-center h-[35px] border border-2 border-black">
@@ -213,66 +215,77 @@ export default function LandingPage() {
               <p className="mt-3 text-sm">
                 Ideal para pequeños restaurantes que recién comienzan.
               </p>
-              <ul className="flex flex-col gap-2 list-disc pl-4 text-sm marker:text-[--yellow-color] mt-5 mb-7">
-                <li>Gestión de órdenes básicas</li>
-                <li>Reportes diarios de ventas</li>
-                <li>Pago integrado con Mercado Pago</li>
-                <li>Registro de clientes fidelización</li>
-                <li>Soporte técnico vía chat</li>
+              <ul className="flex flex-col gap-2 list-disc pl-4 text-sm marker:text-[--yellow-color] mt-5 mb-7 ">
+                <li>Gestión de órdenes básicas.</li>
+                <li>Reportes diarios de ventas.</li>
+                <li>Pago integrado con Mercado pago.</li>
+                <li>Registro de clientes fidelización.</li>
+                <li>Soporte técnico vía chat.</li>
               </ul>
-              <a href="#" className="text-sm font-bold text-blue-400">
+              <a
+                href="#"
+                className="text-sm font-bold text-blue-400 absolute bottom-5"
+              >
                 Ver todas las funcionalidades
               </a>
             </div>
 
-            <div className="min-w-fit md:min-w-[250px] rounded-3xl bg-[--marfil-color] p-8 pb-10">
+            <div className="min-w-fit md:min-w-[250px] relative rounded-3xl bg-[--marfil-color] md:w-[100%] p-8 pb-10">
               <div className="flex justify-between">
-                <p className="font-bold text-xl mb-2">Plan inicial</p>
+                <p className="font-bold text-xl mb-2">Plan Profesional</p>
                 <div className="rounded-full w-[35px] flex items-center justify-center h-[35px] border border-2 border-black">
                   <div className="rounded-full w-[20px] h-[20px] bg-[--yellow-color]"></div>
                 </div>
               </div>
               <p>
-                <strong className="text-3xl">$20.000</strong>
+                <strong className="text-3xl">$35.000</strong>
                 <span className="text-sm"> /mes</span>
               </p>
               <p className="mt-3 text-sm">
-                Ideal para pequeños restaurantes que recién comienzan.
+                Diseñado para restaurantes en crecimiento que buscan optimizar
+                procesos.
               </p>
               <ul className="flex flex-col gap-2 list-disc pl-4 text-sm marker:text-[--yellow-color] mt-5 mb-7">
-                <li>Gestión de órdenes básicas</li>
-                <li>Reportes diarios de ventas</li>
-                <li>Pago integrado con Mercado Pago</li>
-                <li>Registro de clientes fidelización</li>
-                <li>Soporte técnico vía chat</li>
+                <li>Estadísticas avanzadas de desempeño.</li>
+                <li>Configuración de menús digitales.</li>
+                <li>Integración con plataformas de delivery.</li>
+                <li>Gestión de roles y permisos para el personal.</li>
+                <li>Soporte técnico prioritario.</li>
               </ul>
-              <a href="#" className="text-sm font-bold text-blue-400">
+              <a
+                href="#"
+                className="text-sm font-bold text-blue-400 absolute bottom-5"
+              >
                 Ver todas las funcionalidades
               </a>
             </div>
 
-            <div className="min-w-fit md:min-w-[250px] rounded-3xl bg-[--marfil-color] p-8 pb-10">
+            <div className="min-w-fit md:min-w-[250px] relative rounded-3xl bg-[--marfil-color] md:w-[100%] p-8 pb-10">
               <div className="flex justify-between">
-                <p className="font-bold text-xl mb-2">Plan inicial</p>
+                <p className="font-bold text-xl mb-2">Plan Premium</p>
                 <div className="rounded-full w-[35px] flex items-center justify-center h-[35px] border border-2 border-black">
                   <div className="rounded-full w-[20px] h-[20px] bg-[--yellow-color]"></div>
                 </div>
               </div>
               <p>
-                <strong className="text-3xl">$20.000</strong>
+                <strong className="text-3xl">$42.000</strong>
                 <span className="text-sm"> /mes</span>
               </p>
               <p className="mt-3 text-sm">
-                Ideal para pequeños restaurantes que recién comienzan.
+                Perfecto para grandes restaurantes que necesitan herramientas
+                completas.
               </p>
               <ul className="flex flex-col gap-2 list-disc pl-4 text-sm marker:text-[--yellow-color] mt-5 mb-7">
-                <li>Gestión de órdenes básicas</li>
-                <li>Reportes diarios de ventas</li>
-                <li>Pago integrado con Mercado Pago</li>
-                <li>Registro de clientes fidelización</li>
-                <li>Soporte técnico vía chat</li>
+                <li>Automatización de inventarios y stock.</li>
+                <li>Gestión de múltiples sucursales.</li>
+                <li>Tramas personalizadas para diseño.</li>
+                <li>Demostraciones y capacitación al equipo.</li>
+                <li>Integración con sistemas contables.</li>
               </ul>
-              <a href="#" className="text-sm font-bold text-blue-400">
+              <a
+                href="#"
+                className="text-sm font-bold text-blue-400 absolute bottom-5"
+              >
                 Ver todas las funcionalidades
               </a>
             </div>

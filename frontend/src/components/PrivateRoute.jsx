@@ -10,7 +10,8 @@ export default function PrivateRoute({ children }) {
     return (
       <>
         <PrivateHeader logout={logout}></PrivateHeader>
-        {children}
+
+        <div className="">{children}</div>
       </>
     );
   }

@@ -28,7 +28,7 @@ export default function SideTableInfo({
   }
 
   return (
-    <div className="h-screen text-white bg-[var(--dark-color)] w-[30%] min-w-[400px]">
+    <div className="h-screen text-white bg-[var(--dark-color)] w-[30%] min-w-[400px] pt-5">
       {!selectedTable ? (
         <div className="h-full w-full flex items-center justify-center">
           <i>No hay ninguna mesa seleccionada</i>

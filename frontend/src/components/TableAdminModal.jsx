@@ -34,8 +34,8 @@ export default function TableAdminModal({
   return (
     showModal && (
       <div className="bg-black/60 w-full h-screen flex flex-col items-center justify-center fixed top-0">
-        <div className="px-5 py-8 mb-2 bg-white w-fit h-fit rounded-lg">
-          <p>Mesas actuales</p>
+        <div className="flex flex-col justify-center mb-2 bg-white w-[30%] h-fit p-5 rounded-lg">
+          <p className="text-3xl">Mesas actuales</p>
           <ul className="my-5 max-h-[60vh] overflow-y-scroll">
             {tables.length == 0 && (
               <i className="text-sm">No hay mesas para mostrar</i>
@@ -45,17 +45,20 @@ export default function TableAdminModal({
                 key={table.id}
                 className="flex justify-between text-sm w-full p-2"
               >
-                <p>Mesa {table.number}</p>
+                <p className="text-xl">Mesa {table.number}</p>
                 <button
                   onClick={() => handleDelete(table.id)}
-                  className="bg-red-500 text-white px-1 rounded"
+                  className="bg-red-500 text-white px-5 py-2 rounded"
                 >
                   Eliminar
                 </button>
               </li>
             ))}
           </ul>
-          <form onSubmit={(e) => handleSubmit(e)} className="flex items-center">
+          <form
+            onSubmit={(e) => handleSubmit(e)}
+            className="flex items-center justify-between"
+          >
             <label htmlFor="tableNumber" className="text-sm">
               Nro. de la mesa:
             </label>
@@ -67,13 +70,13 @@ export default function TableAdminModal({
                 setNewTable({ ...newTable, number: e.target.value })
               }
               value={newTable.number}
-              placeholder="22"
-              className="p-2 w-[100px] text-center"
+              placeholder="Ej: 1"
+              className="p-2 w-[100px] text-center bg-gray-200 rounded"
             />
             <input
               type="submit"
               disabled={isPosting}
-              className="bg-green-500 disabled:bg-slate-200 text-white font-medium p-2 cursor-pointer"
+              className="bg-green-500 rounded disabled:bg-slate-200 text-white font-medium p-2 cursor-pointer"
               value={"Agregar mesa"}
             />
           </form>
@@ -82,7 +85,7 @@ export default function TableAdminModal({
         <input
           type="button"
           value={"Cerrar"}
-          className="p-2 text-white font-medium text-sm cursor-pointer"
+          className="p-2 text-white font-medium text-sm cursor-pointer bg-blue-500 px-5 rounded"
           onClick={() => setShowModal(false)}
         />
       </div>
