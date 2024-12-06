@@ -70,7 +70,7 @@ export default function Orders() {
       <div className="flex gap-3 fixed bottom-0 right-0 p-10">
         <button
           onClick={() => setShowAdminTable(!showAdminTable)}
-          className="bg-[var(--yellow-color)] text-white font-medium p-2 rounded-lg"
+          className="bg-[var(--yellow-color)] text-white font-medium p-2 rounded"
         >
           Administrar mesas
         </button>

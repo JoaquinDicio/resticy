@@ -50,15 +50,25 @@ svg {
 }
 .banner1 {
   background-image: url("./assets/Banner1.png");
+  background-repeat: no-repeat;
 }
 .banner2 {
   background-image: url("./assets/Banner2.png");
+  background-repeat: no-repeat;
 }
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .banner1 {
     background-image: url("./assets/Banner1-responsive.png");
   }
+}
+@media (max-width: 550px) {
   .banner2 {
     background-image: url("./assets/Banner2-responsive.png");
+  }
+}
+@media (min-width: 551px) and (max-width: 1400px) {
+  .banner2 {
+    background-image: url("./assets/banner2-responsive-2.png");
+    background-repeat: no-repeat;
   }
 }
