@@ -12,7 +12,7 @@ export default function Orders() {
   const [selectedTable, setSelectedTable] = useState(null);
   const [tables, setTables] = useState([]);
   const [showAdminTable, setShowAdminTable] = useState(false);
-  const [showSide, setShowSide] = useState(true);
+  const [showSide, setShowSide] = useState(false);
 
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
