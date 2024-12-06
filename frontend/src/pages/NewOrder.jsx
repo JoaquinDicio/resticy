@@ -59,6 +59,11 @@ export default function NewOrder() {
     e.preventDefault();
 
     const order = formatOrderData();
+
+    order.items = order.items.filter((item) => item.quantity > 0); // elimina los vacios
+
+    if (order.table_id == 0) return;
+
     if (order.items.length > 0) {
       await axiosPost("http://localhost:8080/orders", { order });
       setSucces(true);
