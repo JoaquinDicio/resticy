@@ -67,7 +67,7 @@ export default function NewOrder() {
 
   return (
     <>
-      <div className=" items-center flex items-center justify-center bg-[var(--wine-color)]">
+      <div className="flex items-center justify-center bg-[var(--wine-color)]">
         <form
           onSubmit={placeOrder}
           className="w-full md:w-1/2 lg:w-1/2 p-6 bg-white lg:rounded-lg shadow-lg bg-[var(--marfil-color)]"

@@ -57,7 +57,7 @@ const RegisterForm = () => {
           type="submit"
           disabled={isLoading}
           value={isLoading ? "Cargando.." : "Registrarse"}
-          className="bg-[#D4AF37] disabled:bg-slate-200 px-10 py-3 rounded-[40px]"
+          className="bg-[#D4AF37] disabled:bg-slate-200 px-10 py-3 rounded"
         />
         <p>
           ¿Ya tienes una cuenta?{" "}

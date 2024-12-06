@@ -77,7 +77,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
             <img
               src={`http://localhost:8080/uploads/${item.img}`}
               alt={item.name}
-              className="w-[100px] h-[100px] rounded-[200px]"
+              className="w-[100px] object-cover	 h-[100px] rounded-[200px]"
             />
             <div>
               <p className="text-md font-semibold break-words max-w-[10rem] md:max-w-[100%]">

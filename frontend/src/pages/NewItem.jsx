@@ -106,7 +106,7 @@ export default function NewItem() {
           </div>
           <button
             type="submit"
-            className="px-10 py-2 rounded-[20px] bg-[#d4af37] mt-5 w-full"
+            className="px-10 py-2 rounded bg-[#d4af37] mt-5 w-full"
             disabled={isPosting}
           >
             {isPosting ? "Enviando..." : "Enviar"}
