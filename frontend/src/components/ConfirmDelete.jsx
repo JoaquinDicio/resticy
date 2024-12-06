@@ -5,7 +5,7 @@ export default function ConfirmDelete({ isOpen, item, onClose, onConfirm }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-100">
         <h2 className="text-lg font-bold mb-4">¿Estás seguro?</h2>
         <p className="mb-4 text-gray-700">
           ¿Seguro que deseas eliminar <strong>{item?.name}</strong>?
