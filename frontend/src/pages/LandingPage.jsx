@@ -106,15 +106,15 @@ export default function LandingPage() {
 
       <section
         id="functions"
-        className="bg-[--marfil-color] min-h-[75vh]  pb-14 flex justify-center"
+        className="bg-[--marfil-color] min-h-[75vh] pb-14 flex justify-center"
       >
-        <div className="lg:flex-row lg:max-w-[1200px] flex flex-col items-center">
+        <div className="lg:flex-row lg:max-w-[1200px] w-[100vw] flex flex-col items-center">
           <img
             src={mackMockup}
             className="object-cover h-[40vh] md:h-fit md:w-[600px]"
             alt="mackbook realizando pedido"
           />
-          <div className="px-10 mt-10">
+          <div className="w-[100vw] px-10 mt-10">
             <p className="font-light text-[1.10rem] my-2">Servicio Eficiente</p>
             <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
               Potencia tus clientes <br />
@@ -310,8 +310,8 @@ export default function LandingPage() {
                   Contamos con una interfaz intuitiva, fácil de usar y moderna.
                 </p>
               </div>
-              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
-                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
+              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[300px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+                <img src={adaptableIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">Adaptable</p>
                 <p className="text-sm">
                   Al ser una plataforma web, no necesitas hardware
@@ -319,7 +319,7 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
-                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
+                <img src={interfazIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">On-line</p>
                 <p className="text-sm">
                   ¡No necesitas instalar nada! <br /> Accede desde cualquier

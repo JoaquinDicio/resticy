@@ -134,12 +134,12 @@ export default function AllItems() {
         onConfirm={() => confirmDelete(selectedItem?.id)}
       />
 
-      <div className="flex gap-3 fixed bottom-10 right-10 p-10 p-10 p-5">
+      <div className="flex gap-3 fixed bottom-10 right-10">
         <Link
           to={"/newItem"}
           className="rounded-lg bg-[var(--yellow-color)] text-white font-medium p-2 rounded"
         >
-          + Nuevo producto
+          Nuevo producto
         </Link>
       </div>
     </div>
