@@ -19,35 +19,40 @@ export default function LandingPage() {
           onClick={() => setShowMenu(!showMenu)}
           class="fa-solid fa-bars text-3xl md:hidden text-[--yellow-color]"
         ></i>
-        <img className="w-[40px] h-[40px]" src={logo} alt="Logo Resticy" />
+        <img
+          className="w-[50px] h-[50px] lg:w-[90px] lg:h-[90px] "
+          src={logo}
+          alt="Logo Resticy"
+        />
         <button className="bg-transparent md:hidden text-[--wine-color] font-bold rounded-sm px-2 py-1"></button>
         <nav
+
           className={`md:px-10 py-5 md:py-0 md:pt-0 w-full md:flex-1 md:block ${
             !showMenu && "hidden"
           }`}
         >
           <ul className="flex gap-3 flex-col md:flex-row">
             <li>
-              <a href="#home">Inicio</a>
+              <a href="#home">Funcionalidades</a>
             </li>
             <li>
-              <a href="#functions">Funcionalidades</a>
+              <a href="#functions">Precios</a>
             </li>
             <li>
-              <a href="#plans">Planes</a>
+              <a href="#plans">Historias de éxito</a>
             </li>
           </ul>
         </nav>
         <div className="hidden text-sm lg:text-md md:flex gap-3 ">
           <Link
             to="/login"
-            className="border border-1 border-[--yellow-color] text-white rounded-lg px-4 py-2"
+            className="border border-1 border-[--yellow-color] text-white rounded px-4 py-2"
           >
             Iniciar sesión
           </Link>
           <Link
             to="/register"
-            className="bg-[--yellow-color] text-white rounded-lg px-4 py-2"
+            className="bg-[--yellow-color] text-white rounded px-4 py-2"
           >
             Registrarse
           </Link>
@@ -55,17 +60,18 @@ export default function LandingPage() {
       </header>
       <section
         id="home"
-        className="bg-cover pt-20  flex flex-col justify-center items-center bg-no-repeat z-50 md:px-0 bg-red-200 banner1"
+        className="bg-cover pt-20 min-h-[50vh] flex flex-col justify-center items-center bg-no-repeat z-50 md:px-0 bg-red-200 banner1"
       >
         <div className="md:flex px-12 lg:px-20 justify-between max-w-[1000px] md:mt-20">
+
           <div>
-            <p className="text-white mb-2 font-light text-[.95rem]">
+            <p className="text-white mb-2 font-light text-[1.10rem]">
               Software de gestión para restaurantes
             </p>
-            <p className="text-4xl md:text-5xl font-[800] md:font-[900] mb-4 text-[--yellow-color]">
+            <p className="text-4xl md:text-3xl xl:text-5xl font-[800] md:font-[900] mb-4 text-[--yellow-color]">
               Preocupate sólo por la comida
             </p>
-            <p className="text-4xl md:text-5xl font-[800] md:font-[900] text-white">
+            <p className="text-4xl md:text-3xl xl:text-5xl font-[800] md:font-[900] text-white">
               <span className="text-[--yellow-color]">Resticy</span> mejora tu
               restaurante
             </p>
@@ -79,6 +85,7 @@ export default function LandingPage() {
             </button>
           </div>
           <div className="hidden lg:flex px-10 max-w-[600px] justify-center">
+
             <img
               src={imageLanding}
               alt="hombre realizando pedido con tablet"
@@ -102,40 +109,40 @@ export default function LandingPage() {
 
       <section
         id="functions"
-        className="bg-[--marfil-color] min-h-[75vh]  pb-14 flex justify-center"
+        className="bg-[--marfil-color] min-h-[75vh] pb-14 flex justify-center"
       >
-        <div className="lg:flex-row lg:max-w-[1200px] flex flex-col items-center">
+        <div className="lg:flex-row lg:max-w-[1200px] w-[100vw] flex flex-col items-center">
           <img
             src={mackMockup}
             className="object-cover h-[40vh] md:h-fit md:w-[600px]"
             alt="mackbook realizando pedido"
           />
-          <div className="px-10 mt-10">
-            <p className="font-light text-sm my-2">Servicio Eficiente</p>
+          <div className="w-[100vw] px-10 mt-10">
+            <p className="font-light text-[1.10rem] my-2">Servicio Eficiente</p>
             <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
               Potencia tus clientes <br />
               <span className="text-[--yellow-color]">Crea experiencias</span>
             </p>
             <div>
-              <p className="my-8">
+              <p className="my-8 md:text-xl">
                 Administra los pedidos mediante el{" "}
-                <strong>panel de gestión</strong>
+                <strong>panel de gestión.</strong>
               </p>
-              <ul className="flex pl-4 list-disc flex-col gap-2">
+              <ul className="flex pl-4 list-disc flex-col gap-2 md:text-xl">
                 <li>
-                  Pedidos en <strong>tiempo real</strong>
+                  Pedidos en <strong>tiempo real.</strong>
                 </li>
                 <li>
-                  <strong>Detalle</strong> de cada mesa
+                  <strong>Detalle</strong> de cada mesa.
                 </li>
                 <li>
-                  <strong>Creación de las mesas</strong> que tú quieras
+                  <strong>Creación de las mesas</strong> que tú quieras.
                 </li>
                 <li>
-                  Creación de tus <strong>propios productos</strong>
+                  Creación de tus <strong>propios productos.</strong>
                 </li>
               </ul>
-              <button className="rounded-lg bg-[--yellow-color] px-8 py-2 mt-10 font-medium">
+              <button className="rounded bg-[--yellow-color] px-8 py-2 mt-10 font-medium">
                 Ver más
               </button>
             </div>
@@ -150,7 +157,7 @@ export default function LandingPage() {
             alt="Iphone con mercado pago"
           />
           <div className="mt-10 md:px-10">
-            <p className="font-light text-sm my-2">Servicio Eficiente</p>
+            <p className="font-light text-[1.10rem] my-2">Servicio Eficiente</p>
             <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
               Realiza pagos por <br />
               <span className="text-[--yellow-color]">Mercado pago</span>
@@ -161,13 +168,14 @@ export default function LandingPage() {
               Brindando
               <strong> comodidad y seguridad</strong> en cada transacción.
             </p>
-            <button className="rounded-lg bg-[--yellow-color] font-medium px-4 py-2">
+            <button className="rounded bg-[--yellow-color] font-medium px-4 py-2">
               Ver funcionalidades
             </button>
           </div>
         </div>
       </section>
       <section className="bg-[--marfil-color]  min-h-[70vh] flex items-center md:px-20 py-32 banner2">
+
         <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center">
           <img
             src={logoGris}
@@ -187,7 +195,7 @@ export default function LandingPage() {
             <p className="text-sm md:text-lg mt-5">
               Sin importar el tamaño, <strong>Resticy </strong>se adapta a ti.
             </p>
-            <button className="px-4 text-sm rounded-lg mt-8 py-2 bg-[--yellow-color] font-medium">
+            <button className="rounded bg-[--yellow-color] font-medium px-4 py-2 mt-6">
               Ver funcionalidades
             </button>
           </div>
@@ -293,6 +301,7 @@ export default function LandingPage() {
         </div>
       </section>
       <section className="bg-white px-10 py-16 min-h-[70vh] flex flex-col justify-center items-center">
+
         <div className="max-w-[1100px] w-full">
           <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-center pb-12 lg:pb-24 text-[--dark-color]">
             Un sistema innovador
@@ -307,6 +316,7 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+
                 <img src={adaptableIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">Adaptable</p>
                 <p className="text-sm">
@@ -314,12 +324,14 @@ export default function LandingPage() {
                   especializado.
                 </p>
               </div>
+
               <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
                 <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">On-line</p>
                 <p className="text-sm">
                   ¡No necesitas instalar nada! Accede desde cualquier lugar, en
                   cualquier momento.
+
                 </p>
               </div>
             </div>
@@ -384,7 +396,7 @@ export default function LandingPage() {
           <nav className="mb-4">
             <ul className="font-lighter">
               <li>
-                <a href="">(+54) 12341234</a>
+                <a href="">(+54) 3513274318</a>
                 <i className="text-sm">
                   {" "}
                   <br />L a V de 09:00 am a 01:00 am
