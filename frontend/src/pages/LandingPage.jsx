@@ -26,7 +26,8 @@ export default function LandingPage() {
         />
         <button className="bg-transparent md:hidden text-[--wine-color] font-bold rounded-sm px-2 py-1"></button>
         <nav
-          className={`md: py-5 md:py-0 md:pt-0 w-[100vw] md:flex-1 md:block ${
+
+          className={`md:px-10 py-5 md:py-0 md:pt-0 w-full md:flex-1 md:block ${
             !showMenu && "hidden"
           }`}
         >
@@ -42,7 +43,7 @@ export default function LandingPage() {
             </li>
           </ul>
         </nav>
-        <div className="hidden md:flex gap-3 ">
+        <div className="hidden text-sm lg:text-md md:flex gap-3 ">
           <Link
             to="/login"
             className="border border-1 border-[--yellow-color] text-white rounded px-4 py-2"
@@ -61,7 +62,8 @@ export default function LandingPage() {
         id="home"
         className="bg-cover pt-20 min-h-[50vh] flex flex-col justify-center items-center bg-no-repeat z-50 md:px-0 bg-red-200 banner1"
       >
-        <div className=" md:flex px-12 md:px-10 lg:px-0 justify-between max-w-[1000px] md:mt-20">
+        <div className="md:flex px-12 lg:px-20 justify-between max-w-[1000px] md:mt-20">
+
           <div>
             <p className="text-white mb-2 font-light text-[1.10rem]">
               Software de gestión para restaurantes
@@ -82,7 +84,8 @@ export default function LandingPage() {
               Registrarse
             </button>
           </div>
-          <div className="hidden md:flex pl-5 md:max-w-[400px] xl:max-w-[600px] justify-center">
+          <div className="hidden lg:flex px-10 max-w-[600px] justify-center">
+
             <img
               src={imageLanding}
               alt="hombre realizando pedido con tablet"
@@ -172,7 +175,8 @@ export default function LandingPage() {
         </div>
       </section>
       <section className="bg-[--marfil-color]  min-h-[70vh] flex items-center md:px-20 py-32 banner2">
-        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col md:bg- md:flex-row-reverse items-center">
+
+        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center">
           <img
             src={logoGris}
             alt="Logo de resticy"
@@ -297,20 +301,22 @@ export default function LandingPage() {
         </div>
       </section>
       <section className="bg-white px-10 py-16 min-h-[70vh] flex flex-col justify-center items-center">
-        <div className="max-w-[1100px">
-          <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-center lg:pb-10 text-[--dark-color]">
+
+        <div className="max-w-[1100px] w-full">
+          <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-center pb-12 lg:pb-24 text-[--dark-color]">
             Un sistema innovador
           </p>
-          <div>
-            <div className="flex gap-5 overflow-x-scroll max-w-[99vw] md:max-w-[100vw] no-scrollbar mx-auto bg-red-200]">
-              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
-                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
+          <div className="overflow-hidden">
+            <div className="flex gap-5 overflow-x-scroll no-scrollbar mx-auto">
+              <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex flex-col text-center justify-center items-center">
+                <img src={interfazIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">Sencillo y actual</p>
                 <p className="text-sm">
                   Contamos con una interfaz intuitiva, fácil de usar y moderna.
                 </p>
               </div>
-              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[300px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+              <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+
                 <img src={adaptableIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">Adaptable</p>
                 <p className="text-sm">
@@ -318,12 +324,14 @@ export default function LandingPage() {
                   especializado.
                 </p>
               </div>
-              <div className="min-w-[100vw] md:min-w-[250px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
-                <img src={interfazIcon} alt="icono sencillo" className="p-5" />
+
+              <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
+                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
                 <p className="font-medium text-2xl pb-2">On-line</p>
                 <p className="text-sm">
-                  ¡No necesitas instalar nada! <br /> Accede desde cualquier
-                  lugar, <br /> en cualquier momento.
+                  ¡No necesitas instalar nada! Accede desde cualquier lugar, en
+                  cualquier momento.
+
                 </p>
               </div>
             </div>
