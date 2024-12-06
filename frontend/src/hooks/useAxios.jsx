@@ -29,6 +29,7 @@ export default function useAxios() {
 
   async function axiosPost(url, data) {
     setIsPosting(true);
+    setErrors(null);
     try {
       const response = await axios.post(url, data, axiosConfig);
       return response.data;
