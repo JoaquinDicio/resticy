@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import Cookies from "js-cookie";
 
-export default function TableSelector({ tables, setSelectedTable, setTables }) {
+export default function TableSelector({
+  tables,
+  setSelectedTable,
+  setTables,
+  toggleModal,
+}) {
   const user = JSON.parse(Cookies.get("user") || "{}");
   const { axiosGet, isLoading } = useAxios();
 
@@ -19,6 +24,7 @@ export default function TableSelector({ tables, setSelectedTable, setTables }) {
 
   async function handleSelectTable(table) {
     setSelectedTable(table);
+    toggleModal();
   }
 
   return (

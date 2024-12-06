@@ -5,6 +5,8 @@ export default function SideTableInfo({
   displayOrder,
   setDisplayOrder,
   orders,
+  toggleModal,
+  visible,
 }) {
   useEffect(() => {
     if (selectedTable) {
@@ -28,13 +30,21 @@ export default function SideTableInfo({
   }
 
   return (
-    <div className="h-screen text-white bg-[var(--dark-color)] w-[30%] min-w-[400px] pt-5">
+    <div className="max-h-screen z-10 text-white bg-[var(--dark-color)] md:w-[30%] w-full absolute top-0 h-screen md:min-w-[400px] pt-5">
       {!selectedTable ? (
         <div className="h-full w-full flex items-center justify-center">
           <i>No hay ninguna mesa seleccionada</i>
         </div>
       ) : (
-        <div className="pt-10 h-full flex flex-col justify-between">
+        <div className="pt-16 flex flex-col relative h-full justify-between">
+          <div className="flex justify-end px-5">
+            <button
+              onClick={toggleModal}
+              className="bg-red-500 text-white text-sm rounded-sm p-2"
+            >
+              Cerrar
+            </button>
+          </div>
           <h3 className="text-4xl py-5 text-center">
             Mesa {selectedTable.number}
           </h3>

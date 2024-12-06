@@ -12,6 +12,7 @@ export default function Orders() {
   const [selectedTable, setSelectedTable] = useState(null);
   const [tables, setTables] = useState([]);
   const [showAdminTable, setShowAdminTable] = useState(false);
+  const [showSide, setShowSide] = useState(true);
 
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
@@ -47,20 +48,32 @@ export default function Orders() {
     );
   }
 
+  function toggleModal() {
+    setShowSide(true);
+  }
+
+  function closeModal() {
+    setShowSide(false);
+  }
+
   return (
     <section className="bg-gray-100 min-h-screen flex ">
-      <SideTableInfo
-        orders={orders}
-        setDisplayOrder={setDisplayOrder}
-        displayOrder={displayOrder}
-        selectedTable={selectedTable}
-      />
+      {showSide && (
+        <SideTableInfo
+          orders={orders}
+          setDisplayOrder={setDisplayOrder}
+          displayOrder={displayOrder}
+          selectedTable={selectedTable}
+          toggleModal={closeModal}
+        />
+      )}
       <div className="p-10 pt-20">
         <h1 className="font-bold text-2xl mb-2">Mesas</h1>
         <p>
           Aqui podrás ver las ordenes que recibe tu restaurante en tiempo real.
         </p>
         <TableSelector
+          toggleModal={toggleModal}
           setSelectedTable={setSelectedTable}
           tables={tables}
           setTables={setTables}
