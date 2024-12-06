@@ -30,9 +30,9 @@ export default function SideTableInfo({
   }
 
   return (
-    <div className="max-h-screen z-10 text-white bg-[var(--dark-color)] md:w-[30%] w-full absolute top-0 h-screen md:min-w-[400px] pt-5">
+    <div className="max-h-screen z-10 text-white bg-[var(--dark-color)] md:w-[30%] w-full absolute md:relative top-0 h-screen md:min-w-[400px] pt-5">
       {!selectedTable ? (
-        <div className="h-full w-full flex items-center justify-center">
+        <div className="h-full flex-col w-full flex items-center justify-center">
           <i>No hay ninguna mesa seleccionada</i>
         </div>
       ) : (
