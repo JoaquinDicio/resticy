@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
@@ -7,9 +7,9 @@ import NewItem from "./pages/NewItem";
 import AuthContextProvider from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import TableManager from "./pages/TableManager";
-import "./style.css";
 import AllItems from "./pages/AllItems";
 import LandingPage from "./pages/LandingPage";
+import "./style.css";
 
 function App() {
   return (

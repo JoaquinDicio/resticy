@@ -1,4 +1,3 @@
-import React from "react";
 import RegisterForm from "../components/RegisterForm";
 import back from "../assets/flecha-atras.png";
 export default function Register() {

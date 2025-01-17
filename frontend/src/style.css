@@ -9,6 +9,7 @@
   --dark-color: #333333;
   --wine-color: #51161f;
   --yellow-color: #d4af37;
+  --yellow-secondary: #ebc341;
   --marfil-color: #fffff0;
 }
 body {
@@ -56,6 +57,7 @@ svg {
   background-image: url("./assets/Banner2.png");
   background-repeat: no-repeat;
 }
+
 @media (max-width: 1200px) {
   .banner1 {
     background-image: url("./assets/Banner1-responsive.png");
