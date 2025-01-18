@@ -1,15 +1,15 @@
 import mackMockup from "../assets/Macbook.png";
 import iphoneMp from "../assets/iphonemp.png";
 import logoGris from "../assets/logotitulo.png";
-import interfazIcon from "../assets/icon-1.png";
-import sencilloIcon from "../assets/icon-3.png";
+
 import waveDk from "../assets/wave-dk.svg";
-import adaptableIcon from "../assets/icon-2.png";
+
 import imageLanding from "../assets/imagen-landing.jpg";
 import HeaderLanding from "../components/LandingPage/HeaderLanding";
 import Footer from "../components/LandingPage/Footer";
 import ButtonLink from "../components/LandingPage/ButtonLink";
 import PlansLanding from "../components/LandingPage/PlansLanding";
+import SystemInnovation from "../components/LandingPage/SystemInnovation";
 
 
 export default function LandingPage() {
@@ -25,14 +25,14 @@ export default function LandingPage() {
       >
         <div className="md:flex px-12 lg:px-20 justify-between max-w-[1200px] md:mt-20">
           <div>
-            <p className="text-white mb-2 font-light text-[1.10rem]">
+            <p className="text-white mb-2 font-light text-[1.0rem] md:text-[1.1rem]">
               Software de gestión para restaurantes
             </p>
-            <p className="text-4xl md:text-3xl xl:text-5xl font-[800] md:font-[900] mb-4 text-[--yellow-color]">
+            <p className="text-3xl md:text-3xl xl:text-5xl font-[800] md:font-[900] mb-4 text-[--yellow-color]">
               Preocupate sólo por la comida
             </p>
-            <p className="text-4xl md:text-3xl xl:text-5xl font-[800] md:font-[900] text-white">
-              <span className="text-[--yellow-color]">Resticy</span> mejora tu
+            <p className="text-3xl md:text-3xl xl:text-5xl font-[800] md:font-[900] text-white">
+              <span className="text-[--yellow-color]">Resticy</span> mejora <br /> tu
               restaurante
             </p>
             <p className="text-white text-xl mt-5 font-light mb-5">
@@ -120,8 +120,8 @@ export default function LandingPage() {
             <div className="pb-10">
               <p className="font-light text-[1.10rem] my-2">Servicio Eficiente</p>
               <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
-                Realiza pagos por <br />
-                <span className="text-[--yellow-color]">Mercado pago</span>
+                Realiza pagos <br /> por 
+                <span className="text-[--yellow-color]"> Mercado pago</span>
               </p>
               <p className="pt-8 md:text-xl">
                 <strong className="text-[--yellow-color]">Resticy </strong>
@@ -170,41 +170,7 @@ export default function LandingPage() {
 
       <PlansLanding/>
 
-      <section className="bg-white px-10 py-16 min-h-[70vh] flex flex-col justify-center items-center">
-        <div className="max-w-[1100px] w-full">
-          <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-center pb-12 lg:pb-24 text-[--dark-color]">
-            Un sistema innovador
-          </p>
-          <div className="overflow-hidden">
-            <div className="flex gap-5 overflow-x-scroll w-[99vw] no-scrollbar mx-auto">
-              <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex flex-col text-center justify-center items-center">
-                <img src={interfazIcon} alt="icono sencillo" className="p-5" />
-                <p className="font-medium text-2xl pb-2">Sencillo y actual</p>
-                <p className="text-sm">
-                  Contamos con una interfaz intuitiva, fácil de usar y moderna.
-                </p>
-              </div>
-              <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
-                <img src={adaptableIcon} alt="icono sencillo" className="p-5" />
-                <p className="font-medium text-2xl pb-2">Adaptable</p>
-                <p className="text-sm">
-                  Al ser una plataforma web, no necesitas hardware
-                  especializado.
-                </p>
-              </div>
-
-              <div className="md:min-w-[250px] min-w-full max-w-[150px] md:max-w-[350px] p-10 flex-1 flex flex-col text-center justify-center items-center">
-                <img src={sencilloIcon} alt="icono sencillo" className="p-5" />
-                <p className="font-medium text-2xl pb-2">On-line</p>
-                <p className="text-sm">
-                  ¡No necesitas instalar nada! Accede desde cualquier lugar, en
-                  cualquier momento.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SystemInnovation/>
 
       <Footer/>
     </>

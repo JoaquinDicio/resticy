@@ -75,7 +75,9 @@ input[type="radio"]:checked {
   padding-top: 15px;
   position: relative;
 }
-
+.swiper-pagination-bullet{
+  background-color: var(--wine-color);
+}
 @media (max-width: 1200px) {
   .banner1 {
     background-image: url("./assets/Banner1-responsive.png");

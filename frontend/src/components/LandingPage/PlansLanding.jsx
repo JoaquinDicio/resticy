@@ -53,7 +53,11 @@ const PricingPlans = () => {
   ];
 
   return (
-    <div className="bg-yellow-400 px-10 pt-10 md:pb-10">
+    <div className="bg-yellow-400 pt-10 pb-5 md:pb-10 " id="plans">
+      <div className=" m-auto max-w-[80vw] lg:max-w-[54vw]">
+      <h2 className=" pb-8 m-auto font-[800] pb-0 md:font-[900] text-3xl md:text-5xl text-start text-[--dark-color]">
+          Planes
+      </h2>
       <div className="md:hidden">
       <Swiper
           slidesPerView={1}
@@ -65,7 +69,7 @@ const PricingPlans = () => {
             <SwiperSlide key={index}>
               <div
               key={index}
-              className="bg-white rounded-lg shadow-lg px-5 flex flex-col p-5 justify-between min-h-[500px]  md:w-1/3"
+              className="bg-white rounded-lg shadow-lg px-5 flex flex-col p-5 justify-between min-h-[470px] md:w-1/3"
             >
               <div>
                   <div className="flex gap-3 items-center">
@@ -100,7 +104,7 @@ const PricingPlans = () => {
       
       {/* Diseño en tarjetas para pantallas grandes */}
 
-      <div className="hidden md:flex flex-row justify-center gap-6 justify-center md:max-w-[80vw] lg:md:max-w-[60vw] mx-auto">
+      <div className="hidden md:flex flex-row justify-center gap-6 justify-center mx-auto">
         {plans.map((plan, index) => (
             <div
               key={index}
@@ -135,6 +139,8 @@ const PricingPlans = () => {
           ))}
       </div>
     </div>
+      </div>
+      
   );
 };
 

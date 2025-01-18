@@ -2,7 +2,7 @@
 const Footer = () => {
   return (
    <>
-   <footer className="p-10 max-w-[1100px] mx-auto flex flex-col md:flex-row justify-around">
+   <footer className="p-10 lg:max-w-[65vw] mx-auto flex flex-col md:flex-row justify-around">
         <div className="text-white text-sm">
           <p className="font-bold mb-4 text-2xl text-[--yellow-color]">
             Sobre resticy

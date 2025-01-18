@@ -8,13 +8,13 @@ const [showMenu, setShowMenu] = useState(false);
 
   return (
     <>
-    <header className="bg-[--wine-color] z-20 text-white flex justify-between items-center py-4 px-10 md:px-20 fixed flex w-full flex-wrap">
+    <header className="bg-[--wine-color] z-20 text-white flex justify-between items-center py-2 px-10 md:px-20 fixed flex w-full flex-wrap">
             <i
               onClick={() => setShowMenu(!showMenu)}
               className="fa-solid fa-bars text-3xl md:hidden text-[--yellow-color]"
             ></i>
             <img
-              className="w-[50px] h-[50px] lg:w-[90px] lg:h-[90px] "
+              className="w-[50px] h-[50px] lg:w-[70px] lg:h-[70px] "
               src={logo}
               alt="Logo Resticy"
             />
@@ -29,10 +29,10 @@ const [showMenu, setShowMenu] = useState(false);
                   <a href="#home">Funcionalidades</a>
                 </li>
                 <li>
-                  <a href="#functions">Precios</a>
+                  <a href="#plans">Planes</a>
                 </li>
                 <li>
-                  <a href="#plans">Historias de éxito</a>
+                  <a href="#characteristics">Caracteristicas</a>
                 </li>
               </ul>
             </nav>
