@@ -58,6 +58,24 @@ svg {
   background-repeat: no-repeat;
 }
 
+input[type="radio"] {
+  width: 1.3em;
+  height: 1.3em;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #ddd;
+  cursor: pointer;
+  appearance: none;
+}
+input[type="radio"]:checked {
+  background-color:  var(--yellow-color);
+}
+.swiper-pagination{
+  padding-top: 15px;
+  position: relative;
+}
+
 @media (max-width: 1200px) {
   .banner1 {
     background-image: url("./assets/Banner1-responsive.png");
