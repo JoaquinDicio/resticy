@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
 import SideTableInfo from "../components/SideTableInfo.jsx";
 import TableSelector from "../components/TableSelector.jsx";
-import TableAdminModal from "../components/TableAdminModal.jsx";
+import TablesAdminModal from "../components/TablesAdminModal.jsx";
 import socket from "../socket.js";
 import useAxios from "../hooks/useAxios.jsx";
 
 export default function Orders() {
-  const { axiosGet } = useAxios();
+  const { axiosGet, isLoading } = useAxios();
   const [orders, setOrders] = useState([]);
-  const [displayOrder, setDisplayOrder] = useState(null);
   const [selectedTable, setSelectedTable] = useState(null);
   const [tables, setTables] = useState([]);
-  const [showAdminTable, setShowAdminTable] = useState(false);
+  const [showAdminTables, setShowAdminTables] = useState(false);
   const [showSide, setShowSide] = useState(false);
 
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
     return () => {
-      // se limpia el socket: esto sucede por el lifecycle que tiene un componente en react. Si no lo haces
+      // se limpia el socket: esto sucede por el lifecycle que tiene un componente en react. Si no lo haces asi
       // se duplica todo.
       socket.off("order");
     };
@@ -48,23 +47,13 @@ export default function Orders() {
     );
   }
 
-  function toggleModal() {
-    setShowSide(true);
-  }
-
-  function closeModal() {
-    setShowSide(false);
-  }
-
   return (
     <section className="bg-gray-100 min-h-screen flex ">
       {showSide && (
         <SideTableInfo
           orders={orders}
-          setDisplayOrder={setDisplayOrder}
-          displayOrder={displayOrder}
           selectedTable={selectedTable}
-          toggleModal={closeModal}
+          setModal={setShowSide}
         />
       )}
       <div className="p-10 pt-20">
@@ -73,7 +62,7 @@ export default function Orders() {
           Aqui podrás ver las ordenes que recibe tu restaurante en tiempo real.
         </p>
         <TableSelector
-          toggleModal={toggleModal}
+          setModal={setShowSide}
           setSelectedTable={setSelectedTable}
           tables={tables}
           setTables={setTables}
@@ -82,19 +71,20 @@ export default function Orders() {
 
       <div className="flex gap-3 fixed bottom-0 right-0 p-10">
         <button
-          onClick={() => setShowAdminTable(!showAdminTable)}
+          onClick={() => setShowAdminTables(!showAdminTables)}
           className="bg-[var(--yellow-color)] text-white font-medium p-2 rounded"
         >
           Administrar mesas
         </button>
       </div>
 
-      <TableAdminModal
-        setShowModal={setShowAdminTable}
-        showModal={showAdminTable}
-        tables={tables}
-        setTables={setTables}
-      />
+      {showAdminTables && (
+        <TablesAdminModal
+          setShowModal={setShowAdminTables}
+          tables={tables}
+          setTables={setTables}
+        />
+      )}
     </section>
   );
 }

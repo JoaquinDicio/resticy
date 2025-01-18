@@ -6,7 +6,7 @@ export default function TableSelector({
   tables,
   setSelectedTable,
   setTables,
-  toggleModal,
+  setModal,
 }) {
   const user = JSON.parse(Cookies.get("user") || "{}");
   const { axiosGet, isLoading } = useAxios();
@@ -24,7 +24,7 @@ export default function TableSelector({
 
   async function handleSelectTable(table) {
     setSelectedTable(table);
-    toggleModal();
+    setModal(true);
   }
 
   return (

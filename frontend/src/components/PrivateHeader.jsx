@@ -16,7 +16,7 @@ export default function PrivateHeader({ logout }) {
           {isMenuOpen ? (
             <p className="text-[--yellow-color] w-[26px]">X</p>
           ) : (
-            <i class="fa-solid fa-bars text-3xl md:hidden text-[--yellow-color]"></i>
+            <i className="fa-solid fa-bars text-3xl md:hidden text-[--yellow-color]"></i>
           )}
         </button>
       </div>
