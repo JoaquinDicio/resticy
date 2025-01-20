@@ -32,8 +32,8 @@ const itemsController = {
     try {
       const response = await itemsService.updateItem(req);
       res.status(response.code).json(response);
-    } catch (e) {
-      console.log("Error al actualizar el producto", e);
+    } catch (error) {
+      console.log("Error al actualizar el producto", error);
     }
   },
 };

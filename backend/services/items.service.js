@@ -133,6 +133,14 @@ const itemsService = {
 
   async updateItem(req) {
     const { name, price, id } = req.body;
+    const required = ["name", "price"];
+    const error = {};
+
+    required.forEach((field) => {
+      if (!req.body[field] || req.body[field].trim() == "") {
+        error[field] = "El campo es obligatorio";
+      }
+    });
 
     try {
       const item = await Item.findByPk(id);
@@ -146,6 +154,15 @@ const itemsService = {
         };
       }
 
+      // si el objeto de errores tiene valores
+      if (Object.keys(error).length > 0) {
+        return {
+          code: 400,
+          error,
+          ok: false,
+        };
+      }
+
       //si existe el item, se actualiza el producto deseado
       await item.update({
         name: name || item.name,
@@ -154,12 +171,12 @@ const itemsService = {
 
       return {
         code: 200,
-        error: {
+        data: {
           message: "Producto actualizado con exito",
         },
       };
     } catch (error) {
-      console.log("Error actualizando el producto:", e);
+      console.log("Error actualizando el producto:", error);
     }
   },
 };

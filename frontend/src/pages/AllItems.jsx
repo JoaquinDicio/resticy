@@ -4,34 +4,24 @@ import useAxios from "../hooks/useAxios";
 import Sidebar from "../components/Sidebar";
 import ConfirmDelete from "../components/ConfirmDelete";
 import NewItem from "../components/NewItem";
+import EditItemModal from "../components/EditItemModal";
 
 export default function AllItems() {
   const user = JSON.parse(Cookies.get("user") || "{}");
   const [items, setItems] = useState([]);
 
-  const { axiosGet, axiosPut, axiosDelete, isLoading } = useAxios();
+  const { axiosGet, axiosDelete, isLoading } = useAxios();
   const [selectedItem, setSelectedItem] = useState(null);
-  const [formData, setFormData] = useState({ name: "", price: "" });
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }
   function handleEdit(item) {
     setSelectedItem(item);
-    setFormData({
-      name: item.name,
-      price: item.price,
-    });
-    setIsSidebarOpen(true);
+    setIsEditOpen(true);
   }
+
   function handleDelete(item) {
     setSelectedItem(item);
     setIsModalOpen(true);
@@ -39,31 +29,13 @@ export default function AllItems() {
 
   async function confirmDelete(id) {
     if (selectedItem) {
-      console.log(selectedItem);
       await axiosDelete(`http://localhost:8080/itemDelete/${selectedItem.id}`);
       setIsModalOpen(false);
       setSelectedItem(null);
       await fetchItems();
     }
   }
-  async function handleSubmit(e) {
-    e.preventDefault();
 
-    const updateData = { ...formData, id: selectedItem?.id };
-
-    await axiosPut("http://localhost:8080/items", updateData);
-
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === updateData.id
-          ? { ...item, name: updateData.name, price: updateData.price }
-          : item
-      )
-    );
-
-    setIsSidebarOpen(false);
-    setSelectedItem(null);
-  }
   async function fetchItems() {
     try {
       const response = await axiosGet(
@@ -118,14 +90,6 @@ export default function AllItems() {
         )}
       </div>
 
-      <Sidebar
-        isOpen={isSidebarOpen}
-        formData={formData}
-        onClose={() => setIsSidebarOpen(false)}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-      />
-
       <ConfirmDelete
         isOpen={isModalOpen}
         item={selectedItem}
@@ -138,6 +102,15 @@ export default function AllItems() {
         onClose={() => setIsNewItemOpen(false)}
         onItemAdded={fetchItems}
       />
+
+      {isEditOpen && (
+        <EditItemModal
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          onEdit={fetchItems}
+          onClose={() => setIsEditOpen(false)}
+        />
+      )}
 
       <div className="fixed bottom-10 right-10">
         <button

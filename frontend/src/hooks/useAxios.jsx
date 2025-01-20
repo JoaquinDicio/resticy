@@ -46,7 +46,6 @@ export default function useAxios() {
     setLoading(true);
     try {
       const response = await axios.put(url, data, axiosConfig);
-      console.log(response);
       return response.data;
     } catch (error) {
       const { response } = error;
