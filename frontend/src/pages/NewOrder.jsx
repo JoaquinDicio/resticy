@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ItemsSelector from "../components/ItemsSelector";
 import { useParams } from "react-router-dom";
+import ItemsSelector from "../components/ItemsSelector";
 import useAxios from "../hooks/useAxios";
 
 export default function NewOrder() {

@@ -1,10 +1,8 @@
-import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function TableManager() {
-  const [tables, setTables] = useState([]);
-  const { axiosPost, errors, isPosting, isLoading, axiosGet } = useAxios();
+  const { axiosGet } = useAxios();
 
   useEffect(() => {
     async function getTables() {

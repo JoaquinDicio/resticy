@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function InputField({
   label,
   type,
@@ -11,12 +9,12 @@ export default function InputField({
   defaultValue,
 }) {
   return (
-    <div className="flex flex-col">
-      <label className="mt-5 mb-2">{label}</label>
+    <div className="flex flex-col my-7">
+      <label className="mb-2">{label}</label>
       <input
         type={type}
         placeholder={placeholder}
-        className="bg-transparent border-b border-b-2 border-black mb-5"
+        className="bg-transparent border-b border-b-2 border-black"
         onChange={(e) => onChange(e)}
         name={name}
         value={value}

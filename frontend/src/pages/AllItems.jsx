@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
 import Sidebar from "../components/Sidebar";
 import ConfirmDelete from "../components/ConfirmDelete";
-import { Link } from "react-router-dom";
+import NewItem from "../components/NewItem";
 
 export default function AllItems() {
   const user = JSON.parse(Cookies.get("user") || "{}");
   const [items, setItems] = useState([]);
+
   const { axiosGet, axiosPut, axiosDelete, isLoading } = useAxios();
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({ name: "", price: "" });
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -21,7 +24,6 @@ export default function AllItems() {
       [name]: value,
     }));
   }
-
   function handleEdit(item) {
     setSelectedItem(item);
     setFormData({
@@ -30,7 +32,6 @@ export default function AllItems() {
     });
     setIsSidebarOpen(true);
   }
-
   function handleDelete(item) {
     setSelectedItem(item);
     setIsModalOpen(true);
@@ -45,7 +46,6 @@ export default function AllItems() {
       await fetchItems();
     }
   }
-
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -64,7 +64,6 @@ export default function AllItems() {
     setIsSidebarOpen(false);
     setSelectedItem(null);
   }
-
   async function fetchItems() {
     try {
       const response = await axiosGet(
@@ -81,9 +80,9 @@ export default function AllItems() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--wine-color)] pt-20">
-      <h1 className="text-white text-xl text-center">Productos</h1>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6 p-4">
+    <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
+      <h1 className="text-white text-4xl pb-8 text-start">Productos</h1>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
         {!isLoading && items?.length > 0 ? (
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
@@ -99,7 +98,7 @@ export default function AllItems() {
               <div>
                 <button
                   onClick={() => handleEdit(item)}
-                  className="h-[4rem] w-[50%] bg-[var(--yellow-color)]"
+                  className="h-[4rem] w-[50%] text-white bg-[var(--yellow-color)]"
                 >
                   Editar
                 </button>
@@ -134,13 +133,19 @@ export default function AllItems() {
         onConfirm={() => confirmDelete(selectedItem?.id)}
       />
 
-      <div className="flex gap-3 fixed bottom-10 right-10">
-        <Link
-          to={"/newItem"}
-          className="rounded-lg bg-[var(--yellow-color)] text-white font-medium p-2 rounded"
+      <NewItem
+        isOpen={isNewItemOpen}
+        onClose={() => setIsNewItemOpen(false)}
+        onItemAdded={fetchItems}
+      />
+
+      <div className="fixed bottom-10 right-10">
+        <button
+          onClick={() => setIsNewItemOpen(true)}
+          className="rounded-lg bg-[var(--yellow-color)] text-white font-medium px-9 py-3"
         >
-          Nuevo producto
-        </Link>
+          Agregar
+        </button>
       </div>
     </div>
   );

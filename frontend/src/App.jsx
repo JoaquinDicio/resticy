@@ -3,7 +3,6 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import NewOrder from "./pages/NewOrder";
-import NewItem from "./pages/NewItem";
 import AuthContextProvider from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import TableManager from "./pages/TableManager";
@@ -27,14 +26,6 @@ function App() {
             element={
               <PrivateRoute>
                 <Orders></Orders>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/newitem"
-            element={
-              <PrivateRoute>
-                <NewItem></NewItem>
               </PrivateRoute>
             }
           />
