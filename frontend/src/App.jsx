@@ -10,6 +10,17 @@ import AllItems from "./pages/AllItems";
 import LandingPage from "./pages/LandingPage";
 import "./style.css";
 
+
+//Animaciones en toda la app
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+AOS.init({
+  duration: 1000,
+  delay: 100,
+  once: false,
+});
+
 function App() {
   return (
     <AuthContextProvider>

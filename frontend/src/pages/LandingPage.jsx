@@ -11,19 +11,18 @@ import ButtonLink from "../components/LandingPage/ButtonLink";
 import PlansLanding from "../components/LandingPage/PlansLanding";
 import SystemInnovation from "../components/LandingPage/SystemInnovation";
 
-
 export default function LandingPage() {
- 
+
 
   return (
     <>
-      <HeaderLanding/>
+      <HeaderLanding />
 
       <section
         id="home"
         className="bg-cover pt-20 min-h-[50vh] flex flex-col justify-center items-center bg-no-repeat z-50 md:px-0 bg-red-200 banner1"
       >
-        <div className="md:flex px-12 lg:px-20 justify-between max-w-[1200px] md:mt-20">
+        <div className="md:flex px-12 lg:px-20 justify-between max-w-[1200px] md:mt-20" data-aos="fade-right">
           <div>
             <p className="text-white mb-2 font-light text-[1.0rem] md:text-[1.1rem]">
               Software de gestión para restaurantes
@@ -40,9 +39,9 @@ export default function LandingPage() {
               <br />
               <span className="font-bold"> $20.000 por mes</span>
             </p>
-            <ButtonLink link={'/register'} text={"Registrarse"} width={"px-8"}/>
+            <ButtonLink link={'/register'} text={"Registrarse"} width={"px-8"} />
           </div>
-          <div className="hidden lg:flex px-10 max-w-[600px] justify-center">
+          <div className="hidden lg:flex px-10 max-w-[600px] justify-center" data-aos="fade-left">
             <img
               src={imageLanding}
               alt="hombre realizando pedido con tablet"
@@ -68,7 +67,7 @@ export default function LandingPage() {
         id="functions"
         className="bg-[--marfil-color] min-h-[75vh] w-full  pb-14 flex justify-center"
       >
-        <div className="lg:flex-row lg:max-w-[1200px] w-full flex flex-col items-center">
+        <div className="lg:flex-row lg:max-w-[1200px] w-full flex flex-col items-center" data-aos="fade-up">
           <img
             src={mackMockup}
             className="object-cover h-[40vh] md:h-fit md:w-[600px]"
@@ -85,7 +84,7 @@ export default function LandingPage() {
                 Administra los pedidos mediante el{" "}
                 <strong>panel de gestión.</strong>
               </p>
-              
+
               <ul className="flex pl-4 list-disc flex-col gap-2 md:text-xl mb-10">
                 <li>
                   Pedidos en <strong>tiempo real.</strong>
@@ -101,8 +100,7 @@ export default function LandingPage() {
                 </li>
               </ul>
 
-              <ButtonLink link={'#'} text={"Ver más"} width={"px-8"}/>
-
+              <ButtonLink link={'#'} text={"Ver más"} width={"px-8"} />
 
             </div>
           </div>
@@ -110,7 +108,7 @@ export default function LandingPage() {
       </section>
 
       <section className="bg-white pt-10 min-h-[70vh] pb-14 flex items-center justify-center">
-        <div className="flex items-center flex-col px-10 md:flex-row max-w-[1100px]">
+        <div className="flex items-center flex-col px-10 md:flex-row max-w-[1100px]" data-aos="fade-up">
           <img
             src={iphoneMp}
             className="w-fit object-cover h-[400px] md:w-full md:max-w-[300px] md:w-[600px] md:h-fit"
@@ -120,7 +118,7 @@ export default function LandingPage() {
             <div className="pb-10">
               <p className="font-light text-[1.10rem] my-2">Servicio Eficiente</p>
               <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
-                Realiza pagos <br /> por 
+                Realiza pagos <br /> por
                 <span className="text-[--yellow-color]"> Mercado pago</span>
               </p>
               <p className="pt-8 md:text-xl">
@@ -130,16 +128,15 @@ export default function LandingPage() {
                 <strong> comodidad y seguridad</strong> en cada transacción.
               </p>
             </div>
-            
 
-            <ButtonLink link={'#'} text={"Ver funcionalidades"} width={"px-8"}/>
+            <ButtonLink link={'#'} text={"Ver funcionalidades"} width={"px-8"} />
 
           </div>
         </div>
       </section>
 
       <section className="bg-[--marfil-color]  min-h-[70vh] flex items-center md:px-20 py-32 banner2">
-        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center">
+        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center" data-aos="fade-up">
           <img
             src={logoGris}
             alt="Logo de resticy"
@@ -161,18 +158,18 @@ export default function LandingPage() {
                 Sin importar el tamaño, <strong>Resticy </strong>se adapta a ti.
               </p>
             </div>
-            
-            <ButtonLink link={'#'} text={"Ver funcionalidades"} width={"px-8"}/>
+
+            <ButtonLink link={'#'} text={"Ver funcionalidades"} width={"px-8"} />
 
           </div>
         </div>
       </section>
 
-      <PlansLanding/>
+      <PlansLanding />
 
-      <SystemInnovation/>
+      <SystemInnovation />
 
-      <Footer/>
+      <Footer />
     </>
   );
 }
