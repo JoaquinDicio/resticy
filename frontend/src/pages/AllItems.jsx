@@ -4,6 +4,10 @@ import useAxios from "../hooks/useAxios";
 import ConfirmDelete from "../components/ConfirmDelete";
 import NewItem from "../components/NewItem";
 import EditItemModal from "../components/EditItemModal";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Skeleton from '@mui/material/Skeleton';
+
 
 export default function AllItems() {
   const user = JSON.parse(Cookies.get("user") || "{}");
@@ -53,7 +57,7 @@ export default function AllItems() {
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
       <h1 className="text-white text-4xl pb-8 text-start">Productos</h1>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6" data-aos="fade-in">
         {!isLoading && items?.length > 0 ? (
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
@@ -84,26 +88,28 @@ export default function AllItems() {
           ))
         ) : (
           <p className="text-white text-center text-lg col-span-full">
-            {isLoading ? "Cargando..." : "No existen productos"}
+            {isLoading ? <Skeleton variant="rectangular" width={210} height={118} /> : "No existen productos"}
           </p>
         )}
       </div>
 
-      <ConfirmDelete
-        isOpen={isModalOpen}
-        item={selectedItem}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={() => confirmDelete(selectedItem?.id)}
-      />
+      {isModalOpen && (
+        <ConfirmDelete
+          isOpen={isModalOpen}
+          item={selectedItem}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => confirmDelete(selectedItem?.id)}
+        />
+      )}
 
       {isNewItemOpen && (
         <NewItem
-        isOpen={isNewItemOpen}
-        onClose={() => setIsNewItemOpen(false)}
-        onItemAdded={fetchItems}
+          isOpen={isNewItemOpen}
+          onClose={() => setIsNewItemOpen(false)}
+          onItemAdded={fetchItems}
         />
       )}
-      
+
       {isEditOpen && (
         <EditItemModal
           setSelectedItem={setSelectedItem}
@@ -114,12 +120,13 @@ export default function AllItems() {
       )}
 
       <div className="fixed bottom-10 right-10">
-        <button
+        <Fab
+          color="primary" aria-label="add"
           onClick={() => setIsNewItemOpen(true)}
-          className="rounded-lg bg-[var(--yellow-color)] text-white font-medium px-9 py-3"
+          style={{ background: "#d4af37" }}
         >
-          Agregar
-        </button>
+          <AddIcon />
+        </Fab>
       </div>
     </div>
   );

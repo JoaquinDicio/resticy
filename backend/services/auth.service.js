@@ -5,7 +5,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const authService = {
+
   async login(req) {
+    
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email: email } });
 

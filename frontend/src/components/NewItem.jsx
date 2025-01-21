@@ -2,6 +2,9 @@ import { useState, useRef } from "react";
 import useAxios from "../hooks/useAxios";
 import InputField from "./InputField";
 import ClearIcon from '@mui/icons-material/Clear';
+import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function NewItem({ isOpen, onClose, onItemAdded }) {
 
@@ -11,8 +14,10 @@ export default function NewItem({ isOpen, onClose, onItemAdded }) {
     name: "",
     price: "",
   });
+  
   const { axiosPost, errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
+  const [fileName, setFileName] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +28,13 @@ export default function NewItem({ isOpen, onClose, onItemAdded }) {
   };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+
+    if (file) {
+      setFileName(file.name);
+    } else {
+      setFileName("");
+    }
+
     setFormData((prevState) => ({
       ...prevState,
       file: file,
@@ -61,14 +73,24 @@ export default function NewItem({ isOpen, onClose, onItemAdded }) {
       onClose();
     }
   };
+  const handleFileClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-[var(--marfil-color)] min-w-[40vw] p-10 rounded-lg relative">
+      <div className="bg-[var(--marfil-color)] w-[95vw] lg:w-[40vw] p-10 rounded-lg relative" data-aos="fade-up">
         <div className="flex items-center justify-between">
-          <h2 className="text-start text-2xl lg:text-4xl">
-            Agregar producto
-          </h2>
+          <div className="flex items-center">
+            <h2 className="text-start text-2xl lg:text-4xl font-bold">
+              Agregar producto
+            </h2>
+            <div className="hidden md:block">
+            <AddReactionOutlinedIcon className="ml-3 hidden" sx={{ fontSize: 40 }} />
+            </div>
+          </div>
           <button
             type="button"
             onClick={onClose}
@@ -102,20 +124,27 @@ export default function NewItem({ isOpen, onClose, onItemAdded }) {
             />
             {errors && <p className="text-red-500">{errors.price}</p>}
           </div>
-          <div className="flex flex-col w-full md:flex-row">
-            <label htmlFor="img" className="block  lg:w-[30%] pb-3">
-              Selecciona una fotografía
-            </label>
-            <input
-              type="file"
-              id="img"
-              name="img"
-              accept="image/*"
-              onChange={handleFileChange}
-              ref={fileInputRef}
-              className="block w-full text-sm"
-              required
-            />
+
+          <div className="flex flex-col items-center w-full md:flex-row">
+            <div className="flex items-center w-full">
+              <input
+                type="file"
+                id="img"
+                name="img"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                className=" w-full text-sm hidden"
+                required
+              />
+
+              <Button variant="outlined" 
+              onClick={handleFileClick}
+              
+              >Subir una foto</Button>
+          
+              {fileName && <span className="text-gray-700 text-sm ml-3 max-w-[130px] truncate ">{fileName}</span>}
+            </div>
           </div>
           <div className="w-full flex justify-end">
             <button

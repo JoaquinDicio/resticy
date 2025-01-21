@@ -2,6 +2,7 @@ import useAxios from "../hooks/useAxios";
 import InputField from "./InputField";
 import { useEffect, useState } from "react";
 import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function EditItemModal({
   selectedItem,
@@ -44,9 +45,14 @@ export default function EditItemModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-[var(--marfil-color)] min-w-[40vw] w-[95vw] p-10 rounded-lg relative">
+      <div className="bg-[var(--marfil-color)] w-[95vw] lg:w-[40vw] p-10 rounded-lg relative" data-aos="fade-up">
         <div className="flex items-center justify-between">
-          <h2 className="text-start text-2xl lg:text-4xl">Editar Producto</h2>
+          <div className="flex items-center">
+            <h2 className="text-start text-2xl lg:text-4xl font-bold">Editar producto</h2>
+            <div className="hidden md:block">
+            <EditIcon className="ml-3" sx={{ fontSize: 40 }}/>
+            </div>
+          </div>
           <button
             type="button"
             onClick={onClose}

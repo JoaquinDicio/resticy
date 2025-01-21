@@ -3,9 +3,9 @@ import Item from "../models/Item.js";
 import OrderItem from "../models/OrderItem.js";
 
 const ordersService = {
+
   async getOrdersByRestaurant(req) {
     const { restaurantID } = req.params;
-
     const orders = await Order.findAll({
       where: { restaurant_id: restaurantID },
     });
@@ -19,7 +19,6 @@ const ordersService = {
 
   async addNewOrder(req) {
     const { order } = req.body;
-
     const { dataValues } = await Order.create({ ...order }); // insert en la tabla orders
 
     order.items?.forEach(async (orderItem) => {

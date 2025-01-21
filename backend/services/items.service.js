@@ -2,6 +2,7 @@ import Item from "../models/Item.js";
 import fs from "fs";
 
 const itemsService = {
+
   async getItemsByRestaurant(req) {
     const { restaurantID } = req.params;
 
@@ -92,7 +93,6 @@ const itemsService = {
       const item = await Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
       //elimina el archivo usando la ruta del img
       if (item) {
-        console.log(item);
         fs.unlink(`../backend/public/uploads/${item.img}`, (err) => {
           if (err) {
             console.error("Ocurrio un error al eliminar el archivo:", err);
@@ -120,6 +120,7 @@ const itemsService = {
         message: "El item fue eliminado exitosamente.",
         ok: true,
       };
+
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
       return {
@@ -132,6 +133,7 @@ const itemsService = {
   },
 
   async updateItem(req) {
+
     const { name, price, id } = req.body;
     const required = ["name", "price"];
     const error = {};

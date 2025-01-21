@@ -14,7 +14,7 @@ export default function InputField({
       <input
         type={type}
         placeholder={placeholder}
-        className="bg-transparent border-b border-b-2 border-black"
+        className="bg-transparent border-b-2 border-black py-2  outline-none"
         onChange={(e) => onChange(e)}
         name={name}
         value={value}
