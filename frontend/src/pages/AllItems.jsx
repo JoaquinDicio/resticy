@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
-import Sidebar from "../components/Sidebar";
 import ConfirmDelete from "../components/ConfirmDelete";
 import NewItem from "../components/NewItem";
 import EditItemModal from "../components/EditItemModal";
@@ -97,12 +96,14 @@ export default function AllItems() {
         onConfirm={() => confirmDelete(selectedItem?.id)}
       />
 
-      <NewItem
+      {isNewItemOpen && (
+        <NewItem
         isOpen={isNewItemOpen}
         onClose={() => setIsNewItemOpen(false)}
         onItemAdded={fetchItems}
-      />
-
+        />
+      )}
+      
       {isEditOpen && (
         <EditItemModal
           setSelectedItem={setSelectedItem}

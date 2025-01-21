@@ -1,6 +1,7 @@
 import useAxios from "../hooks/useAxios";
 import InputField from "./InputField";
 import { useEffect, useState } from "react";
+import ClearIcon from '@mui/icons-material/Clear';
 
 export default function EditItemModal({
   selectedItem,
@@ -34,8 +35,6 @@ export default function EditItemModal({
 
     const response = await axiosPut("http://localhost:8080/items", updateData);
 
-    console.log(response);
-
     if (response.data) {
       setSelectedItem(null);
       onClose();
@@ -44,9 +43,17 @@ export default function EditItemModal({
   }
 
   return (
-    <div className="fixed top-0 left-0 h-full w-full bg-black/70 z-20">
-      <div className="p-4 bg-white shadow-lg z-50 transform transition-transform duration-300">
-        <h2 className="text-xl font-bold mb-4">Editar Producto</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-[var(--marfil-color)] min-w-[40vw] w-[95vw] p-10 rounded-lg relative">
+        <div className="flex items-center justify-between">
+          <h2 className="text-start text-2xl lg:text-4xl">Editar Producto</h2>
+          <button
+            type="button"
+            onClick={onClose}
+          >
+            <ClearIcon sx={{ fontSize: 40 }} />
+          </button>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <InputField
@@ -70,23 +77,18 @@ export default function EditItemModal({
             />
             <i className="text-sm text-red-500">{errors?.price}</i>
           </div>
-          <div className="flex justify-between">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg"
-            >
-              Cancelar
-            </button>
+          <div className="w-full flex justify-end">
             <button
               type="submit"
-              className="bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg"
+              className="px-10 py-2 rounded-lg bg-[#d4af37] mt-5 text-white"
             >
               Guardar
             </button>
           </div>
+
         </form>
       </div>
     </div>
+
   );
 }
