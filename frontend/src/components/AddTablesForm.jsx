@@ -32,7 +32,7 @@ export default function AddTablesForm({ isPosting, handleSubmit }) {
       <input
         type="submit"
         disabled={isPosting || !newTable.number}
-        className="bg-green-500 w-full lg:w-fit rounded disabled:bg-slate-300 text-white font-medium p-2 cursor-pointer"
+        className="bg-green-500 w-full mt-2 lg:w-fit rounded disabled:bg-slate-300 text-white font-medium p-2 cursor-pointer"
         value={"Agregar mesa"}
       />
     </form>

@@ -32,6 +32,7 @@ function App() {
           <Route element={<LandingPage />} path="/" />
 
           {/* Rutas protegidas */}
+          
           <Route
             path="/orders"
             element={

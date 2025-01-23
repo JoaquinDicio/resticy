@@ -124,6 +124,7 @@ export default function AllItems() {
           color="primary" aria-label="add"
           onClick={() => setIsNewItemOpen(true)}
           style={{ background: "#d4af37" }}
+          className="hover:transition duration-300 hover:rotate-90 ease-in-out "
         >
           <AddIcon />
         </Fab>

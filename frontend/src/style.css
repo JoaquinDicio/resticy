@@ -57,10 +57,34 @@ svg {
 
   /* Eliminar controles en Firefox */
   input[type="number"] {
-    -moz-appearance: textfield;
+    appearance: textfield;
   }
 }
 
+
+@keyframes blink {
+  0% { background-color: #3e3e3e22; }
+  50% { background-color: var(--yellow-secondary);}
+  100% { background-color: #3e3e3e22; }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+
+.blinking {
+  animation: blink 2s infinite;
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
 
 .banner1 {
   background-image: url("./assets/Banner1.png");
@@ -69,6 +93,10 @@ svg {
 .banner2 {
   background-image: url("./assets/Banner2.png");
   background-repeat: no-repeat;
+}
+
+.custom-toast-container {
+  margin-top: 70px;
 }
 
 input[type="radio"] {

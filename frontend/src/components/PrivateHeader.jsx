@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import image from "../assets/favicon.png";
+import CustomButton from "./CustomButton";
 
 export default function PrivateHeader({ logout }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,15 +28,14 @@ export default function PrivateHeader({ logout }) {
 
       <div className="opacity-0 md:hidden">algo</div>
       <nav
-        className={`${
-          isMenuOpen ? "block" : "hidden"
-        } absolute top-16 left-0 bg-[var(--wine-color)] w-full md:w-auto md:flex md:static md:gap-5`}
+        className={`${isMenuOpen ? "block" : "hidden"
+          } absolute top-16 left-0 bg-[var(--wine-color)] w-full md:w-auto md:flex md:static md:gap-5`}
       >
         <ul className="flex flex-col md:flex-row md:gap-3 p-3 md:p-0">
           <li>
             <NavLink
               to={"/orders"}
-              className="block p-2 hover:text-[var(--yellow-color)]"
+              className="block p-2 transition hover:text-[var(--yellow-color)]"
               onClick={() => setIsMenuOpen(false)}
             >
               Mis mesas
@@ -44,7 +44,7 @@ export default function PrivateHeader({ logout }) {
           <li>
             <NavLink
               to={"/allitems"}
-              className="block p-2 hover:text-[var(--yellow-color)]"
+              className="block p-2 transition hover:text-[var(--yellow-color)]"
               onClick={() => setIsMenuOpen(false)}
             >
               Mis artículos
@@ -52,12 +52,11 @@ export default function PrivateHeader({ logout }) {
           </li>
         </ul>
         <div className="md:block px-[20px]">
-          <button
+
+          <CustomButton
+            text="Cerrar sesión"
             onClick={logout}
-            className="bg-[var(--yellow-color)] text-white p-2 text-sm rounded"
-          >
-            Cerrar sesión
-          </button>
+          />
         </div>
       </nav>
     </header>

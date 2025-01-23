@@ -4,8 +4,12 @@ import TableSelector from "../components/TableSelector.jsx";
 import TablesAdminModal from "../components/TablesAdminModal.jsx";
 import socket from "../socket.js";
 import useAxios from "../hooks/useAxios.jsx";
+import CustomButton from "../components/CustomButton.jsx";
+import { ToastContainer, toast  } from "react-toastify";
+import { showToast  } from "../utils/toastConfig.js";
 
 export default function Orders() {
+  
   const { axiosGet, isLoading } = useAxios();
   const [orders, setOrders] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
@@ -36,6 +40,18 @@ export default function Orders() {
     getPendingOrders();
   }, []);
 
+  const handleShowToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
+
   function handleNewOrder(newOrder) {
     setOrders((prev) => [...prev, newOrder]);
     const tableId = newOrder.table_id;
@@ -56,7 +72,7 @@ export default function Orders() {
           setModal={setShowSide}
         />
       )}
-      <div className="p-10 pt-20">
+      <div className="p-10 pt-24">
         <h1 className="font-bold text-2xl mb-2">Mesas</h1>
         <p>
           Aqui podrás ver las ordenes que recibe tu restaurante en tiempo real.
@@ -68,23 +84,20 @@ export default function Orders() {
           setTables={setTables}
         />
       </div>
-
       <div className="flex gap-3 fixed bottom-0 right-0 p-10">
-        <button
-          onClick={() => setShowAdminTables(!showAdminTables)}
-          className="bg-[var(--yellow-color)] text-white font-medium p-2 rounded"
-        >
-          Administrar mesas
-        </button>
+        <CustomButton text="Administrar mesas" onClick={() => setShowAdminTables(!showAdminTables)} />
       </div>
-
       {showAdminTables && (
         <TablesAdminModal
           setShowModal={setShowAdminTables}
           tables={tables}
           setTables={setTables}
+          handleShowToast={handleShowToast}
         />
       )}
+      <ToastContainer 
+      className="custom-toast-container"
+      />
     </section>
   );
 }
