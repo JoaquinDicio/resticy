@@ -7,7 +7,8 @@ import EditItemModal from "../components/EditItemModal";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Skeleton from '@mui/material/Skeleton';
-
+import { showToast } from "../utils/toastConfig";
+import { ToastContainer } from "react-toastify";
 
 export default function AllItems() {
   const user = JSON.parse(Cookies.get("user") || "{}");
@@ -36,6 +37,7 @@ export default function AllItems() {
       setIsModalOpen(false);
       setSelectedItem(null);
       await fetchItems();
+      handleShowToast("Producto eliminado correctamente", "info");
     }
   }
 
@@ -49,6 +51,10 @@ export default function AllItems() {
       console.error("Error fetching items:", error);
     }
   }
+
+  const handleShowToast = (message, type) => {
+    showToast(message, type)
+  };
 
   useEffect(() => {
     fetchItems();
@@ -107,6 +113,7 @@ export default function AllItems() {
           isOpen={isNewItemOpen}
           onClose={() => setIsNewItemOpen(false)}
           onItemAdded={fetchItems}
+          handleShowToast={handleShowToast}
         />
       )}
 
@@ -116,6 +123,7 @@ export default function AllItems() {
           selectedItem={selectedItem}
           onEdit={fetchItems}
           onClose={() => setIsEditOpen(false)}
+          handleShowToast={handleShowToast}
         />
       )}
 
@@ -129,6 +137,9 @@ export default function AllItems() {
           <AddIcon />
         </Fab>
       </div>
+      <ToastContainer 
+      className="custom-toast-container"
+      />
     </div>
   );
 }

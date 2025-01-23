@@ -4,9 +4,8 @@ import InputField from "./InputField";
 import ClearIcon from '@mui/icons-material/Clear';
 import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
 import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
 
-export default function NewItem({ isOpen, onClose, onItemAdded }) {
+export default function NewItem({ isOpen, onClose, onItemAdded, handleShowToast }) {
 
   if (!isOpen) return null;
 
@@ -56,6 +55,7 @@ export default function NewItem({ isOpen, onClose, onItemAdded }) {
       await axiosPost(url, formDataObj, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      handleShowToast("Producto agregado correctamente", "success");
       if (onItemAdded) {
         onItemAdded();
       }

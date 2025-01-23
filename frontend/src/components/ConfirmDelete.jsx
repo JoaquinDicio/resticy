@@ -1,6 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-export default function ConfirmDelete({ isOpen, item, onClose, onConfirm }) {
+export default function ConfirmDelete({ isOpen, item, onClose, onConfirm}) {
   if (!isOpen) return null;
 
   return (

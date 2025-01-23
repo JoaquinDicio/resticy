@@ -41,14 +41,7 @@ export default function Orders() {
   }, []);
 
   const handleShowToast = (message, type) => {
-    toast[type](message, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    showToast(message, type)
   };
 
 

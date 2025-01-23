@@ -9,6 +9,7 @@ export default function EditItemModal({
   setSelectedItem,
   onClose,
   onEdit,
+  handleShowToast
 }) {
   const { axiosPut, errors } = useAxios();
   const [formData, setFormData] = useState({ name: "", price: "" });
@@ -40,6 +41,7 @@ export default function EditItemModal({
       setSelectedItem(null);
       onClose();
       onEdit();
+      handleShowToast("Producto editado correctamente", "success");
     }
   }
 
