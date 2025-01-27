@@ -1,9 +1,14 @@
 import useAxios from "../hooks/useAxios";
 import AddTablesForm from "./AddTablesForm";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 import CustomButton from "./CustomButton";
 
-export default function TablesAdminModal({ tables, setTables, setShowModal, handleShowToast }) {
+export default function TablesAdminModal({
+  tables,
+  setTables,
+  setShowModal,
+  handleShowToast,
+}) {
   const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
 
   async function handleSubmit(newTable) {
@@ -29,10 +34,13 @@ export default function TablesAdminModal({ tables, setTables, setShowModal, hand
 
   return (
     <div className="bg-black/60 w-full h-screen flex flex-col px-10 lg:px-0 items-center justify-center fixed top-0">
-      <div className="flex flex-col bg-white w-[95vw] p-10 max-h-[50vh] lg:w-[40vw] rounded-lg" data-aos="fade-up">
+      <div
+        className="flex flex-col bg-white w-[95vw] p-10 max-h-[70vh] z-100 lg:w-[40vw] rounded-lg"
+        data-aos="fade-up"
+      >
         <div className="w-full  flex justify-between">
           <p className="text-3xl">Mesas actuales</p>
-          <ClearIcon 
+          <ClearIcon
             sx={{ fontSize: 40 }}
             onClick={() => setShowModal(false)}
             className="cursor-pointer"
@@ -48,9 +56,9 @@ export default function TablesAdminModal({ tables, setTables, setShowModal, hand
               className="flex justify-between text-sm w-full py-2"
             >
               <p className="text-xl">Mesa {table.number}</p>
-              <CustomButton 
-                text="Eliminar" 
-                onClick={() => handleDelete(table.id)} 
+              <CustomButton
+                text="Eliminar"
+                onClick={() => handleDelete(table.id)}
                 className="bg-red-600 text-white px-5 mr-2 py-2 rounded hover:bg-red-500"
               />
             </li>
@@ -62,4 +70,3 @@ export default function TablesAdminModal({ tables, setTables, setShowModal, hand
     </div>
   );
 }
-
