@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route element={<NewOrder />} path="/neworder/:restaurantID" />
+          <Route element={<NewOrder />} path="/neworder/:restaurantID/:tableID" />
           <Route element={<LandingPage />} path="/" />
 
           {/* Rutas protegidas */}

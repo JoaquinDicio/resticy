@@ -5,15 +5,14 @@ import useAxios from "../hooks/useAxios";
 
 export default function NewOrder() {
   const [success, setSucces] = useState(false);
-  const [tables, setTables] = useState([]);
   const { axiosPost, isPosting, axiosGet } = useAxios();
-  const { restaurantID } = useParams();
+  const { restaurantID, tableID } = useParams();
 
   const [orderData, setOrderData] = useState({
     order_date: new Date().toISOString().split("T")[0],
     items: {},
     notes: "",
-    table_id: 0,
+    table_id: parseInt(tableID),
   });
 
   useEffect(() => {
@@ -21,9 +20,7 @@ export default function NewOrder() {
       const response = await axiosGet(
         `http://localhost:8080/tables/${restaurantID}`
       );
-      setTables(response.data);
     }
-
     getTables();
   }, []);
 
@@ -85,24 +82,6 @@ export default function NewOrder() {
             >
               Selecciona una mesa:
             </label>
-            <select
-              id="table-select"
-              value={orderData.table_id}
-              onChange={(e) =>
-                setOrderData((prev) => ({
-                  ...prev,
-                  table_id: parseInt(e.target.value),
-                }))
-              }
-              className="block w-full p-2 border border-gray-300 rounded-lg"
-            >
-              <option value="0">Selecciona tu mesa</option>
-              {tables?.map((table) => (
-                <option key={table.id} value={table.id}>
-                  Mesa {table.number}
-                </option>
-              ))}
-            </select>
           </div>
           <div className="mb-4 overflow-y-auto">
             <ItemsSelector setOrderData={setOrderData} orderData={orderData} />

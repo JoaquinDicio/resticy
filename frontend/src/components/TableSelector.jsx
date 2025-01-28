@@ -11,7 +11,6 @@ export default function TableSelector({
 }) {
   const user = JSON.parse(Cookies.get("user") || "{}");
   const { axiosGet, isLoading } = useAxios();
-  const [nonBlinkingTables, setNonBlinkingTables] = useState([]);
 
   useEffect(() => {
     async function getTables() {
@@ -25,10 +24,6 @@ export default function TableSelector({
   }, []);
 
   async function handleSelectTable(table) {
-
-    if (!nonBlinkingTables.includes(table.id)) {
-      setNonBlinkingTables((prev) => [...prev, table.id]);
-    }
 
     setSelectedTable(table);
     setModal(true);
@@ -47,11 +42,11 @@ export default function TableSelector({
           <li
             key={table.id}
             onClick={() => handleSelectTable(table)}
-            className={`hover:shadow-lg duration-200 min-w-[80px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center p-4 w-fit ${
-              table.hasOrders && !nonBlinkingTables.includes(table.id) // Solo titila si no está en nonBlinkingTables
+            className={`hover:shadow-lg duration-200 min-w-[80px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center p-4 w-fit 
+              ${table.hasOrders
                 ? "blinking"
                 : "bg-[#3e3e3e22]"
-            }`}
+              }`}
           >
             <p className="text-4xl">{table.number}</p>
           </li>
