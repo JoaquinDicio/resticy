@@ -113,7 +113,7 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
 
     return (
         <>
-            <QrCodeIcon sx={{ fontSize: 40 }} onClick={handleOpen}  className='hover:cursor-pointer' />
+            <QrCodeIcon sx={{ fontSize: 40 }} onClick={handleOpen}  className='cursor-pointer hover:text-blue-500' />
 
             <Modal
                 open={open}

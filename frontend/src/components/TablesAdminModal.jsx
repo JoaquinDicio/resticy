@@ -3,7 +3,7 @@ import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
 import CustomButton from "./CustomButton";
 import QRCodeGenerator from "./QR code/QrCode";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 export default function TablesAdminModal({
   tables,
   setTables,
@@ -59,12 +59,8 @@ export default function TablesAdminModal({
             >
               <p className="text-xl">Mesa {table.number}</p>
               <div>
-                <CustomButton
-                  text="Eliminar"
-                  onClick={() => handleDelete(table.id)}
-                  className="bg-red-600 text-white px-5 mr-2 py-2 rounded hover:bg-red-500"
-                />
-                <QRCodeGenerator restaurantID={restaurantID} tableID={table.id} tableNumber={table.number}/>
+                <DeleteIcon onClick={() => handleDelete(table.id)} className="cursor-pointer hover:text-red-500" sx={{ fontSize: 40 }} />
+                <QRCodeGenerator restaurantID={restaurantID} tableID={table.id} tableNumber={table.number} />
               </div>
             </li>
           ))}
