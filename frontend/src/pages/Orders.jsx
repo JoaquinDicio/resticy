@@ -14,6 +14,7 @@ export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
   const [tables, setTables] = useState([]);
+  const [restaurantID, setRestaurantID] = useState(null);
   const [showAdminTables, setShowAdminTables] = useState(false);
   const [showSide, setShowSide] = useState(false);
 
@@ -35,6 +36,9 @@ export default function Orders() {
       response.data.forEach((order) => {
         handleNewOrder(order);
       });
+
+      const [{ restaurant_id: restaurantID }] = response.data;
+      setRestaurantID(restaurantID);
     }
 
     getPendingOrders();
@@ -84,6 +88,7 @@ export default function Orders() {
         <TablesAdminModal
           setShowModal={setShowAdminTables}
           tables={tables}
+          restaurantID={restaurantID}
           setTables={setTables}
           handleShowToast={handleShowToast}
         />

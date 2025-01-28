@@ -2,12 +2,14 @@ import useAxios from "../hooks/useAxios";
 import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
 import CustomButton from "./CustomButton";
+import QRCodeGenerator from "./QR code/QrCode";
 
 export default function TablesAdminModal({
   tables,
   setTables,
   setShowModal,
   handleShowToast,
+  restaurantID,
 }) {
   const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
 
@@ -56,11 +58,14 @@ export default function TablesAdminModal({
               className="flex justify-between text-sm w-full py-2"
             >
               <p className="text-xl">Mesa {table.number}</p>
-              <CustomButton
-                text="Eliminar"
-                onClick={() => handleDelete(table.id)}
-                className="bg-red-600 text-white px-5 mr-2 py-2 rounded hover:bg-red-500"
-              />
+              <div>
+                <CustomButton
+                  text="Eliminar"
+                  onClick={() => handleDelete(table.id)}
+                  className="bg-red-600 text-white px-5 mr-2 py-2 rounded hover:bg-red-500"
+                />
+                <QRCodeGenerator restaurantID={restaurantID} tableID={table.id} tableNumber={table.number}/>
+              </div>
             </li>
           ))}
         </ul>
