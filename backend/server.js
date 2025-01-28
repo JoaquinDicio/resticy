@@ -10,6 +10,7 @@ import itemsRouter from "./routes/items.routes.js";
 import ordersRouter from "./routes/orders.routes.js";
 import tablesRouter from "./routes/tables.routes.js";
 import restaurantsRouter from "./routes/restaurants.routes.js";
+import paymentRouter from "./routes/payment.routes.js";
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.use(itemsRouter);
 app.use(ordersRouter);
 app.use(tablesRouter);
 app.use(restaurantsRouter);
+app.use(paymentRouter);
+
 app.use("/uploads", express.static("public/uploads"));
 
 export { io };
