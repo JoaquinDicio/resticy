@@ -8,8 +8,19 @@ export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (Cookies.get("authToken")) {
+    const token = Cookies.get("authToken");
+    const userData = Cookies.get("user");
+
+    if (token) {
       setIsAuth(true);
+    }
+
+    if (userData) {
+      try {
+        setUser(JSON.parse(userData));
+      } catch (error) {
+        console.error("Error al parsear la cookie 'user':", error);
+      }
     }
   }, []);
 
@@ -17,6 +28,7 @@ export default function AuthContextProvider({ children }) {
     Cookies.remove("authToken");
     Cookies.remove("user");
     setIsAuth(false);
+    setUser(null);
   }
 
   return (
