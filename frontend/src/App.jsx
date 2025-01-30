@@ -14,6 +14,7 @@ import "./style.css";
 //Animaciones en toda la app
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Dashboard from "./pages/Dashboard";
 
 AOS.init({
   duration: 700,
@@ -54,6 +55,14 @@ function App() {
             element={
               <PrivateRoute>
                 <AllItems></AllItems>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/statistics"
+            element={
+              <PrivateRoute>
+                <Dashboard/>
               </PrivateRoute>
             }
           />

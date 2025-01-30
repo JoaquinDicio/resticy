@@ -10,7 +10,8 @@
   --wine-color: #51161f;
   --yellow-color: #d4af37;
   --yellow-secondary: #ebc341;
-  --marfil-color: #fffff0;
+  --marfil-color: #DC143C;
+  
 }
 body {
   background-color: var(--wine-color);
