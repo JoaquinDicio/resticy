@@ -19,9 +19,8 @@ export default function TablesAdminModal({
     useEffect(() => {
       if (user?.restaurantID) {
         setRestaurantID(user.restaurantID);
-        console.log(user.restaurantID)
       }
-    }, [user]);
+    }, []);
 
     async function handleSubmit(newTable) {
       const response = await axiosPost("http://localhost:8080/tables", newTable);
@@ -49,7 +48,7 @@ export default function TablesAdminModal({
       <div
         className="flex flex-col bg-white w-[95vw] p-10 max-h-[70vh] z-100 lg:w-[40vw] rounded-lg"
         data-aos="fade-up"
-        >
+        >/neworder/:restaurantID/:tableID
         <div className="w-full  flex justify-between">
           <p className="text-3xl">Mesas actuales</p>
           <ClearIcon
