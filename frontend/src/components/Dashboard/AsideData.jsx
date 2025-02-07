@@ -4,11 +4,11 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 const AsideData = ({ title, amount, typeIcon }) => {
     const Icon = typeIcon === 'analytics' ? AnalyticsIcon : AssessmentIcon;
     const backgroundColor = typeIcon === 'analytics' ? 'bg-[--yellow-color]' : 'bg-[var(--marfil-color)]';
-    const iconColor = typeIcon === 'analytics' ? 'white' : 'black'; // Blanco para analytics, negro para assessment
+    const iconColor = typeIcon === 'analytics' ? 'white' : '#d4af37'; // Blanco para analytics, negro para assessment
 
     return (
         <>
-        <div className={`h-[10vh] md:h-[50%] rounded-lg px-5 flex items-center gap-3 relative overflow-hidden ${backgroundColor} text-${iconColor}`}>
+        <div className={`h-[20vh] md:h-[50%] rounded-lg px-5 flex items-center gap-3 relative overflow-hidden ${backgroundColor} text-${iconColor}`}>
 
         {Icon === AnalyticsIcon && (
             <>

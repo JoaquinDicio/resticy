@@ -8,7 +8,7 @@ import AsideList from '../components/Dashboard/AsideList';
 
 const Dashboard = () => {
   return (
-    <div className='p-4 md:p-20 md:pt-24 grid gap-5 md:max-h-screen overflow-hidden'>
+    <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5 md:max-h-screen overflow-hidden'>
 
       <div className='grid md:h-[20vh] grid-cols-1 md:grid-cols-3 gap-5'>
         <TotalCard />
