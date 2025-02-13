@@ -7,10 +7,11 @@
 }
 :root {
   --dark-color: #333333;
-  --wine-color: #51161f;
+  --wine-color: #51161F;
   --yellow-color: #d4af37;
   --yellow-secondary: #ebc341;
-  --marfil-color: #fffff0;
+  --marfil-color: #FFFFF0;
+  
 }
 body {
   background-color: var(--wine-color);

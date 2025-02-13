@@ -15,7 +15,7 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
             const url = `http://localhost:5173/neworder/${restaurantID}/${tableID}`;
             import("qrcode").then((QRCode) => {
                 QRCode.toCanvas(qrCanvasRef.current, url, {
-                    width: 400,
+                    width: 350,
                 })
                     .then(() => setQrReady(true))
                     .catch((err) => console.error("Ocurrió un error al generar el QR", err));
@@ -114,7 +114,6 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
     return (
         <>
             <QrCodeIcon sx={{ fontSize: 40 }} onClick={handleOpen}  className='cursor-pointer hover:text-blue-500' />
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -122,9 +121,11 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
                 aria-describedby="modal-modal-description"
                 className="w-full h-[100vh] flex justify-center items-center flex-col text-dark"
             >
-                <Box className="p-8 bg-white flex justify-center flex-col rounded-lg" data-aos="fade-up">
+                <Box className="pt-4 md:p-4 bg-white flex justify-center flex-col rounded-lg" data-aos="fade-up">
                     <p className="text-xl text-center">Escanea el QR para ir a la mesa.</p>
+                    <a target='_blank' href={`http://localhost:5173/neworder/${restaurantID}/${tableID}`}>
                     <canvas ref={qrCanvasRef} />
+                    </a>
                     {qrReady && (
                         <Button variant="contained" color="primary" onClick={handlePrint} sx={{ mt: 2 }}>
                             Imprimir QR

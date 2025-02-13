@@ -50,6 +50,15 @@ export default function PrivateHeader({ logout }) {
               Mis artículos
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to={"/statistics"}
+              className="block p-2 transition hover:text-[var(--yellow-color)]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Estadísticas
+            </NavLink>
+          </li>
         </ul>
         <div className="md:block px-[20px]">
 
