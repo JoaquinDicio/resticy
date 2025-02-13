@@ -20,8 +20,12 @@ export default function OrderItemsList({ displayOrder }) {
           ))}
         </ul>
       </div>
-      <div className="bg-[var(--yellow-color)] items-center flex justify-between p-5 font-medium">
-        <p>Finalizar orden</p>{" "}
+      <div
+        className={` ${
+          displayOrder?.is_payed ? "bg-green-500" : "bg-red-800"
+        } items-center flex justify-between p-5 font-medium`}
+      >
+        <p>{displayOrder?.is_payed ? "Orden pagada" : "Pago pendiente"}</p>{" "}
         <p className="font-medium text-2xl">$ {displayOrder?.total_amount}</p>
       </div>
     </>

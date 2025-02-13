@@ -24,17 +24,20 @@ export default function ItemsSelector({ setOrderData, orderData }) {
 
   function addItem(itemId) {
     const newItem = items.find((item) => item.id == itemId);
+
     //si ya esta en el carrito
     if (orderData.items[itemId]) {
-      const oldItem = { ...orderData.items[itemId] };
+      const oldItem = { ...orderData.items[itemId] }; // este es el item que ya estaba en la orden
 
       setOrderData((prev) => ({
         ...prev,
+        total_amount: prev.total_amount + parseInt(oldItem.price),
         items: {
           ...prev.items,
           [itemId]: {
             ...oldItem,
             quantity: oldItem.quantity + 1, //le suma uno a la cantidad vieja
+            subtotal: (oldItem.quantity + 1) * oldItem.price,
           },
         },
       }));
@@ -44,34 +47,47 @@ export default function ItemsSelector({ setOrderData, orderData }) {
     // si no esta en el carrito
     setOrderData((prev) => ({
       ...prev,
+      total_amount: prev.total_amount + parseInt(newItem.price),
       items: {
         ...prev.items,
-        [itemId]: { item_id: itemId, quantity: 1, price: newItem.price },
+        [itemId]: {
+          item_id: itemId,
+          quantity: 1,
+          price: newItem.price,
+          subtotal: newItem.price,
+        },
       },
     }));
   }
 
   const removeItem = (itemId) => {
-    const oldItem = { ...orderData.items[itemId] }; //item que ya estaba en el array
+    const oldItem = orderData.items[itemId]; //item que ya estaba en el array
+
+    if (oldItem?.quantity == 0 || !oldItem) return;
 
     setOrderData((prev) => ({
       ...prev,
+      total_amount: prev.total_amount - parseInt(oldItem.price),
       items: {
         ...prev.items,
-        [itemId]: { ...oldItem, quantity: oldItem.quantity - 1 },
+        [itemId]: {
+          ...oldItem,
+          quantity: oldItem.quantity - 1,
+          subtotal: (oldItem.quantity - 1) * oldItem.price,
+        },
       },
     }));
   };
 
   return (
-    <ul>
+    <ul className="w-full md:overflow-y-scroll md:max-h-[400px]">
       {isLoading && (
         <p className="text-center text-gray-500">Cargando productos...</p>
       )}
       {items?.map((item) => (
         <li
           key={item.id}
-          className="flex p-4 border-b border-gray-200 flex-col"
+          className="flex p-4 border-b border-gray-200 flex-col md:flex-row justify-between"
         >
           <div className="flex items-center gap-5">
             <img
@@ -84,26 +100,24 @@ export default function ItemsSelector({ setOrderData, orderData }) {
                 {item.name}
               </p>
               <p className="text-gray-700">${item.price}</p>
-              <p className="text-gray-500">
-                Cantidad: {orderData.items[item.id]?.quantity || 0}
-              </p>
             </div>
           </div>
-          <div className="flex justify-end w-100 gap-4">
-            {orderData.items[item.id]?.quantity > 0 && (
-              <input
-                type="button"
-                value={"Eliminar"}
-                className="mt-5 cursor-pointer ml-2 bg-red-500 text-white px-4 py-2 rounded-lg transition duration-200"
-                onClick={() => removeItem(item.id)}
-              />
-            )}
-            <input
-              type="button"
-              value={"Agregar"}
-              className="mt-5 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg transition duration-200"
+          <div className="flex justify-center mt-5 md:mt-0 md:justify-end items-center w-100 gap-4">
+            <button
+              onClick={() => removeItem(item.id)}
+              className="w-[40px] text-xl h-[40px] font-bold bg-red-500 text-white rounded-full"
+            >
+              -
+            </button>
+            <p className="text-xl font-bold">
+              {orderData.items[item.id]?.quantity || 0}
+            </p>
+            <button
               onClick={() => addItem(item.id)}
-            />
+              className="w-[40px] text-xl h-[40px] font-bold bg-green-500 text-white rounded-full"
+            >
+              +
+            </button>
           </div>
         </li>
       ))}

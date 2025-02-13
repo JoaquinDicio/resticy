@@ -1,0 +1,20 @@
+TAREAS DE LA TESIS RESTANTES
+
+ 	Que se pueda pagar por Mercado Pago en caso de seleccionar el método 🟢
+
+	Modificar la base de datos para que exista la propiedad status: payed | pending | failed 🔴
+
+	Crear el hook de payment para saber cuando se concreto el pago 🔴
+
+	Verificar que los diseños sean responsive 🔴
+
+	Crear la page Success 🔴
+
+	Crear la tabla Payments 🔴	
+
+	Registrar el pago en la tabla de "payments" 🔴
+
+	
+	
+	
+

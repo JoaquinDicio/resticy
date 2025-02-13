@@ -5,12 +5,11 @@ import TablesAdminModal from "../components/TablesAdminModal.jsx";
 import socket from "../socket.js";
 import useAxios from "../hooks/useAxios.jsx";
 import CustomButton from "../components/CustomButton.jsx";
-import { ToastContainer, toast  } from "react-toastify";
-import { showToast  } from "../utils/toastConfig.js";
+import { ToastContainer } from "react-toastify";
+import { showToast } from "../utils/toastConfig.js";
 
 export default function Orders() {
-  
-  const { axiosGet, isLoading } = useAxios();
+  const { axiosGet } = useAxios();
   const [orders, setOrders] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
   const [tables, setTables] = useState([]);
@@ -19,10 +18,12 @@ export default function Orders() {
 
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
+    socket.on("order-payment", (order) => handleNewPayment(order));
     return () => {
       // se limpia el socket: esto sucede por el lifecycle que tiene un componente en react. Si no lo haces asi
       // se duplica todo.
       socket.off("order");
+      socket.off("order-payment");
     };
   }, []);
 
@@ -35,26 +36,35 @@ export default function Orders() {
       response.data.forEach((order) => {
         handleNewOrder(order);
       });
-
     }
 
     getPendingOrders();
   }, []);
 
-  const handleShowToast = (message, type) => {
-    showToast(message, type)
-  };
-
+  function handleShowToast(message, type) {
+    showToast(message, type);
+  }
 
   function handleNewOrder(newOrder) {
     setOrders((prev) => [...prev, newOrder]);
     const tableId = newOrder.table_id;
+
     // actualiza el estado para mostrar la campanita en la mesa correspondiente
     setTables((prevTables) =>
       prevTables.map((table) =>
         table.id === tableId ? { ...table, hasOrders: true } : table
       )
     );
+  }
+
+  function handleNewPayment(order) {
+    const { id } = order;
+
+    setOrders((prevOrders) => {
+      return prevOrders.map((oldOrder) =>
+        oldOrder.id === id ? { ...oldOrder, is_payed: true } : oldOrder
+      );
+    });
   }
 
   return (
@@ -79,7 +89,10 @@ export default function Orders() {
         />
       </div>
       <div className="flex gap-3 fixed bottom-0 right-0 p-10">
-        <CustomButton text="Administrar mesas" onClick={() => setShowAdminTables(!showAdminTables)} />
+        <CustomButton
+          text="Administrar mesas"
+          onClick={() => setShowAdminTables(!showAdminTables)}
+        />
       </div>
       {showAdminTables && (
         <TablesAdminModal
@@ -89,9 +102,7 @@ export default function Orders() {
           handleShowToast={handleShowToast}
         />
       )}
-      <ToastContainer 
-      className="custom-toast-container"
-      />
+      <ToastContainer className="custom-toast-container" />
     </section>
   );
 }
