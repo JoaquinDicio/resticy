@@ -1,116 +1,128 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ItemsSelector from "../components/ItemsSelector";
 import useAxios from "../hooks/useAxios";
+import createPreference from "../utils/createPreferece";
 
 export default function NewOrder() {
-  const [success, setSucces] = useState(false);
-  const { axiosPost, isPosting, axiosGet } = useAxios();
+  const navigate = useNavigate();
+  const [creatingPreference, setCreatingPreference] = useState(false);
+  const { axiosPost, isPosting } = useAxios();
   const { restaurantID, tableID } = useParams();
 
   const [orderData, setOrderData] = useState({
     order_date: new Date().toISOString().split("T")[0],
     items: {},
     notes: "",
+    total_amount: 0,
+    restaurant_id: restaurantID,
     table_id: parseInt(tableID),
+    payment_method: 1,
   });
-
-  useEffect(() => {
-    async function getTables() {
-      const response = await axiosGet(
-        `http://localhost:8080/tables/${restaurantID}`
-      );
-    }
-    getTables();
-  }, []);
-
-  function formatOrderData() {
-    const orderItems = [];
-    //convierte los items a [] y agrega 'subtotal'
-    for (const key in orderData.items) {
-      const currentItem = orderData.items[key];
-      orderItems.push({
-        ...currentItem,
-        subtotal: currentItem.price * currentItem.quantity,
-      });
-    }
-
-    //calcula el total
-    const totalAmount = orderItems.reduce(
-      (total, item) => total + parseFloat(item.subtotal),
-      0
-    );
-
-    //construye la orden
-    const order = {
-      ...orderData,
-      restaurant_id: restaurantID,
-      total_amount: totalAmount.toFixed(2),
-      items: orderItems,
-    };
-
-    return order;
-  }
 
   async function placeOrder(e) {
     e.preventDefault();
 
-    const order = formatOrderData();
+    const orderItems = Object.values(orderData.items).filter(
+      (item) => item.quantity > 0
+    );
 
-    order.items = order.items.filter((item) => item.quantity > 0); // elimina los vacios
+    // construye la orden
+    const order = {
+      ...orderData,
+      items: orderItems,
+    };
 
-    if (order.table_id == 0) return;
+    let orderId = null;
 
+    // si hay items postea la orden
     if (order.items.length > 0) {
-      await axiosPost("http://localhost:8080/orders", { order });
-      setSucces(true);
+      const response = await axiosPost("http://localhost:8080/orders", {
+        order,
+      });
+
+      if (response.ok) {
+        orderId = response.data.id;
+      }
     }
+
+    // en caso de ser necesario crea la preferencia de MP
+    if (orderData.payment_method != 1) {
+      setCreatingPreference(true);
+
+      // se envian los items y la el orderId como external_reference
+      const response = await createPreference(orderItems, orderId);
+
+      if (response.ok) {
+        window.location.href = response.data.init_point;
+      }
+    } else {
+      // si el pago es en efectivo redirecciona directamente al success
+      if (orderItems.length > 0) navigate("/success");
+    }
+  }
+
+  function handleNoteChange(e) {
+    setOrderData((prev) => ({ ...prev, notes: e.target.value }));
+  }
+
+  function handleChangePaymentMethod(e) {
+    setOrderData((prev) => ({ ...prev, payment_method: e.target.value }));
   }
 
   return (
     <>
-      <div className="flex items-center justify-center bg-[var(--wine-color)]">
-        <form
-          onSubmit={placeOrder}
-          className="w-full md:w-1/2 lg:w-1/2 p-6 bg-white lg:rounded-lg shadow-lg bg-[var(--marfil-color)]"
+      <div className="flex items-center min-h-screen p-2 md:p-10 justify-center bg-[var(--wine-color)] bg-slate-100">
+        <div
+          data-aos="fade-up"
+          className="max-w-[800px] w-full bg-white rounded-lg shadow-md p-5 md:p-10"
         >
-          <h1 className="text-2xl font-bold mb-4">Haz tu pedido</h1>
-          <div className="mb-4">
-            <label
-              htmlFor="table-select"
-              className="block hidden text-sm font-medium text-gray-700 mb-1"
-            >
-              Selecciona una mesa:
-            </label>
+          <div className="pb-8 px-4">
+            <h1 className="text-2xl font-bold">Haz tu pedido</h1>
+            <p className="my-2">Selecciona los productos de tu orden</p>
           </div>
-          <div className="mb-4 overflow-y-auto">
-            <ItemsSelector setOrderData={setOrderData} orderData={orderData} />
+          <ItemsSelector setOrderData={setOrderData} orderData={orderData} />
+          <div className="mt-10 flex flex-col gap-3">
+            <p className="font-sans font-bold text-xl text-right px-6">
+              TOTAL ${orderData.total_amount.toFixed(2)}
+            </p>
+            <form onSubmit={(e) => placeOrder(e)} className="w-full">
+              <label htmlFor="notes">Notas del pedido</label>
+              <textarea
+                name="notes"
+                id="notes"
+                onChange={(e) => handleNoteChange(e)}
+                value={orderData.notes}
+                className="border-1 p-2 mt-2 rounded-md w-full border border-black"
+                placeholder="Hamburguesa sin ketchup"
+              ></textarea>
+
+              <div className="py-5 flex flex-col gap-2">
+                <label htmlFor="payment-method">Método de pago: </label>
+                <select
+                  onChange={(e) => handleChangePaymentMethod(e)}
+                  className="border-1 border border-black p-2 rounded"
+                  id="payment-method"
+                >
+                  <option value="1">Efectivo</option>
+                  <option value="2">Débito - Crédito</option>
+                  <option value="3">MercadoPago</option>
+                </select>
+              </div>
+
+              <input
+                type="submit"
+                disabled={isPosting || creatingPreference}
+                value={
+                  isPosting || creatingPreference
+                    ? "Redireccionando..."
+                    : "Finalizar pedido"
+                }
+                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg transition duration-200"
+              />
+            </form>
           </div>
-          <div className="w-full flex py-5 flex-col">
-            <label htmlFor="notes">Notas del pedido:</label>
-            <textarea
-              value={orderData.notes}
-              onChange={(e) =>
-                setOrderData((prev) => ({ ...prev, notes: e.target.value }))
-              }
-              name="notes"
-              id="notes"
-              className="p-2 bg-slate-100 my-2"
-              placeholder="Ej. Hamburguesa sin ketchup"
-            ></textarea>
-          </div>
-          <input
-            type="submit"
-            className="mt-4 cursor-pointer bg-[var(--yellow-color)] text-white px-6 py-2 rounded-lg disabled:bg-slate-200 transition duration-200"
-            disabled={isPosting}
-            value={isPosting ? "Enviando..." : "Hacer pedido"}
-          />
-        </form>
-        {success && (
-          <div className="bg-green-500 text-white w-full p-2 fixed bottom-0">
-            <p className="text-xl text-center">Pedido enviado con éxito</p>
-          </div>
-        )}
+        </div>
       </div>
     </>
   );

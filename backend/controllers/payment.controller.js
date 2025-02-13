@@ -1,3 +1,4 @@
+import { io } from "../server.js";
 import paymentService from "../services/payment.service.js";
 
 const paymentController = {
@@ -10,17 +11,17 @@ const paymentController = {
     }
   },
 
-  async checkPayment(req, res) {
+  async markAsPayed(req, res) {
     try {
-      const response = await paymentService.checkPayment(req.body.preferenceID);
+      const response = await paymentService.markAsPayed(req.params.orderId);
+
+      // emito el evento con los datos de la orden que ha sido pagada
+      io.emit("order-payment", response.data);
+
       res.status(response.status).json(response);
     } catch (e) {
-      console.log("Error obteniendo datos del pago", e);
+      console.log("Error actualizando el pago en la orden", e);
     }
-  },
-
-  success(req, res) {
-    res.status(200).send("Pago recibido con exito");
   },
 };
 

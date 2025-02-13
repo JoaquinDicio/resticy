@@ -8,7 +8,6 @@ paymentRouter.post(
   paymentController.createPreference
 );
 
-paymentRouter.post("/payment/verify/", paymentController.checkPayment);
+paymentRouter.post("/payment/new/:orderId", paymentController.markAsPayed);
 
-paymentRouter.get("/payment/success", paymentController.success);
 export default paymentRouter;

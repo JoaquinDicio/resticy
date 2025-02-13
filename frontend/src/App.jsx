@@ -5,16 +5,14 @@ import Orders from "./pages/Orders";
 import NewOrder from "./pages/NewOrder";
 import AuthContextProvider from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
-import TableManager from "./pages/TableManager";
 import AllItems from "./pages/AllItems";
 import LandingPage from "./pages/LandingPage";
 import "./style.css";
-
-
+import Success from "./pages/Success";
+import Dashboard from "./pages/Dashboard";
 //Animaciones en toda la app
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Dashboard from "./pages/Dashboard";
 
 AOS.init({
   duration: 700,
@@ -28,25 +26,21 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />
+          <Route path="/success" element={<Success />} />
           <Route path="/login" element={<Login />} />
-          <Route element={<NewOrder />} path="/neworder/:restaurantID/:tableID" />
+          <Route
+            element={<NewOrder />}
+            path="/neworder/:restaurantID/:tableID"
+          />
           <Route element={<LandingPage />} path="/" />
 
           {/* Rutas protegidas */}
-          
+
           <Route
             path="/orders"
             element={
               <PrivateRoute>
                 <Orders></Orders>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/tables"
-            element={
-              <PrivateRoute>
-                <TableManager></TableManager>
               </PrivateRoute>
             }
           />

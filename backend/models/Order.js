@@ -9,7 +9,9 @@ const Order = sequelize.define(
     order_date: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     total_amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
     table_id: { type: DataTypes.BIGINT, allowNull: true },
+    is_payed: { type: DataTypes.BOOLEAN, defaultValue: false },
     complete: { type: DataTypes.BOOLEAN, defaultValue: false },
+    is_canceled: { type: DataTypes.BOOLEAN, defaultValue: false },
     notes: { type: DataTypes.STRING, allowNull: true },
   },
   {
