@@ -12,6 +12,7 @@ const Order = sequelize.define(
     is_payed: { type: DataTypes.BOOLEAN, defaultValue: false },
     complete: { type: DataTypes.BOOLEAN, defaultValue: false },
     is_canceled: { type: DataTypes.BOOLEAN, defaultValue: false },
+    payment_method: { type: DataTypes.STRING, allowNull: false },
     notes: { type: DataTypes.STRING, allowNull: true },
   },
   {
