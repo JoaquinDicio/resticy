@@ -5,8 +5,18 @@ import Role from "./Role.js";
 import User from "./User.js";
 import Restaurant from "./Restaurant.js";
 import Table from "./Table.js";
+import Payment from "./Payment.js";
 
 const initModels = () => {
+  Order.hasOne(Payment, { foreignKey: "order_id", as: "payment" });
+  Payment.belongsTo(Order, { foreignKey: "order_id", as: "order" });
+
+  Restaurant.hasMany(Payment, { foreignKey: "restaurant_id", as: "payments" });
+  Payment.belongsTo(Restaurant, {
+    foreignKey: "restaurant_id",
+    as: "restaurant",
+  });
+
   Order.hasMany(OrderItem, { foreignKey: "order_id" });
   Item.hasMany(OrderItem, { foreignKey: "item_id" });
   OrderItem.belongsTo(Item, { foreignKey: "item_id" });
@@ -30,7 +40,7 @@ const initModels = () => {
 
 const initializeModels = () => {
   initModels();
-  return { Order, Item, OrderItem, Role, User, Restaurant, Table };
+  return { Order, Item, OrderItem, Role, User, Restaurant, Table, Payment };
 };
 
 export default initializeModels;

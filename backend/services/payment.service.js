@@ -1,5 +1,6 @@
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import Order from "../models/Order.js";
+import Payment from "../models/Payment.js";
 
 // Agrega credenciales
 const client = new MercadoPagoConfig({
@@ -48,11 +49,22 @@ const paymentService = {
 
   async markAsPayed(orderId) {
     // buscar el registro en la base de datos y actualizar el pago
+    const PAYMENTS_METHODS = ["Efectivo", "MeradoPago", "Debito / Credito"];
     const order = await Order.findByPk(orderId);
 
     order.is_payed = true;
 
     const data = await order.save();
+
+    //registra el pago en la base de datos
+    const newPayment = {
+      order_id: order.id,
+      amount: order.total_amount,
+      restaurant_id: order.restaurant_id,
+      payment_method: PAYMENTS_METHODS[order.payment_method],
+    };
+
+    await Payment.create(newPayment);
 
     return { data, ok: true, status: 200 };
   },
