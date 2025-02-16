@@ -17,7 +17,7 @@ export default function TablesAdminModal({
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-      if (user?.restaurantID) {
+      if (user.restaurantID) {
         setRestaurantID(user.restaurantID);
       }
     }, []);
