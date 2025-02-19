@@ -49,7 +49,7 @@ const paymentService = {
 
   async markAsPayed(orderId) {
     // buscar el registro en la base de datos y actualizar el pago
-    const PAYMENTS_METHODS = ["Efectivo", "MeradoPago", "Debito / Credito"];
+    const PAYMENTS_METHODS = ["Efectivo", "Debito / Credito",  "MercadoPago"];
     const order = await Order.findByPk(orderId);
 
     order.is_payed = true;
