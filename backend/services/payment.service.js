@@ -56,12 +56,14 @@ const paymentService = {
 
     const data = await order.save();
 
+    const payment_method =
+      PAYMENTS_METHODS[order.dataValues.payment_method - 1];
     //registra el pago en la base de datos
     const newPayment = {
       order_id: order.id,
       amount: order.total_amount,
       restaurant_id: order.restaurant_id,
-      payment_method: PAYMENTS_METHODS[order.payment_method],
+      payment_method,
     };
 
     await Payment.create(newPayment);
