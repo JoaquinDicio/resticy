@@ -1,51 +1,84 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import axios from 'axios';
 
-const TotalMouthAndYear = () => {
+const TotalMouthAndYear = ({ restaurantID }) => {
   const [activeButton, setActiveButton] = useState('año');
-  const dataMouth = [1, 4, 2, 5, 7, 2, 4, 6];
-  const dataAge = [10, 20, 15, 30, 25, 40, 35, 50];
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [weeklyData, setWeeklyData] = useState([]);
+  const [totalWeek, setTotalWeek] = useState('');
+  const [totalMonth, setTotalMonth] = useState('');
+
+  useEffect(() => {
+    const fetchWeeklyPayments = async () =>{
+      try{
+        const {data} = await axios.get(`http://localhost:8080/payments/weekly/${restaurantID}`)
+        const weeklyData = data.map(payment => parseFloat(payment.amount));
+        const totalAmount = weeklyData.reduce((total, amount) => total + amount, 0);
+
+        setTotalWeek(totalAmount);
+        setWeeklyData(weeklyData)
+      }
+      catch (error) {
+        console.error("Error obteniendo pagos mensuales:", error);
+      }
+    }
+    fetchWeeklyPayments()
+  }, []);
+
+  useEffect(() => {
+    const fetchMonthlyPayment = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:8080/payments/monthly/${restaurantID}`);
+        const monthlyPayment = data.map(payment => parseFloat(payment.amount));
+        const totalAmount = monthlyPayment.reduce((total, amount) => total + amount, 0);
+
+        setTotalMonth(totalAmount);
+        setMonthlyData(monthlyPayment);
+      } catch (error) {
+        console.error("Error obteniendo pagos mensuales:", error);
+      }
+    };
+    fetchMonthlyPayment();
+  }, []);
 
   return (
-    <>
-      <div className="text-white flex items-center bg-[var(--yellow-color)] h-[25vh] md:h-[auto] overflow-hidden p-5 rounded-lg relative">
-        <div className="absolute w-[200px] h-[200px] bottom-20 right-[-10%] bg-[#aa8d2c] bg-opacity-50 p-1 rounded-full z-10"></div>
-        <div className="absolute w-[200px] h-[200px] bottom-12 right-[-25%] bg-[#aa8d2c] p-1 rounded-full z-10"></div>
-        <div className='z-20'>
-          <div className='absolute top-2 right-2 z-20 flex w-[40%] gap-3 p-2 z-20'>
-            <button
-              className={`w-full rounded p-2 ${activeButton === 'mes' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
-              onClick={() => setActiveButton('mes')}
-            >
-              Mes
-            </button>
-            <button
-              className={`w-full rounded p-2 ${activeButton === 'año' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
-              onClick={() => setActiveButton('año')}
-            >
-              Año
-            </button>
-          </div>
-
-          <p className="z-20 text-4xl bold font-bold mb-2">
-            {activeButton === 'mes' ? '$1800.00' : '$6000.00'}
-          </p>
-          <span>
-            Total Acumulado en el {activeButton === 'mes' ? 'mes' : 'año'}
-          </span>
+    <div className="text-white flex items-center bg-[var(--yellow-color)] h-[25vh] md:h-[auto] overflow-hidden p-5 rounded-lg relative">
+      <div className="absolute w-[200px] h-[200px] bottom-20 right-[-10%] bg-[#aa8d2c] bg-opacity-50 p-1 rounded-full z-10"></div>
+      <div className="absolute w-[200px] h-[200px] bottom-12 right-[-25%] bg-[#aa8d2c] p-1 rounded-full z-10"></div>
+      <div className="z-20">
+        <div className="absolute top-2 right-2 z-20 flex w-[40%] gap-3 p-2">
+          <button
+            className={`w-full rounded p-2 ${activeButton === 'mes' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
+            onClick={() => setActiveButton('mes')}
+          >
+            Mes
+          </button>
+          <button
+            className={`w-full rounded p-2 ${activeButton === 'año' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
+            onClick={() => setActiveButton('año')}
+          >
+            Semana
+          </button>
         </div>
-        <Box sx={{ width: '100%', mt: 2 }} className='z-20'>
-          <SparkLineChart
-            data={activeButton === 'mes' ? dataMouth : dataAge} // Datos de la línea
-            height={100} // Altura del gráfico
-            showHighlight={true} // Resaltar puntos
-            showTooltip={true} // Mostrar tooltip al pasar el mouse
-            colors={['#fffff0']} // Color de la línea (amarillo)
-          />
-        </Box>
+
+        <p className="z-20 text-4xl bold font-bold mb-2">
+          ${activeButton === 'mes' ? totalMonth : totalWeek}
+        </p>
+        <span>Total acumulado por {activeButton === 'mes' ? ' semana' : 'mes'}</span>
       </div>
-    </>
+
+      <Box sx={{ width: '100%', height: '50px', mt: 1 }} className="z-20">
+        <SparkLineChart
+          data={activeButton === 'mes' ? monthlyData : weeklyData}
+          height={100}
+          showHighlight={true}
+          showTooltip={true}
+          colors={['#fffff0']}
+        />
+      </Box>
+    </div>
   );
 };
 

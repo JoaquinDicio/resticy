@@ -1,10 +1,17 @@
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import { useEffect } from 'react';
 
 const AsideData = ({ title, amount, typeIcon }) => {
     const Icon = typeIcon === 'analytics' ? AnalyticsIcon : AssessmentIcon;
     const backgroundColor = typeIcon === 'analytics' ? 'bg-[--yellow-color]' : 'bg-[var(--marfil-color)]';
     const iconColor = typeIcon === 'analytics' ? 'white' : '#d4af37'; // Blanco para analytics, negro para assessment
+
+    useEffect(()=>{
+      const fetchingPaymentsForWeek = ()=>{
+            
+      }
+    },[])
 
     return (
         <>

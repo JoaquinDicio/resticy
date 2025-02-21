@@ -23,6 +23,39 @@ const paymentController = {
       console.log("Error actualizando el pago en la orden", e);
     }
   },
+
+  async getPaymentsSummary(req, res) {
+    try {
+      const { restaurantId } = req.params; 
+      const summary = await paymentService.getPaymentsToday(restaurantId);
+      res.json(summary);
+    } catch (e) {
+      console.log("Error obteniendo el resumen de pagos", e);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  },
+
+  async getWeeklyPayments(req, res) {
+    try {
+      const { restaurantId } = req.params;
+      const payments = await paymentService.getWeeklyPayments(restaurantId);
+      res.json(payments);
+    } catch (e) {
+      console.log("Error obteniendo los pagos de la semana", e);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  },
+
+  async getCurrentMonthPayments(req, res) {
+    try {
+      const { restaurantId } = req.params;
+      const monthlyPayments = await paymentService.getCurrentMonthPayments(restaurantId);
+      res.json(monthlyPayments);
+    } catch (error) {
+      res.status(500).json({ error: "Error obteniendo los pagos del mes" });
+    }
+  },
+
 };
 
 export default paymentController;
