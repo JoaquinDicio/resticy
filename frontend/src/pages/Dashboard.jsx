@@ -6,12 +6,15 @@ import Charts from '../components/Dashboard/Charts';
 import AsideChart from '../components/Dashboard/AsideChart';
 import AsideList from '../components/Dashboard/AsideList';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 
 const Dashboard = () => {
 
   const { user } = useContext(AuthContext); 
   const [restaurantID, setRestaurantID] = useState();
   const [dailyTotal, setDailyTotal] = useState()
+  const [ordersWeekQuantity, setOrdersWeekQuantity] = useState()
+  const [ordersMonthlyQuantity, setOrdersMonthlyQuantity] = useState()
 
   useEffect(()=>{
     if(user){
@@ -37,6 +40,24 @@ const Dashboard = () => {
     getRestaurantSummary();
   }, [restaurantID]);
 
+  useEffect(()=>{
+    const fetchingWeekQuantity = async ()=>{
+        const {data} = await axios.get(`http://localhost:8080/restaurant/1/weekly`)
+        const ordersWeekQuantity = data.data.length;
+        setOrdersWeekQuantity(ordersWeekQuantity);
+    }
+
+    const fetchingMonthlyQuantity = async ()=>{
+      const {data} = await axios.get(`http://localhost:8080/restaurant/1/monthly`)
+      const ordersMonthlyQuantity = data.data.length;
+      setOrdersMonthlyQuantity(ordersMonthlyQuantity);
+  }
+    fetchingWeekQuantity()
+    fetchingMonthlyQuantity()
+
+  },[])
+
+
   return (
     <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5 md:max-h-screen overflow-hidden'>
 
@@ -44,8 +65,9 @@ const Dashboard = () => {
         <TotalCard dailyTotal={dailyTotal} />
         {restaurantID && <TotalMouthAndYear restaurantID={restaurantID} />}
         <div className='flex flex-col gap-5 rounded-lg overflow-hidden'>
-          <AsideData amount={"200"} title={'Estadistica de algo'} typeIcon={"analytics"} />
-          <AsideData amount={"500"} title={'Estadistica de algo'} />
+          {restaurantID && <AsideData quantity={ordersMonthlyQuantity} title={'Ordenes mensuales'} typeIcon={"analytics"} />}
+          {restaurantID && <AsideData quantity={ordersWeekQuantity} title={'Ordenes semanales'} />
+        }
         </div>
       </div>
 

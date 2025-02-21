@@ -1,6 +1,7 @@
 import Order from "../models/Order.js";
 import Item from "../models/Item.js";
 import OrderItem from "../models/OrderItem.js";
+import { Op } from "sequelize";
 
 const ordersService = {
 
@@ -45,8 +46,72 @@ const ordersService = {
     return { code: 200, data: order, ok: true };
   },
 
+  async getWeeklyOrders(req) {
+    const { restaurantId } = req.params;
+    
+    const today = new Date();
+    today.setHours(23, 59, 59, 999); 
+  
+    const weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate() - 8);
+  
+    const orders = await Order.findAll({
+      where: {
+        restaurant_id: restaurantId,
+        order_date: {
+          [Op.between]: [weekAgo, today] 
+        }
+      },
+      include: [
+        {
+          model: OrderItem,
+          attributes: ["quantity", "subtotal"],
+          include: [{ model: Item, attributes: ["name", "price"] }],
+        },
+      ],
+    });
+  
+    return {
+      code: 200,
+      data: [...orders],
+      ok: true,
+    };
+  },
 
-
+  async getMonthlyOrders(req) {
+    const { restaurantId } = req.params;
+    
+    const now = new Date();
+    
+    const year = now.getFullYear();
+    const month = now.getMonth();
+  
+    const startOfMonth = new Date(year, month, 1); 
+    const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999); 
+  
+    const orders = await Order.findAll({
+      where: {
+        restaurant_id: restaurantId,
+        order_date: {
+          [Op.between]: [startOfMonth, endOfMonth]  
+        }
+      },
+      include: [
+        {
+          model: OrderItem,
+          attributes: ["quantity", "subtotal"],
+          include: [{ model: Item, attributes: ["name", "price"] }],
+        },
+      ],
+      order: [['order_date', 'ASC']]
+    });
+  
+    return {
+      code: 200,
+      data: [...orders],
+      ok: true,
+    };
+  }
 };
 
 export default ordersService;

@@ -30,6 +30,23 @@ const ordersController = {
     }
   },
 
+  async getWeeklyOrders(req, res) {
+    try {
+      const result = await ordersService.getWeeklyOrders(req);
+      res.status(result.code).json(result);
+    } catch (error) {
+      res.status(500).json({ code: 500, error: error.message, ok: false });
+    }
+  },
+
+  async getMonthlyOrders(req, res) {
+    try {
+      const result = await ordersService.getMonthlyOrders(req);
+      res.status(result.code).json(result);
+    } catch (error) {
+      res.status(500).json({ code: 500, error: error.message, ok: false });
+    }
+  }
  
 };
 
