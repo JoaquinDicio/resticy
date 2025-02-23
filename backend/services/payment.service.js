@@ -1,6 +1,7 @@
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
+import { Sequelize } from "sequelize";
 import { Op } from "sequelize";  
 
 // Agrega credenciales
@@ -134,7 +135,7 @@ const paymentService = {
     try {
       const today = new Date();
       const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999); // Último día del mes actual
+      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
   
       const payments = await Payment.findAll({
         where: {
@@ -150,8 +151,30 @@ const paymentService = {
       console.error("Error obteniendo los pagos del mes:", error);
       throw error;
     }
-  }
+  },
+
+  async getMonthlySummary(restaurantId) {
+    try {
+      const payments = await Payment.findAll({
+        where: { restaurant_id: restaurantId },
+        attributes: [
+          [Sequelize.fn("SUM", Sequelize.col("amount")), "total"],
+          [Sequelize.fn("DATE_FORMAT", Sequelize.col("createdAt"), "%Y-%m"), "month"]
+        ],
+        group: [Sequelize.fn("DATE_FORMAT", Sequelize.col("createdAt"), "%Y-%m")],
+        order: [[Sequelize.fn("DATE_FORMAT", Sequelize.col("createdAt"), "%Y-%m"), "ASC"]]
+      });
   
+      return payments.map(p => ({
+        month: p.dataValues.month,
+        total: parseInt(p.dataValues.total, 10) || 0 
+      }));
+    } catch (error) {
+      console.error("Error obteniendo el resumen de pagos mensuales:", error);
+      throw error;
+    }
+  }
+
 };
 
 export default paymentService;

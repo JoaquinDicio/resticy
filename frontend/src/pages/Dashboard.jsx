@@ -73,12 +73,12 @@ const Dashboard = () => {
 
       <div className='grid flex-1 grid-cols-1 md:grid-cols-3 gap-5 overflow-hidden'>
         <div className=' md:col-span-2 flex rounded-lg overflow-hidden'>
-          <Charts />
+          <Charts restaurantId={restaurantID}/>
         </div>
         <div className='bg-[var(--marfil-color)] rounded-lg overflow-hidden flex flex-col'>
           <AsideChart />
           <div className='flex-1 overflow-hidden'>
-            <AsideList />
+            <AsideList restaurantId={restaurantID}/>
           </div>
         </div>
       </div>

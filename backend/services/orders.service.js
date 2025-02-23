@@ -2,6 +2,7 @@ import Order from "../models/Order.js";
 import Item from "../models/Item.js";
 import OrderItem from "../models/OrderItem.js";
 import { Op } from "sequelize";
+import { Sequelize } from "sequelize";
 
 const ordersService = {
 
@@ -111,7 +112,37 @@ const ordersService = {
       data: [...orders],
       ok: true,
     };
-  }
+  },
+
+  async getPopularDishes(restaurantId) {
+    try {
+
+      const dishes = await OrderItem.findAll({
+        attributes: [
+          "item_id",
+          [Sequelize.fn("SUM", Sequelize.col("quantity")), "quantity"],
+        ],
+        include: [
+          {
+            model: Item,
+            attributes: ["name"],
+            where: { restaurant_id: restaurantId }, 
+          },
+        ],
+        group: ["item_id", "Item.name"],
+        order: [[Sequelize.fn("SUM", Sequelize.col("quantity")), "DESC"]],
+        limit: 10,
+      });
+
+      return dishes.map(dish => ({
+        name: dish.Item.name,
+        quantity: dish.dataValues.quantity,
+      }));
+    } catch (error) {
+      console.error("Error obteniendo los platos más pedidos:", error);
+      throw error;
+    }
+  },
 };
 
 export default ordersService;

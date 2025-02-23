@@ -11,4 +11,6 @@ ordersRouter.get("/restaurant/:restaurantId/weekly", ordersController.getWeeklyO
 
 ordersRouter.get("/restaurant/:restaurantId/monthly", ordersController.getMonthlyOrders);
 
+ordersRouter.get("/restaurant/:restaurantId/popular-dishes", ordersController.getPopularDishes);
+
 export default ordersRouter;

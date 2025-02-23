@@ -56,6 +56,17 @@ const paymentController = {
     }
   },
 
+  async getMonthlySummary(req, res) {
+    try {
+      const { restaurantId } = req.params;
+      const monthlySummary = await paymentService.getMonthlySummary(restaurantId);
+      res.json(monthlySummary);
+    } catch (error) {
+      console.error("Error obteniendo el resumen de pagos mensuales:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  },
+  
 };
 
 export default paymentController;

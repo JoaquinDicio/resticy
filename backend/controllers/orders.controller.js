@@ -46,8 +46,19 @@ const ordersController = {
     } catch (error) {
       res.status(500).json({ code: 500, error: error.message, ok: false });
     }
+  },
+
+  async getPopularDishes(req, res) {
+    try {
+      const { restaurantId } = req.params;
+      const popularDishes = await ordersService.getPopularDishes(restaurantId);
+      res.json(popularDishes);
+    } catch (error) {
+      console.error("Error obteniendo los platos más pedidos del mes:", error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
   }
- 
+
 };
 
 export default ordersController;
