@@ -59,9 +59,8 @@ const Dashboard = () => {
 
 
   return (
-    <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5 md:max-h-screen overflow-hidden'>
-
-      <div className='grid md:h-[20vh] grid-cols-1 md:grid-cols-3 gap-5'>
+    <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
         <TotalCard dailyTotal={dailyTotal} />
         {restaurantID && <TotalMouthAndYear restaurantID={restaurantID} />}
         <div className='flex flex-col gap-5 rounded-lg overflow-hidden'>
@@ -71,7 +70,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className='grid flex-1 grid-cols-1 md:grid-cols-3 gap-5 overflow-hidden'>
+      <div className='grid flex-1 grid-cols-1 md:grid-cols-3 gap-5 max-h-[auto] overflow-hidden'>
         <div className=' md:col-span-2 flex rounded-lg overflow-hidden'>
           <Charts restaurantId={restaurantID}/>
         </div>
