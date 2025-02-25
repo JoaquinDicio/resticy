@@ -17,7 +17,17 @@ const ordersController = {
       io.emit("order", response.data);
       res.status(response.code).json(response);
     } catch (e) {
-      console.log("Error obteniendo las ordenes:", e);
+      console.log("Error cargando la orden:", e);
+    }
+  },
+
+  async updateOrder(req, res) {
+    try {
+      const response = await ordersService.updateOrder(req);
+      res.status(response.code).json(response);
+      io.emit("order-update", response.data); // emite el evento y envia la nueva data de la orden
+    } catch (e) {
+      console.log("Error intentando actualizar la orden", e);
     }
   },
 

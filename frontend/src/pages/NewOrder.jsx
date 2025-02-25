@@ -37,6 +37,11 @@ export default function NewOrder() {
 
     // si hay items postea la orden
     if (order.items.length > 0) {
+      // si es en efectivo lo marca en la orden
+      if (orderData.payment_method == 1) {
+        order["is_cash"] = true;
+      }
+
       const response = await axiosPost("http://localhost:8080/orders", {
         order,
       });

@@ -6,7 +6,7 @@ const restaurantsService = {
     const restaurantID = user.restaurantID;
 
     const pendingOrders = await Order.findAll({
-      where: { restaurant_id: restaurantID, complete: false },
+      where: { restaurant_id: restaurantID, is_completed: false },
     });
 
     return { code: 200, data: pendingOrders, ok: true };
