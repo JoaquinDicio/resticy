@@ -3,9 +3,9 @@ import Item from "../models/Item.js";
 import OrderItem from "../models/OrderItem.js";
 
 const ordersService = {
-
   async getOrdersByRestaurant(req) {
     const { restaurantID } = req.params;
+
     const orders = await Order.findAll({
       where: { restaurant_id: restaurantID },
     });
@@ -43,6 +43,22 @@ const ordersService = {
     });
 
     return { code: 200, data: order, ok: true };
+  },
+
+  async updateOrder(req) {
+    const { orderID } = req.params;
+    const { newData } = req.body;
+
+    const order = await Order.findByPk(orderID);
+
+    // confirma que exista la orden
+    if (!order) {
+      return { code: 400, error: "La orden no existe", ok: false };
+    }
+
+    await order.update(newData);
+
+    return { code: 200, ok: true, data: order };
   },
 };
 
