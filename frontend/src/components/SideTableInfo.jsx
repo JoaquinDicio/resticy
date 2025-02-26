@@ -14,6 +14,8 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
       if (order) {
         //si existe extrae la info de la orden de la bbdd
         findOrder(order.id);
+      } else {
+        setDisplayOrder(null);
       }
     }
   }, [selectedTable, orders]);
@@ -23,6 +25,7 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
     const orderData = await axios.get(
       `http://localhost:8080/orders/${orderId}`
     );
+
     setDisplayOrder(orderData.data.data);
   }
 
@@ -48,7 +51,7 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
           <h3 className="text-4xl py-5 text-center">
             Mesa {selectedTable.number}
           </h3>
-          {selectedTable.hasOrders ? (
+          {selectedTable.hasOrders && displayOrder ? (
             <OrderItemsList displayOrder={displayOrder} />
           ) : (
             <i className="h-full w-full text-center">

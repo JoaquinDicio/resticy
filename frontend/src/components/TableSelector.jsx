@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import Cookies from "js-cookie";
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton";
 
 export default function TableSelector({
   tables,
@@ -24,7 +24,6 @@ export default function TableSelector({
   }, []);
 
   async function handleSelectTable(table) {
-
     setSelectedTable(table);
     setModal(true);
   }
@@ -37,16 +36,15 @@ export default function TableSelector({
             No hay mesas para mostrar
           </i>
         )}
-        {isLoading && <Skeleton variant="rectangular" width={210} height={118} />}
+        {isLoading && (
+          <Skeleton variant="rectangular" width={210} height={118} />
+        )}
         {tables?.map((table) => (
           <li
             key={table.id}
             onClick={() => handleSelectTable(table)}
             className={`hover:shadow-lg duration-200 min-w-[100%] min-h-[15vh] md:min-w-[100px] md:min-h-[100px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center justify-center p-4 w-fit 
-              ${table.hasOrders
-                ? "blinking"
-                : "bg-[#3e3e3e22]"
-              }`}
+              ${table.hasOrders ? "blinking" : "bg-[#3e3e3e22]"}`}
           >
             <p className="text-4xl">{table.number}</p>
           </li>
