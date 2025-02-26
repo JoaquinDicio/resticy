@@ -1,4 +1,4 @@
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Rectangle } from 'recharts';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis } from 'recharts';
 
 const data = [
     { value: 1 },
