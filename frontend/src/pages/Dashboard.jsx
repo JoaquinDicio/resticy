@@ -11,23 +11,21 @@ import axios from 'axios';
 const Dashboard = () => {
 
   const { user } = useContext(AuthContext); 
-  const [restaurantID, setRestaurantID] = useState();
   const [dailyTotal, setDailyTotal] = useState()
   const [ordersWeekQuantity, setOrdersWeekQuantity] = useState()
   const [ordersMonthlyQuantity, setOrdersMonthlyQuantity] = useState()
 
   useEffect(()=>{
-    if(user){
-      setRestaurantID(user.restaurantID)
-    }
+    console.log("El usuario es:", user)
   },[user])
+
 
   useEffect(() => {
     const getRestaurantSummary = async () => {
-      if (!restaurantID) return;
+      if (!user.restaurantID) return;
   
       try {
-        const response = await fetch(`http://localhost:8080/payment/summary/${restaurantID}`);
+        const response = await fetch(`http://localhost:8080/payment/summary/${user?.restaurantID}`);
         const restaurantSummary = await response.json();
         
         setDailyTotal(restaurantSummary.dailyTotal)
@@ -38,7 +36,7 @@ const Dashboard = () => {
     };
   
     getRestaurantSummary();
-  }, [restaurantID]);
+  }, [user]);
 
   useEffect(()=>{
     const fetchingWeekQuantity = async ()=>{
@@ -55,34 +53,37 @@ const Dashboard = () => {
     fetchingWeekQuantity()
     fetchingMonthlyQuantity()
 
-  },[])
+  },[user])
 
 
-  return (
-    <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5'>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
-        <TotalCard dailyTotal={dailyTotal} />
-        {restaurantID && <TotalMouthAndYear restaurantID={restaurantID} />}
-        <div className='flex flex-col gap-5 rounded-lg overflow-hidden'>
-          {restaurantID && <AsideData quantity={ordersMonthlyQuantity} title={'Ordenes mensuales'} typeIcon={"analytics"} />}
-          {restaurantID && <AsideData quantity={ordersWeekQuantity} title={'Ordenes semanales'} />
-        }
+  if(user){
+    return (
+      <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
+          <TotalCard dailyTotal={dailyTotal} />
+          {user?.restaurantID && <TotalMouthAndYear restaurantID={user?.restaurantID} />}
+          <div className='flex flex-col gap-5 rounded-lg overflow-hidden'>
+            {user?.restaurantID && <AsideData quantity={ordersMonthlyQuantity} title={'Ordenes mensuales'} typeIcon={"analytics"} />}
+            {user?.restaurantID && <AsideData quantity={ordersWeekQuantity} title={'Ordenes semanales'} />
+          }
+          </div>
         </div>
-      </div>
-
-      <div className='grid flex-1 grid-cols-1 md:grid-cols-3 gap-5 max-h-[auto] overflow-hidden'>
-        <div className=' md:col-span-2 flex rounded-lg overflow-hidden'>
-          <Charts restaurantId={restaurantID}/>
-        </div>
-        <div className='bg-[var(--marfil-color)] rounded-lg overflow-hidden flex flex-col'>
-          <AsideChart />
-          <div className='flex-1 overflow-hidden'>
-            <AsideList restaurantId={restaurantID}/>
+  
+        <div className='grid flex-1 grid-cols-1 md:grid-cols-3 gap-5 max-h-[auto] overflow-hidden'>
+          <div className=' md:col-span-2 flex rounded-lg overflow-hidden'>
+            <Charts restaurantId={user?.restaurantID}/>
+          </div>
+          <div className='bg-[var(--marfil-color)] rounded-lg overflow-hidden flex flex-col'>
+            <AsideChart />
+            <div className='flex-1 overflow-hidden'>
+              <AsideList restaurantId={user?.restaurantID}/>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+  }
+
 
 export default Dashboard;

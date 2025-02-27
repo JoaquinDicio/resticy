@@ -49,18 +49,18 @@ const ordersService = {
 
   async getWeeklyOrders(req) {
     const { restaurantId } = req.params;
-    
+
     const today = new Date();
-    today.setHours(23, 59, 59, 999); 
-  
+    today.setHours(23, 59, 59, 999);
+
     const weekAgo = new Date(today);
     weekAgo.setDate(today.getDate() - 8);
-  
+
     const orders = await Order.findAll({
       where: {
         restaurant_id: restaurantId,
         order_date: {
-          [Op.between]: [weekAgo, today] 
+          [Op.between]: [weekAgo, today]
         }
       },
       include: [
@@ -71,7 +71,7 @@ const ordersService = {
         },
       ],
     });
-  
+
     return {
       code: 200,
       data: [...orders],
@@ -81,20 +81,20 @@ const ordersService = {
 
   async getMonthlyOrders(req) {
     const { restaurantId } = req.params;
-    
+
     const now = new Date();
-    
+
     const year = now.getFullYear();
     const month = now.getMonth();
-  
-    const startOfMonth = new Date(year, month, 1); 
-    const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999); 
-  
+
+    const startOfMonth = new Date(year, month, 1);
+    const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999);
+
     const orders = await Order.findAll({
       where: {
         restaurant_id: restaurantId,
         order_date: {
-          [Op.between]: [startOfMonth, endOfMonth]  
+          [Op.between]: [startOfMonth, endOfMonth]
         }
       },
       include: [
@@ -106,7 +106,7 @@ const ordersService = {
       ],
       order: [['order_date', 'ASC']]
     });
-  
+
     return {
       code: 200,
       data: [...orders],
@@ -126,7 +126,7 @@ const ordersService = {
           {
             model: Item,
             attributes: ["name"],
-            where: { restaurant_id: restaurantId }, 
+            where: { restaurant_id: restaurantId },
           },
         ],
         group: ["item_id", "Item.name"],
@@ -142,6 +142,7 @@ const ordersService = {
       console.error("Error obteniendo los platos más pedidos:", error);
       throw error;
     }
+  },
 
   async updateOrder(req) {
     const { orderID } = req.params;
