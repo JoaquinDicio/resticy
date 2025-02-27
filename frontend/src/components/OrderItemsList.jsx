@@ -1,4 +1,40 @@
+import markAsCompleted from "../utils/markAsCompleted";
+import updatePayment from "../utils/updatePayment";
+
 export default function OrderItemsList({ displayOrder }) {
+  async function updateOrderStatus() {
+    // si la orden es cash primero se marca como pagada
+    if (displayOrder.is_cash && !displayOrder.is_payed) {
+      updatePayment(displayOrder.id);
+      return;
+    }
+
+    //si la orden ya esta paga, directamente se completa
+    markAsCompleted(displayOrder.id);
+  }
+
+  //se encarga de decidir que texto mostrar segun el estado del pago
+  function getStatusText() {
+    const { is_payed, is_cash } = displayOrder;
+
+    if (is_payed) return "Marcar como entregada";
+
+    if (is_cash && !is_payed) return "He recibido el pago";
+
+    if (!is_payed && !is_cash) return "Pago en proceso...";
+  }
+
+  //se encarga de decidir que background mostrar segun el estado del pago
+  function getClassByPaymentStatus() {
+    const { is_payed, is_cash } = displayOrder;
+
+    if (is_payed) return "bg-green-500";
+
+    if (is_cash && !is_payed) return "bg-[var(--yellow-color)]";
+
+    if (!is_payed && !is_cash) return "bg-gray-500";
+  }
+
   return (
     <>
       <div className="px-5 pb-5 h-full">
@@ -20,14 +56,18 @@ export default function OrderItemsList({ displayOrder }) {
           ))}
         </ul>
       </div>
-      <div
-        className={` ${
-          displayOrder?.is_payed ? "bg-green-500" : "bg-red-800"
-        } items-center flex justify-between p-5 font-medium`}
-      >
-        <p>{displayOrder?.is_payed ? "Orden pagada" : "Pago pendiente"}</p>{" "}
-        <p className="font-medium text-2xl">$ {displayOrder?.total_amount}</p>
-      </div>
+      <section className={`${getClassByPaymentStatus()}`}>
+        <button
+          onClick={updateOrderStatus}
+          className="flex justify-between items-center w-full p-5 font-medium cursor-pointer"
+          aria-label="Ver detalles del pedido"
+        >
+          <span className="status-text">{getStatusText()}</span>
+          <span className="font-medium text-2xl">
+            ${displayOrder.total_amount}
+          </span>
+        </button>
+      </section>
     </>
   );
 }

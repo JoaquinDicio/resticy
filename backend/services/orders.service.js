@@ -5,9 +5,9 @@ import { Op } from "sequelize";
 import { Sequelize } from "sequelize";
 
 const ordersService = {
-
   async getOrdersByRestaurant(req) {
     const { restaurantID } = req.params;
+
     const orders = await Order.findAll({
       where: { restaurant_id: restaurantID },
     });
@@ -141,7 +141,23 @@ const ordersService = {
     } catch (error) {
       console.error("Error obteniendo los platos más pedidos:", error);
       throw error;
+    }},
+
+  async updateOrder(req) {
+    const { orderID } = req.params;
+    const { newData } = req.body;
+
+    const order = await Order.findByPk(orderID);
+
+    // confirma que exista la orden
+    if (!order) {
+      return { code: 400, error: "La orden no existe", ok: false };
     }
+
+    await order.update(newData);
+
+    return { code: 200, ok: true, data: order };
+
   },
 };
 

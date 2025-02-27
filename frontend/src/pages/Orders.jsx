@@ -19,11 +19,13 @@ export default function Orders() {
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
     socket.on("order-payment", (order) => handleNewPayment(order));
+    socket.on("order-update", (order) => handleOrderUpdate(order));
     return () => {
       // se limpia el socket: esto sucede por el lifecycle que tiene un componente en react. Si no lo haces asi
       // se duplica todo.
       socket.off("order");
       socket.off("order-payment");
+      socket.off("order-update");
     };
   }, []);
 
@@ -48,11 +50,12 @@ export default function Orders() {
   function handleNewOrder(newOrder) {
     setOrders((prev) => [...prev, newOrder]);
     const tableId = newOrder.table_id;
-
     // actualiza el estado para mostrar la campanita en la mesa correspondiente
     setTables((prevTables) =>
       prevTables.map((table) =>
-        table.id === tableId ? { ...table, hasOrders: true } : table
+        table.id === tableId
+          ? { ...table, hasOrders: true }
+          : { ...table, hasOrders: false }
       )
     );
   }
@@ -63,6 +66,40 @@ export default function Orders() {
     setOrders((prevOrders) => {
       return prevOrders.map((oldOrder) =>
         oldOrder.id === id ? { ...oldOrder, is_payed: true } : oldOrder
+      );
+    });
+  }
+
+  function handleOrderUpdate(order) {
+    const { id, table_id, is_completed } = order;
+
+    if (is_completed == true) {
+      // si la orden se marco como completada la elimina
+      const newOrders = orders.filter((anOrder) => anOrder.id !== id);
+      setOrders(newOrders);
+
+      // verifica si hay mas ordenes en la mesa
+      const ordersInTable = newOrders.filter(
+        (order) => order.table_id === table_id
+      );
+
+      console.log(ordersInTable);
+
+      setTables((prevTables) =>
+        prevTables.map((table) =>
+          table.id === table_id
+            ? { ...table, hasOrders: ordersInTable.length > 0 }
+            : table
+        )
+      );
+
+      return;
+    }
+
+    // si el cambio fue otro, por ejemplo cambio el estado del pago, actualiza en el array orders
+    setOrders((prevOrders) => {
+      return prevOrders.map((oldOrder) =>
+        oldOrder.id === id ? { ...oldOrder, ...order } : oldOrder
       );
     });
   }
