@@ -30,7 +30,7 @@ export default function TableSelector({
 
   return (
     <>
-      <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-5">
+      <ul className="mt-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-5">
         {tables?.length == 0 && (
           <i className="text-[var(--yellow-color)]">
             No hay mesas para mostrar
@@ -43,7 +43,7 @@ export default function TableSelector({
           <li
             key={table.id}
             onClick={() => handleSelectTable(table)}
-            className={`hover:shadow-lg duration-200 min-w-[100%] min-h-[15vh] md:min-w-[100px] md:min-h-[100px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center justify-center p-4 w-fit 
+            className={`hover:shadow-lg duration-200 w-[100%] aspect-square md:min-w-[100px] md:min-h-[100px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center justify-center p-4 w-fit 
               ${table.hasOrders ? "blinking" : "bg-[#3e3e3e22]"}`}
           >
             <p className="text-4xl">{table.number}</p>
