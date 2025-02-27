@@ -38,7 +38,7 @@ export default function TablesAdminModal({
   }
 
   return (
-    <div className="bg-black/60 w-full h-screen flex flex-col px-10 lg:px-0 items-center justify-center fixed top-0">
+    <div className="bg-black/60 w-full h-screen flex flex-col px-10 lg:px-0 items-center justify-center fixed top-0 z-20">
       <div
         className="flex flex-col bg-white w-[95vw] p-10 max-h-[70vh] z-100 lg:w-[40vw] rounded-lg"
         data-aos="fade-up"
