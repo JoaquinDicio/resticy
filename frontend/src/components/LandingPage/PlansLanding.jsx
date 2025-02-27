@@ -53,7 +53,7 @@ const PricingPlans = () => {
 
   return (
     <div className="bg-yellow-400 pt-10 pb-5 md:pb-10 " id="plans">
-      <div className=" m-auto max-w-[80vw] lg:max-w-[54vw]" data-aos="fade-up">
+      <div className=" m-auto max-w-[80vw] lg:max-w-[1020px]" data-aos="fade-up">
       <h2 className=" pb-8 m-auto font-[800] pb-0 md:font-[900] text-3xl md:text-5xl text-start text-[--dark-color]">
           Planes
       </h2>

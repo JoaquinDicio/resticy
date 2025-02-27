@@ -5,23 +5,22 @@ export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
   const [isAuth, setIsAuth] = useState(!!Cookies.get("authToken"));
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState(() => {
+    const userCookie = Cookies.get("user");
+    return userCookie ? JSON.parse(userCookie) : null; 
+  });
   useEffect(() => {
     const token = Cookies.get("authToken");
-    const userData = Cookies.get("user");
+    const userCookie = Cookies.get("user");
 
     if (token) {
       setIsAuth(true);
     }
 
-    if (userData) {
-      try {
-        setUser(JSON.parse(userData));
-      } catch (error) {
-        console.error("Error al parsear la cookie 'user':", error);
-      }
+    if (userCookie) {
+      setUser(JSON.parse(userCookie)); 
     }
+
   }, []);
 
   function logout() {

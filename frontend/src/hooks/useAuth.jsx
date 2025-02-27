@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { AuthContext } from "../context/AuthContext";
 
 export default function useAuth() {
-  const { setIsAuth } = useContext(AuthContext);
+  const { setIsAuth, setUser  } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function useAuth() {
           secure: true,
           sameSite: "Strict",
         });
-
+        setUser(data.user);
         setIsAuth(true);
         navigate("/orders");
       }

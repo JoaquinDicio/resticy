@@ -135,7 +135,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-[--marfil-color]  min-h-[70vh] flex items-center md:px-20 py-32 banner2">
+      <section className="bg-[--marfil-color] min-h-[70vh] flex items-center md:px-20 py-32 banner2">
         <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center" data-aos="fade-up">
           <img
             src={logoGris}

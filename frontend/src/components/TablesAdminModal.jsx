@@ -3,7 +3,7 @@ import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
 import QRCodeGenerator from "./QR code/QrCode";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function TablesAdminModal({
@@ -12,15 +12,9 @@ export default function TablesAdminModal({
   setShowModal,
   handleShowToast,
 }) {
-  const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
-  const [restaurantID, setRestaurantID] = useState(null);
-  const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (user?.restaurantID) {
-      setRestaurantID(user?.restaurantID);
-    }
-  }, []);
+  const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
+  const { user, isAuth  } = useContext(AuthContext);
 
   async function handleSubmit(newTable) {
     const response = await axiosPost("http://localhost:8080/tables", newTable);
@@ -74,7 +68,7 @@ export default function TablesAdminModal({
                   sx={{ fontSize: 40 }}
                 />
                 <QRCodeGenerator
-                  restaurantID={restaurantID}
+                  restaurantID={user?.restaurantID}
                   tableID={table.id}
                   tableNumber={table.number}
                 />

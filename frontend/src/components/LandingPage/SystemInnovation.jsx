@@ -31,7 +31,7 @@ const SystemInnovation = () => {
 
   return (
     <section className="bg-white px-10 py-10 min-h-[70vh] flex flex-col justify-center items-center" id="characteristics">
-      <div className="max-w-[1000px] w-full" data-aos="fade-up">
+      <div className="max-w-[970px] w-full" data-aos="fade-up">
         <p className="font-[800] pb-0 md:font-[900] text-3xl md:text-5xl text-center lg:pb-16 text-[--dark-color]">
           Un sistema innovador
         </p>
