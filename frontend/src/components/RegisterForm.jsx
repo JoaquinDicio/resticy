@@ -24,7 +24,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
+    <form onSubmit={handleSubmit} className="flex flex-col ">
       <InputField
         label="Nombre del comercio"
         type="text"
@@ -52,16 +52,16 @@ const RegisterForm = () => {
       />
       {errors.password && <p className="text-red-500">{errors.password}</p>}
 
-      <div className="flex flex-col md:flex-row items-center gap-5 mt-5">
+      <div className="flex flex-col lg:flex-row items-center gap-5 mt-5">
         <input
           type="submit"
           disabled={isLoading}
           value={isLoading ? "Cargando.." : "Registrarse"}
-          className="bg-[#D4AF37] disabled:bg-slate-200 px-10 py-3 rounded"
+          className="w-full md:w-[auto] bg-[#D4AF37] disabled:bg-slate-200 text-lg px-10 py-3 rounded"
         />
         <p>
           ¿Ya tienes una cuenta?{" "}
-          <a href="/login" className="text-blue-800">
+          <a href="/login" className="text-blue-800 font-bold">
             Inicia sesión
           </a>
         </p>

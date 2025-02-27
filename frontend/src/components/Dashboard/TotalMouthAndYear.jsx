@@ -67,7 +67,7 @@ const TotalMouthAndYear = ({ restaurantID }) => {
         <p className="z-20 text-4xl bold font-bold mb-2">
           ${activeButton === 'mes' ? totalMonth : totalWeek}
         </p>
-        <span>Total acumulado por {activeButton === 'mes' ? ' mes' : 'semana'}</span>
+        <p className='w-[130px]'>Total acumulado por {activeButton === 'mes' ? ' mes' : 'semana'}</p>
       </div>
 
       <Box sx={{ width: '100%', height: '50px', mt: 1 }} className="z-20">

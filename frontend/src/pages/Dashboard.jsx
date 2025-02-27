@@ -40,13 +40,13 @@ const Dashboard = () => {
 
   useEffect(()=>{
     const fetchingWeekQuantity = async ()=>{
-        const {data} = await axios.get(`http://localhost:8080/restaurant/1/weekly`)
+        const {data} = await axios.get(`http://localhost:8080/restaurant/${user?.restaurantID}/weekly`)
         const ordersWeekQuantity = data.data.length;
         setOrdersWeekQuantity(ordersWeekQuantity);
     }
 
     const fetchingMonthlyQuantity = async ()=>{
-      const {data} = await axios.get(`http://localhost:8080/restaurant/1/monthly`)
+      const {data} = await axios.get(`http://localhost:8080/restaurant/${user?.restaurantID}/monthly`)
       const ordersMonthlyQuantity = data.data.length;
       setOrdersMonthlyQuantity(ordersMonthlyQuantity);
   }
@@ -58,9 +58,8 @@ const Dashboard = () => {
 
   if(user){
     return (
-      <div className='pt-20 p-4 md:p-20 md:pt-24 grid gap-5'>
-              <h1 className="text-white text-4xl pb-8 text-start">Panel de estadísticas</h1>
-
+      <div className='pt-20 p-4 md:p-20 md:pt-22 grid gap-5'>
+        <h1 className="text-white text-4xl pb-8 text-start">Panel de estadísticas</h1>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
           <TotalCard dailyTotal={dailyTotal} />
           {user?.restaurantID && <TotalMouthAndYear restaurantID={user?.restaurantID} />}

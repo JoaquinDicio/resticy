@@ -27,6 +27,7 @@ export default function PrivateHeader({ logout }) {
       </div>
 
       <div className="opacity-0 md:hidden">algo</div>
+
       <nav
         className={`${isMenuOpen ? "block" : "hidden"
           } absolute top-16 left-0 bg-[var(--wine-color)] w-full md:w-auto md:flex md:static md:gap-5`}
