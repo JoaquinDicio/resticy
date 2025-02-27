@@ -30,7 +30,7 @@ export default function TableSelector({
 
   return (
     <>
-      <ul className="mt-5 flex flex-wrap grid grid-cols-2 md:grid-cols-4 lg:grid-cols-10 gap-5">
+      <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-5">
         {tables?.length == 0 && (
           <i className="text-[var(--yellow-color)]">
             No hay mesas para mostrar

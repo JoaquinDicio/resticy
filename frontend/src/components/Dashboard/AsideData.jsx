@@ -1,7 +1,7 @@
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
-const AsideData = ({ title, amount, typeIcon }) => {
+const AsideData = ({ title, typeIcon , quantity}) => {
     const Icon = typeIcon === 'analytics' ? AnalyticsIcon : AssessmentIcon;
     const backgroundColor = typeIcon === 'analytics' ? 'bg-[--yellow-color]' : 'bg-[var(--marfil-color)]';
     const iconColor = typeIcon === 'analytics' ? 'white' : '#d4af37'; // Blanco para analytics, negro para assessment
@@ -18,9 +18,9 @@ const AsideData = ({ title, amount, typeIcon }) => {
         )}
             
         <Icon sx={{ fontSize: 55, color: iconColor }} />
-        <div className={`flex flex-col items-start justify-center z-20`}>
-            <p className="font-bold text-xl">${amount}</p>
-            <p className="text-sm">{title}</p>
+        <div className={`flex items-center gap-1 items-start justify-center z-20`}>
+            <p className="font-bold text-xl">{quantity}</p>
+            <p className="text-md ">{title}</p>
         </div>
         </div>
         </>

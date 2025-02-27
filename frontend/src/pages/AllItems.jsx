@@ -63,7 +63,7 @@ export default function AllItems() {
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
       <h1 className="text-white text-4xl pb-8 text-start">Productos</h1>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6" data-aos="fade-in">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6" data-aos="fade-in">
         {!isLoading && items?.length > 0 ? (
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
