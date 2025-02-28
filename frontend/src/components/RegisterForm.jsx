@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import InputField from "./InputField";
 import useAuth from "../hooks/useAuth.jsx";
 
@@ -57,14 +57,16 @@ const RegisterForm = () => {
           type="submit"
           disabled={isLoading}
           value={isLoading ? "Cargando.." : "Registrarse"}
-          className="w-full md:w-[auto] bg-[#D4AF37] disabled:bg-slate-200 text-lg px-10 py-3 rounded"
+          className="w-full md:w-[auto] bg-[#D4AF37] disabled:bg-slate-200 text-lg px-10 py-3 rounded  cursor-pointer"
         />
-        <p>
+
+        <p className="text-center flex flex-col lg:flex-row lg:gap-1">
           ¿Ya tienes una cuenta?{" "}
-          <a href="/login" className="text-blue-800 font-bold">
-            Inicia sesión
+          <a href="/register" className="text-blue-800 font-bold">
+            Iniciar sesión
           </a>
         </p>
+
       </div>
     </form>
   );

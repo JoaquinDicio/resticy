@@ -29,6 +29,25 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
     setDisplayOrder(orderData.data.data);
   }
 
+  useEffect(() => {
+    if (selectedTable) {
+      document.body.style.overflowY = "hidden";
+      
+      // Buscar la orden de la mesa seleccionada
+      const order = orders.find((order) => order.table_id == selectedTable.id);
+      if (order) {
+        findOrder(order.id);
+      } else {
+        setDisplayOrder(null);
+      }
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [selectedTable, orders]);
+  
   return (
     <div
       className={`max-h-screen z-10 text-white bg-[var(--dark-color)] md:w-[30%] w-full absolute md:relative top-0 h-screen md:min-w-[400px] pt-5 ${

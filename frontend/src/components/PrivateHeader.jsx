@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import image from "../assets/favicon.png";
 import CustomButton from "./CustomButton";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function PrivateHeader({ logout }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,13 +31,13 @@ export default function PrivateHeader({ logout }) {
 
       <nav
         className={`${isMenuOpen ? "block" : "hidden"
-          } absolute top-16 left-0 bg-[var(--wine-color)] w-full md:w-auto md:flex md:static md:gap-5`}
+          } absolute top-16 left-0 pb-6 bg-[var(--wine-color)] w-full md:pb-0 md:w-auto md:flex md:static md:gap-5`}
       >
-        <ul className="flex flex-col md:flex-row md:gap-3 p-3 md:p-0">
+        <ul className="flex flex-col  mx-auto w-[90%] md:flex-row md:gap-3 p-3 md:p-0">
           <li>
             <NavLink
               to={"/orders"}
-              className="block p-2 transition hover:text-[var(--yellow-color)]"
+              className="block py-2 lg:p-2 transition hover:text-[var(--yellow-color)]"
               onClick={() => setIsMenuOpen(false)}
             >
               Mis mesas
@@ -45,7 +46,7 @@ export default function PrivateHeader({ logout }) {
           <li>
             <NavLink
               to={"/allitems"}
-              className="block p-2 transition hover:text-[var(--yellow-color)]"
+              className="block py-2 lg:p-2 transition hover:text-[var(--yellow-color)]"
               onClick={() => setIsMenuOpen(false)}
             >
               Mis artículos
@@ -54,19 +55,23 @@ export default function PrivateHeader({ logout }) {
           <li>
             <NavLink
               to={"/statistics"}
-              className="block p-2 transition hover:text-[var(--yellow-color)]"
+              className="block py-2 lg:p-2 transition hover:text-[var(--yellow-color)]"
               onClick={() => setIsMenuOpen(false)}
             >
               Estadísticas
             </NavLink>
           </li>
+          <li>
+            <CustomButton
+              text="Cerrar sesión"
+              onClick={logout}
+              className="mt-3 md:mt-0"
+            />
+          </li>
         </ul>
         <div className="md:block px-[20px]">
 
-          <CustomButton
-            text="Cerrar sesión"
-            onClick={logout}
-          />
+
         </div>
       </nav>
     </header>

@@ -92,7 +92,6 @@ const paymentService = {
   
       // Obtener el total de pagos de hoy
       const dailyTotal = await Payment.sum("amount", { where: whereCondition });
-      console.log("Pagos del dia: ", dailyTotal)
       return {
         dailyTotal: dailyTotal ?? 0
       };

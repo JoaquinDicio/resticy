@@ -3,7 +3,7 @@ import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
 import QRCodeGenerator from "./QR code/QrCode";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function TablesAdminModal({

@@ -49,9 +49,9 @@ export default function LoginForm() {
           type="submit"
           disabled={isLoading}
           value={isLoading ? "Autenticando.." : "Iniciar sesión"}
-          className="bg-[#D4AF37] px-10 py-3 rounded w-full md:w-[auto]"
+          className="bg-[#D4AF37] px-10 py-3 rounded w-full md:w-[auto] cursor-pointer"
         />
-        <p className="text-center">
+        <p className="text-center flex flex-col  lg:flex-row lg:gap-1">
           ¿Olvidaste tu contraseña?{" "}
           <a href="/register" className="text-blue-800 font-bold">
             Recuperar contraseña

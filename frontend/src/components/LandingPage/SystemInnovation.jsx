@@ -12,7 +12,7 @@ const SystemInnovation = () => {
   const features = [
     {
       title: "Sencillo y actual",
-      description: "Contamos con una interfaz intuitiva, fácil de usar y moderna.",
+      description: "Contamos con una interfaz intuitiva,\n fácil de usar y moderna.",
       icon: interfazIcon,
     },
     {
@@ -24,7 +24,7 @@ const SystemInnovation = () => {
     {
       title: "On-line",
       description:
-        "¡No necesitas instalar nada! Accede desde cualquier lugar, en cualquier momento.",
+        "¡No necesitas instalar nada! \n Accede desde cualquier lugar, \n en cualquier momento.",
       icon: sencilloIcon,
     },
   ];
@@ -67,7 +67,7 @@ const SystemInnovation = () => {
               <img src={feature.icon} alt={`icono ${feature.title}`} className="p-5 min-w-[300px] max-w-[300px]
                   min-h-[300px] max-h-[300px] object-contain" />
               <p className="font-medium text-2xl pb-2  pt-3">{feature.title}</p>
-              <p className="text-sm pt-3">{feature.description}</p>
+              <p className="text-sm pt-3 whitespace-pre-line">{feature.description}</p>
             </div>
           ))}
         </div>
