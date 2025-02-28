@@ -16,7 +16,7 @@ export default function Success() {
   }, []);
 
   return (
-    <section className="flex items-center justify-center w-full min-h-screen">
+    <section className="flex items-center justify-center w-[95%] mx-auto min-h-screen">
       <div
         data-aos="fade-up"
         className="text-center rounded bg-white p-10 max-w-[420px]"

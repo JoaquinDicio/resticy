@@ -90,11 +90,13 @@ export default function ItemsSelector({ setOrderData, orderData }) {
           className="flex p-4 border-b border-gray-200 flex-col md:flex-row justify-between"
         >
           <div className="flex items-center gap-5">
+            <div className="w-[40%]">
             <img
               src={`http://localhost:8080/uploads/${item.img}`}
               alt={item.name}
-              className="w-[100px] object-cover	 h-[100px] rounded-[200px]"
+              className="w-[200px] object-cover aspect-square rounded-[200px]"
             />
+            </div>
             <div>
               <p className="text-md font-semibold break-words max-w-[10rem] md:max-w-[100%]">
                 {item.name}
@@ -102,10 +104,10 @@ export default function ItemsSelector({ setOrderData, orderData }) {
               <p className="text-gray-700">${item.price}</p>
             </div>
           </div>
-          <div className="flex justify-center mt-5 md:mt-0 md:justify-end items-center w-100 gap-4">
+          <div className="flex justify-center mt-5 md:mt-0 md:justify-end items-center w-100 gap-4 md:w-[60%]">
             <button
               onClick={() => removeItem(item.id)}
-              className="w-[40px] text-xl h-[40px] font-bold bg-red-500 text-white rounded-full"
+              className=" text-xl w-full h-[40px] font-bold bg-red-500 text-white rounded-lg"
             >
               -
             </button>
@@ -114,7 +116,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
             </p>
             <button
               onClick={() => addItem(item.id)}
-              className="w-[40px] text-xl h-[40px] font-bold bg-green-500 text-white rounded-full"
+              className="text-xl w-full h-[40px] font-bold bg-green-500 text-white rounded-lg"
             >
               +
             </button>

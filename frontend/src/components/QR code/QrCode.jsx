@@ -121,7 +121,7 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
                 aria-describedby="modal-modal-description"
                 className="w-full h-[100vh] flex justify-center items-center flex-col text-dark"
             >
-                <Box className="pt-4 md:p-4 bg-white flex justify-center flex-col rounded-lg" data-aos="fade-up">
+                <Box className="pt-4 p-4 md:p-4 bg-white flex justify-center flex-col rounded-lg" data-aos="fade-up">
                     <p className="text-xl text-center">Escanea el QR para ir a la mesa.</p>
                     <a target='_blank' href={`http://localhost:5173/neworder/${restaurantID}/${tableID}`}>
                     <canvas ref={qrCanvasRef} />

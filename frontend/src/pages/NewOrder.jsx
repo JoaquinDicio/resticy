@@ -77,7 +77,7 @@ export default function NewOrder() {
 
   return (
     <>
-      <div className="flex items-center min-h-screen p-2 md:p-10 justify-center bg-[var(--wine-color)] bg-slate-100">
+      <div className="flex items-center min-h-screen p-2 md:p-10 justify-center bg-[var(--wine-color)]">
         <div
           data-aos="fade-up"
           className="max-w-[800px] w-full bg-white rounded-lg shadow-md p-5 md:p-10"
@@ -98,7 +98,7 @@ export default function NewOrder() {
                 id="notes"
                 onChange={(e) => handleNoteChange(e)}
                 value={orderData.notes}
-                className="border-1 p-2 mt-2 rounded-md w-full border border-black"
+                className="border-1 p-2 mt-2 rounded-md w-full bg-slate-200"
                 placeholder="Hamburguesa sin ketchup"
               ></textarea>
 
@@ -106,7 +106,7 @@ export default function NewOrder() {
                 <label htmlFor="payment-method">Método de pago: </label>
                 <select
                   onChange={(e) => handleChangePaymentMethod(e)}
-                  className="border-1 border border-black p-2 rounded"
+                  className="bg-slate-200 p-2 rounded"
                   id="payment-method"
                 >
                   <option value="1">Efectivo</option>
@@ -123,7 +123,7 @@ export default function NewOrder() {
                     ? "Redireccionando..."
                     : "Finalizar pedido"
                 }
-                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-2 rounded-lg transition duration-200"
+                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-8 rounded-lg transition duration-200"
               />
             </form>
           </div>
