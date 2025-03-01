@@ -15,11 +15,6 @@ const Dashboard = () => {
   const [ordersWeekQuantity, setOrdersWeekQuantity] = useState()
   const [ordersMonthlyQuantity, setOrdersMonthlyQuantity] = useState()
 
-  useEffect(()=>{
-    console.log("El usuario es:", user)
-  },[user])
-
-
   useEffect(() => {
     const getRestaurantSummary = async () => {
       if (!user.restaurantID) return;
@@ -47,8 +42,10 @@ const Dashboard = () => {
 
     const fetchingMonthlyQuantity = async ()=>{
       const {data} = await axios.get(`http://localhost:8080/restaurant/${user?.restaurantID}/monthly`)
-      const ordersMonthlyQuantity = data.data.length;
-      setOrdersMonthlyQuantity(ordersMonthlyQuantity);
+      const totalOrdersMonthly = data.totalOrders;
+      console.log(totalOrdersMonthly)
+      setOrdersMonthlyQuantity(totalOrdersMonthly);
+
   }
     fetchingWeekQuantity()
     fetchingMonthlyQuantity()

@@ -22,9 +22,12 @@ export default function PrivateHeader({ logout }) {
           )}
         </button>
       </div>
-      <div className="flex gap-1 items-center">
+      <div>
+        <a href="/orders" className="flex items-center gap-1">
         <img className="w-[40px] h-[40px]" src={image} alt="Resticy icon" />
         <p className="font-medium text-2xl hidden md:block">Resticy</p>
+        </a>
+        
       </div>
 
       <div className="opacity-0 md:hidden">algo</div>

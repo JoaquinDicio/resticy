@@ -84,35 +84,27 @@ const ordersService = {
 
     const now = new Date();
 
-    const year = now.getFullYear();
-    const month = now.getMonth();
+    const startOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
+    const endOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()}`;
 
-    const startOfMonth = new Date(year, month, 1);
-    const endOfMonth = new Date(year, month + 1, 0, 23, 59, 59, 999);
 
-    const orders = await Order.findAll({
+    const totalOrders = await Order.count({
       where: {
         restaurant_id: restaurantId,
-        order_date: {
-          [Op.between]: [startOfMonth, endOfMonth]
-        }
-      },
-      include: [
-        {
-          model: OrderItem,
-          attributes: ["quantity", "subtotal"],
-          include: [{ model: Item, attributes: ["name", "price"] }],
-        },
-      ],
-      order: [['order_date', 'ASC']]
+        [Op.and]: [
+          Sequelize.literal(`DATE(order_date) >= '${startOfMonth}'`),
+          Sequelize.literal(`DATE(order_date) <= '${endOfMonth}'`)
+        ]
+      }
     });
 
     return {
       code: 200,
-      data: [...orders],
+      totalOrders, 
       ok: true,
     };
-  },
+},
+
 
   async getPopularDishes(restaurantId) {
     try {
