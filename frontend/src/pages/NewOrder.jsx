@@ -35,23 +35,23 @@ export default function NewOrder() {
 
     let orderId = null;
 
-    // si hay items postea la orden
-    if (order.items.length > 0) {
-      // si es en efectivo lo marca en la orden
-      if (orderData.payment_method == 1) {
-        order["is_cash"] = true;
-      }
+    if (order.items.length == 0) return;
 
-      const response = await axiosPost("http://localhost:8080/orders", {
-        order,
-      });
-
-      if (response.ok) {
-        orderId = response.data.id;
-      }
+    // si es en efectivo se setea la propiedad cash
+    if (orderData.payment_method == 1) {
+      order["is_cash"] = true;
     }
 
-    // en caso de ser necesario crea la preferencia de MP
+    // envia la orden y aguarda la respuesta
+    const response = await axiosPost("http://localhost:8080/orders", {
+      order,
+    });
+
+    if (response.ok) {
+      orderId = response.data.id;
+    }
+
+    // en caso de ser necesario crea la preferencia de MP para pagos virtuales
     if (orderData.payment_method != 1) {
       setCreatingPreference(true);
 
