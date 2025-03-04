@@ -6,10 +6,9 @@ import Restaurant from "./Restaurant.js";
 
 const Payment = sequelize.define("Payment", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.STRING,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    autoIncrement: true,
   },
   order_id: {
     type: DataTypes.BIGINT,
