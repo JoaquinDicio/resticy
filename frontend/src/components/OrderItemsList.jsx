@@ -10,7 +10,9 @@ export default function OrderItemsList({ displayOrder }) {
     }
 
     //si la orden ya esta paga, directamente se completa
-    markAsCompleted(displayOrder.id);
+    if (displayOrder.is_payed) {
+      markAsCompleted(displayOrder.id);
+    }
   }
 
   //se encarga de decidir que texto mostrar segun el estado del pago
