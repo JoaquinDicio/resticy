@@ -66,7 +66,6 @@ const Dashboard = () => {
           }
           </div>
         </div>
-  
         <div className='grid flex-1 grid-cols-1 md:grid-cols-3 gap-5 max-h-[auto] overflow-hidden'>
           <div className=' md:col-span-2 flex rounded-lg overflow-hidden'>
             <Charts restaurantId={user?.restaurantID}/>

@@ -54,7 +54,7 @@ const Charts = ({ restaurantId }) => {
         className="z-20"
         xAxis={[{ scaleType: "band", data: labels }]}
         series={[
-          { data: values, label: "Total de Pagos", color: "#D4AF37" },
+          { data: values, label: "Total de facturado", color: "#D4AF37" },
         ]}
         barLabel={(item, context) => {
           return context.bar.height < 60 ? null : (
