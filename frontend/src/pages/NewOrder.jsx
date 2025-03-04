@@ -98,7 +98,7 @@ export default function NewOrder() {
                 id="notes"
                 onChange={(e) => handleNoteChange(e)}
                 value={orderData.notes}
-                className="border-1 p-2 mt-2 rounded-md w-full bg-slate-200"
+                className="border-1 p-2 mt-2 rounded-md w-full bg-slate-200 resize-none"
                 placeholder="Hamburguesa sin ketchup"
               ></textarea>
 
