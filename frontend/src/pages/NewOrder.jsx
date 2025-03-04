@@ -123,7 +123,7 @@ export default function NewOrder() {
                     ? "Redireccionando..."
                     : "Finalizar pedido"
                 }
-                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-5 rounded-lg transition duration-200"
+                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer disabled:cursor-not-allowed bg-[var(--yellow-color)] text-white px-4 py-5 rounded-lg transition duration-200"
               />
             </form>
           </div>
