@@ -107,18 +107,18 @@ export default function ItemsSelector({ setOrderData, orderData }) {
           <div className="flex justify-center mt-5 md:mt-0 md:justify-end items-center w-100 gap-4 md:w-[60%]">
             <button
               onClick={() => removeItem(item.id)}
-              className=" text-xl w-full h-[40px] font-bold bg-red-500 text-white rounded-lg"
+              className=" text-md w-[90%] h-[40px] bg-red-500 text-white rounded-lg"
             >
-              -
+              Eliminar
             </button>
             <p className="text-xl font-bold">
               {orderData.items[item.id]?.quantity || 0}
             </p>
             <button
               onClick={() => addItem(item.id)}
-              className="text-xl w-full h-[40px] font-bold bg-green-500 text-white rounded-lg"
+              className="text-md w-[90%] h-[40px] bg-green-500 text-white rounded-lg"
             >
-              +
+              Agregar
             </button>
           </div>
         </li>
