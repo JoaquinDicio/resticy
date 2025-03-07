@@ -5,7 +5,7 @@ WORKDIR /app
 COPY backend/package*.json ./
 RUN npm install
 
-COPY back-end .
-EXPOSE 3000
+COPY backend .
+EXPOSE 8080
 
 CMD ["npm", "start"]
