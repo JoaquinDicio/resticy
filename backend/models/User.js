@@ -18,7 +18,7 @@ const User = sequelize.define(
       allowNull: false,
     },
     email: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
     },
@@ -44,4 +44,4 @@ User.associate = (models) => {
   });
 };
 
-export default User;
+export default User;
