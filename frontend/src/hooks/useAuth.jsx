@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AuthContext } from "../context/AuthContext";
 
 export default function useAuth() {
-  const { setIsAuth, setUser  } = useContext(AuthContext);
+  const { setIsAuth, setUser } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -37,6 +37,7 @@ export default function useAuth() {
       }
     } catch (error) {
       const { response } = error;
+      console.log(error);
       setErrors(response.data.error || "Algo salio mal");
     } finally {
       setLoading(false);
