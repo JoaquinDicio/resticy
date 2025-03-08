@@ -92,7 +92,7 @@ const itemsService = {
       const item = await Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
       //elimina el archivo usando la ruta del img
       if (item) {
-        fs.unlink(`/uploads/${item.img}`, (err) => {
+        fs.unlink(`backend/public/uploads/${item.img}`, (err) => {
           if (err) {
             console.error("Ocurrio un error al eliminar el archivo:", err);
             return;
