@@ -53,6 +53,7 @@ const Dashboard = () => {
   },[user])
 
 
+
   if(user){
     return (
       <div className='pt-20 p-4 md:p-20 md:pt-22 grid gap-5'>
@@ -61,8 +62,8 @@ const Dashboard = () => {
           <TotalCard dailyTotal={dailyTotal} />
           {user?.restaurantID && <TotalMouthAndYear restaurantID={user?.restaurantID} />}
           <div className='flex flex-col gap-5 rounded-lg overflow-hidden'>
-            {user?.restaurantID && <AsideData quantity={ordersMonthlyQuantity} title={'Ordenes mensuales'} typeIcon={"analytics"} />}
-            {user?.restaurantID && <AsideData quantity={ordersWeekQuantity} title={'Ordenes semanales'} />
+            {user?.restaurantID && <AsideData quantity={ordersMonthlyQuantity} title={'órdenes  mensuales'} typeIcon={"analytics"} />}
+            {user?.restaurantID && <AsideData quantity={ordersWeekQuantity} title={'órdenes  semanales'} />
           }
           </div>
         </div>

@@ -35,9 +35,9 @@ export default function LandingPage() {
               restaurante
             </p>
             <p className="text-white text-xl mt-5 font-light mb-5">
-              Impulsa tu negocio desde
+              Impulsa tu negocio 
               <br />
-              <span className="font-bold"> $20.000 por mes</span>
+              <span className="font-bold">desde $20.000 por mes</span>
             </p>
             <ButtonLink link={'/register'} text={"Registrarse"} width={"px-8"} />
           </div>

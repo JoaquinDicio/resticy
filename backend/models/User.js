@@ -44,4 +44,4 @@ User.associate = (models) => {
   });
 };
 
-export default User;
+export default User;

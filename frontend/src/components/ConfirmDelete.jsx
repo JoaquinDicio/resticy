@@ -5,7 +5,7 @@ export default function ConfirmDelete({ isOpen, item, onClose, onConfirm}) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white w-[95vw] lg:w-[30vw] lg:h-[auto] p-8 rounded-lg shadow-lg  relative bg-[var(--marfil-color)]">
+      <div className="bg-white w-[95vw] lg:w-[30vw] lg:h-[auto] p-8 rounded-lg shadow-lg  relative bg-[var(--marfil-color)]" data-aos="fade-up">
         <div className='flex items-center mb-4'>
         <DeleteForeverIcon sx={{ fontSize: 40 }}/>
         <h2 className="text-2xl font-bold">Eliminar producto</h2>

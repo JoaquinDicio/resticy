@@ -74,7 +74,7 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
             <OrderItemsList displayOrder={displayOrder} />
           ) : (
             <i className="h-full w-full text-center">
-              No existen ordenes pendientes
+              No existen órdenes pendientes
             </i>
           )}
         </div>

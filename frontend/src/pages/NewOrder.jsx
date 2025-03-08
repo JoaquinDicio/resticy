@@ -88,8 +88,8 @@ export default function NewOrder() {
           </div>
           <ItemsSelector setOrderData={setOrderData} orderData={orderData} />
           <div className="mt-10 flex flex-col gap-3">
-            <p className="font-sans font-bold text-xl text-right px-6">
-              TOTAL ${orderData.total_amount.toFixed(2)}
+            <p className="font-bold text-xl text-right px-6">
+              TOTAL: <span className="font-[sans-serif]">${orderData.total_amount.toFixed(2)} </span> 
             </p>
             <form onSubmit={(e) => placeOrder(e)} className="w-full">
               <label htmlFor="notes">Notas del pedido</label>
@@ -123,7 +123,7 @@ export default function NewOrder() {
                     ? "Redireccionando..."
                     : "Finalizar pedido"
                 }
-                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer bg-[var(--yellow-color)] text-white px-4 py-5 rounded-lg transition duration-200"
+                className="disabled:bg-slate-200 w-full mt-2 cursor-pointer disabled:cursor-not-allowed bg-[var(--yellow-color)] text-white px-4 py-5 rounded-lg transition duration-200"
               />
             </form>
           </div>
