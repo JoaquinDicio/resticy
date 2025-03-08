@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useAxios from "../hooks/useAxios";
+import useAxios from "../../hooks/useAxios";
 import { useParams } from "react-router-dom";
 
 export default function ItemsSelector({ setOrderData, orderData }) {
@@ -91,11 +91,11 @@ export default function ItemsSelector({ setOrderData, orderData }) {
         >
           <div className="flex items-center gap-5">
             <div className="w-[40%]">
-            <img
-              src={`http://localhost:8080/uploads/${item.img}`}
-              alt={item.name}
-              className="w-[200px] object-cover aspect-square rounded-[200px]"
-            />
+              <img
+                src={`http://localhost:8080/uploads/${item.img}`}
+                alt={item.name}
+                className="w-[200px] object-cover aspect-square rounded-[200px]"
+              />
             </div>
             <div>
               <p className="text-md font-semibold break-words max-w-[10rem] md:max-w-[100%]">

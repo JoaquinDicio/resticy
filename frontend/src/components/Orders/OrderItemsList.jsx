@@ -1,17 +1,23 @@
-import markAsCompleted from "../utils/markAsCompleted";
-import updatePayment from "../utils/updatePayment";
+import { useState } from "react";
+import markAsCompleted from "../../utils/markAsCompleted";
+import updatePayment from "../../utils/updatePayment";
+import { CircularProgress } from "@mui/material";
 
 export default function OrderItemsList({ displayOrder }) {
+  const [loading, setLoading] = useState(false);
+
   async function updateOrderStatus() {
     // si la orden es cash primero se marca como pagada
     if (displayOrder.is_cash && !displayOrder.is_payed) {
-      updatePayment(displayOrder.id);
+      setLoading(true);
+      updatePayment(displayOrder.id).then(() => setLoading(false));
       return;
     }
 
     //si la orden ya esta paga, directamente se completa
     if (displayOrder.is_payed) {
-      markAsCompleted(displayOrder.id);
+      setLoading(true);
+      markAsCompleted(displayOrder.id).then(() => setLoading(false));
     }
   }
 
@@ -64,10 +70,19 @@ export default function OrderItemsList({ displayOrder }) {
           className="flex justify-between items-center w-full p-5 font-medium cursor-pointer"
           aria-label="Ver detalles del pedido"
         >
-          <span className="status-text">{getStatusText()}</span>
-          <span className="font-medium text-2xl">
-            ${displayOrder.total_amount}
-          </span>
+          {!loading ? (
+            <>
+              <span className="status-text">{getStatusText()}</span>
+              <span className="font-medium text-2xl">
+                ${displayOrder.total_amount}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="status-text">Actualizando</span>
+              <CircularProgress color="white" size={25} />
+            </>
+          )}
         </button>
       </section>
     </>

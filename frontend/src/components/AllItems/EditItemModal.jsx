@@ -1,15 +1,15 @@
-import useAxios from "../hooks/useAxios";
-import InputField from "./InputField";
+import useAxios from "../../hooks/useAxios";
+import InputField from "../InputField";
 import { useEffect, useState } from "react";
-import ClearIcon from '@mui/icons-material/Clear';
-import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from "@mui/icons-material/Clear";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function EditItemModal({
   selectedItem,
   setSelectedItem,
   onClose,
   onEdit,
-  handleShowToast
+  handleShowToast,
 }) {
   const { axiosPut, errors } = useAxios();
   const [formData, setFormData] = useState({ name: "", price: "" });
@@ -47,18 +47,20 @@ export default function EditItemModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-[var(--marfil-color)] w-[95vw] lg:w-[40vw] p-10 rounded-lg relative" data-aos="fade-up">
+      <div
+        className="bg-[var(--marfil-color)] w-[95vw] lg:w-[40vw] p-10 rounded-lg relative"
+        data-aos="fade-up"
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <h2 className="text-start text-2xl lg:text-4xl font-bold">Editar producto</h2>
+            <h2 className="text-start text-2xl lg:text-4xl font-bold">
+              Editar producto
+            </h2>
             <div className="hidden md:block">
-            <EditIcon className="ml-3" sx={{ fontSize: 40 }}/>
+              <EditIcon className="ml-3" sx={{ fontSize: 40 }} />
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-          >
+          <button type="button" onClick={onClose}>
             <ClearIcon sx={{ fontSize: 40 }} />
           </button>
         </div>
@@ -93,10 +95,8 @@ export default function EditItemModal({
               Guardar
             </button>
           </div>
-
         </form>
       </div>
     </div>
-
   );
 }

@@ -1,10 +1,10 @@
-import useAxios from "../hooks/useAxios";
+import useAxios from "../../hooks/useAxios";
 import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
-import QRCodeGenerator from "./QR code/QrCode";
+import QRCodeGenerator from "../QR code/QrCode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function TablesAdminModal({
   tables,
@@ -12,9 +12,8 @@ export default function TablesAdminModal({
   setShowModal,
   handleShowToast,
 }) {
-
   const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
-  const { user, isAuth  } = useContext(AuthContext);
+  const { user, isAuth } = useContext(AuthContext);
 
   async function handleSubmit(newTable) {
     const response = await axiosPost("http://localhost:8080/tables", newTable);

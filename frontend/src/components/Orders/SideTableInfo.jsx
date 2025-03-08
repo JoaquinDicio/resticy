@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { CircularProgress } from "@mui/material";
 import OrderItemsList from "./OrderItemsList";
 import ClearIcon from "@mui/icons-material/Clear";
+import useAxios from "../../hooks/useAxios";
 
 export default function SideTableInfo({ selectedTable, orders, setModal }) {
   const [displayOrder, setDisplayOrder] = useState(null);
+  const { axiosGet, isLoading } = useAxios();
 
   useEffect(() => {
     if (selectedTable) {
       //busca en el array de ordenes la orden de la mesa seleccionada
       const order = orders.find((order) => order.table_id == selectedTable.id);
-
       if (order) {
         //si existe extrae la info de la orden de la bbdd
         findOrder(order.id);
@@ -22,17 +23,14 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
 
   //extrae los datos de la orden de la base de datos
   async function findOrder(orderId) {
-    const orderData = await axios.get(
-      `http://localhost:8080/orders/${orderId}`
-    );
-
-    setDisplayOrder(orderData.data.data);
+    const orderData = await axiosGet(`http://localhost:8080/orders/${orderId}`);
+    setDisplayOrder(orderData.data);
   }
 
   useEffect(() => {
     if (selectedTable) {
       document.body.style.overflowY = "hidden";
-      
+
       // Buscar la orden de la mesa seleccionada
       const order = orders.find((order) => order.table_id == selectedTable.id);
       if (order) {
@@ -47,7 +45,7 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
       document.body.style.overflowY = "auto";
     };
   }, [selectedTable, orders]);
-  
+
   return (
     <div
       className={`max-h-screen z-10 text-white bg-[var(--dark-color)] md:w-[30%] w-full absolute md:relative top-0 h-screen md:min-w-[400px] pt-5 ${
@@ -67,11 +65,23 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
               sx={{ fontSize: 40 }}
             />
           </div>
+
           <h3 className="text-4xl py-5 text-center">
             Mesa {selectedTable.number}
           </h3>
-          {selectedTable.hasOrders && displayOrder ? (
-            <OrderItemsList displayOrder={displayOrder} />
+
+          {selectedTable.hasOrders ? (
+            isLoading ? (
+              <div className="h-full flex items-center justify-center">
+                <CircularProgress className="w-full h-full" color="white" />
+              </div>
+            ) : displayOrder ? (
+              <OrderItemsList displayOrder={displayOrder} />
+            ) : (
+              <i className="h-full w-full text-center">
+                No existen órdenes pendientes
+              </i>
+            )
           ) : (
             <i className="h-full w-full text-center">
               No existen órdenes pendientes

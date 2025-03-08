@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import useAxios from "../hooks/useAxios";
-import ConfirmDelete from "../components/ConfirmDelete";
-import NewItem from "../components/NewItem";
-import EditItemModal from "../components/EditItemModal";
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import Skeleton from '@mui/material/Skeleton';
+import ConfirmDelete from "../components/AllItems/ConfirmDelete.jsx";
+import NewItem from "../components/AllItems/NewItem.jsx";
+import EditItemModal from "../components/AllItems/EditItemModal.jsx";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import Skeleton from "@mui/material/Skeleton";
 import { showToast } from "../utils/toastConfig";
 import { ToastContainer } from "react-toastify";
 
@@ -53,7 +53,7 @@ export default function AllItems() {
   }
 
   const handleShowToast = (message, type) => {
-    showToast(message, type)
+    showToast(message, type);
   };
 
   useEffect(() => {
@@ -63,7 +63,10 @@ export default function AllItems() {
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
       <h1 className="text-white text-4xl pb-8 text-start">Productos</h1>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5" data-aos="fade-in">
+      <div
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"
+        data-aos="fade-in"
+      >
         {!isLoading && items?.length > 0 ? (
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
@@ -94,7 +97,11 @@ export default function AllItems() {
           ))
         ) : (
           <p className="text-white text-center text-lg col-span-full">
-            {isLoading ? <Skeleton variant="rectangular" width={210} height={118} /> : "No existen productos"}
+            {isLoading ? (
+              <Skeleton variant="rectangular" width={210} height={118} />
+            ) : (
+              "No existen productos"
+            )}
           </p>
         )}
       </div>
@@ -129,7 +136,8 @@ export default function AllItems() {
 
       <div className="fixed bottom-10 right-10">
         <Fab
-          color="primary" aria-label="add"
+          color="primary"
+          aria-label="add"
           onClick={() => setIsNewItemOpen(true)}
           style={{ background: "#d4af37" }}
           className="hover:transition duration-300 hover:rotate-90 ease-in-out "
@@ -137,9 +145,7 @@ export default function AllItems() {
           <AddIcon />
         </Fab>
       </div>
-      <ToastContainer 
-      className="custom-toast-container"
-      />
+      <ToastContainer className="custom-toast-container" />
     </div>
   );
 }

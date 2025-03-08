@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ItemsSelector from "../components/ItemsSelector";
+import ItemsSelector from "../components/NewOrder/ItemsSelector";
 import useAxios from "../hooks/useAxios";
 import createPreference from "../utils/createPreferece";
 
@@ -89,7 +89,10 @@ export default function NewOrder() {
           <ItemsSelector setOrderData={setOrderData} orderData={orderData} />
           <div className="mt-10 flex flex-col gap-3">
             <p className="font-bold text-xl text-right px-6">
-              TOTAL: <span className="font-[sans-serif]">${orderData.total_amount.toFixed(2)} </span> 
+              TOTAL:{" "}
+              <span className="font-[sans-serif]">
+                ${orderData.total_amount.toFixed(2)}{" "}
+              </span>
             </p>
             <form onSubmit={(e) => placeOrder(e)} className="w-full">
               <label htmlFor="notes">Notas del pedido</label>

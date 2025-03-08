@@ -1,19 +1,23 @@
 import { useState, useRef } from "react";
-import useAxios from "../hooks/useAxios";
-import InputField from "./InputField";
-import ClearIcon from '@mui/icons-material/Clear';
-import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
-import Button from '@mui/material/Button';
+import useAxios from "../../hooks/useAxios";
+import InputField from "../InputField";
+import ClearIcon from "@mui/icons-material/Clear";
+import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
+import Button from "@mui/material/Button";
 
-export default function NewItem({ isOpen, onClose, onItemAdded, handleShowToast }) {
-
+export default function NewItem({
+  isOpen,
+  onClose,
+  onItemAdded,
+  handleShowToast,
+}) {
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
     name: "",
     price: "",
   });
-  
+
   const { axiosPost, errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState("");
@@ -81,20 +85,23 @@ export default function NewItem({ isOpen, onClose, onItemAdded, handleShowToast 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-[var(--marfil-color)] w-[95vw] lg:w-[40vw] p-10 rounded-lg relative" data-aos="fade-up">
+      <div
+        className="bg-[var(--marfil-color)] w-[95vw] lg:w-[40vw] p-10 rounded-lg relative"
+        data-aos="fade-up"
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <h2 className="text-start text-2xl lg:text-4xl font-bold">
               Agregar producto
             </h2>
             <div className="hidden md:block">
-            <AddReactionOutlinedIcon className="ml-3 hidden" sx={{ fontSize: 40 }} />
+              <AddReactionOutlinedIcon
+                className="ml-3 hidden"
+                sx={{ fontSize: 40 }}
+              />
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-          >
+          <button type="button" onClick={onClose}>
             <ClearIcon sx={{ fontSize: 40 }} />
           </button>
         </div>
@@ -138,12 +145,15 @@ export default function NewItem({ isOpen, onClose, onItemAdded, handleShowToast 
                 required
               />
 
-              <Button variant="outlined" 
-              onClick={handleFileClick}
-              
-              >Subir una foto</Button>
-          
-              {fileName && <span className="text-gray-700 text-sm ml-3 max-w-[130px] truncate ">{fileName}</span>}
+              <Button variant="outlined" onClick={handleFileClick}>
+                Subir una foto
+              </Button>
+
+              {fileName && (
+                <span className="text-gray-700 text-sm ml-3 max-w-[130px] truncate ">
+                  {fileName}
+                </span>
+              )}
             </div>
           </div>
           <div className="w-full flex justify-end">

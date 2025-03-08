@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import SideTableInfo from "../components/SideTableInfo.jsx";
-import TableSelector from "../components/TableSelector.jsx";
-import TablesAdminModal from "../components/TablesAdminModal.jsx";
+import SideTableInfo from "../components/Orders/SideTableInfo.jsx";
+import TableSelector from "../components/Orders/TableSelector.jsx";
+import TablesAdminModal from "../components/Orders/TablesAdminModal.jsx";
 import socket from "../socket.js";
 import useAxios from "../hooks/useAxios.jsx";
 import CustomButton from "../components/CustomButton.jsx";
@@ -53,9 +53,7 @@ export default function Orders() {
     // actualiza el estado para mostrar la campanita en la mesa correspondiente
     setTables((prevTables) =>
       prevTables.map((table) =>
-        table.id === tableId
-          ? { ...table, hasOrders: true }
-          : { ...table, hasOrders: false }
+        table.id === tableId ? { ...table, hasOrders: true } : { ...table }
       )
     );
   }
@@ -83,8 +81,6 @@ export default function Orders() {
         (order) => order.table_id === table_id
       );
 
-      console.log(ordersInTable);
-
       setTables((prevTables) =>
         prevTables.map((table) =>
           table.id === table_id
@@ -93,6 +89,9 @@ export default function Orders() {
         )
       );
 
+      console.log(tables);
+      //da paso a las nuevas ordenes si la mesa tiene mas de 1
+      //newOrders.forEach((order) => handleNewOrder(order));
       return;
     }
 
@@ -116,7 +115,7 @@ export default function Orders() {
       <div className="p-10 pt-24">
         <h1 className="font-bold text-2xl mb-2">Mesas</h1>
         <p>
-          Aqui podrás ver las órdenes  que recibe tu restaurante en tiempo real.
+          Aqui podrás ver las órdenes que recibe tu restaurante en tiempo real.
         </p>
         <TableSelector
           setModal={setShowSide}
