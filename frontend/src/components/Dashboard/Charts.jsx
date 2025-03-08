@@ -9,10 +9,9 @@ const Charts = ({ restaurantId }) => {
     const fetchMonthlyData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/payments/monthly-summary/${restaurantId}`
+          `https://resticy-production.up.railway.app/payments/monthly-summary/${restaurantId}`
         );
 
-        // Estructura base con los 12 meses en el orden correcto
         const fixedData = [
           { month: "Enero", total: 0 },
           { month: "Febrero", total: 0 },
