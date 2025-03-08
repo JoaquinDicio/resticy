@@ -45,7 +45,7 @@ export default function NewItem({
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:8080/items";
+    const url = "https://resticy-production.up.railway.app/items";
 
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);

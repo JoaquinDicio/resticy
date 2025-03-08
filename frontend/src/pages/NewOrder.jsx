@@ -43,9 +43,12 @@ export default function NewOrder() {
     }
 
     // envia la orden y aguarda la respuesta
-    const response = await axiosPost("http://localhost:8080/orders", {
-      order,
-    });
+    const response = await axiosPost(
+      "https://resticy-production.up.railway.app/orders",
+      {
+        order,
+      }
+    );
 
     if (response.ok) {
       orderId = response.data.id;

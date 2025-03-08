@@ -15,7 +15,7 @@ export default function TableSelector({
   useEffect(() => {
     async function getTables() {
       const response = await axiosGet(
-        `http://localhost:8080/tables/${user.restaurantID}`
+        `https://resticy-production.up.railway.app/tables/${user.restaurantID}`
       );
       setTables(response.data);
     }

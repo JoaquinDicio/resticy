@@ -9,7 +9,7 @@ const AsideList = ({ restaurantId }) => {
     const fetchPopularDishes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/restaurant/${restaurantId}/popular-dishes`
+          `https://resticy-production.up.railway.app/restaurant/${restaurantId}/popular-dishes`
         );
         setDishes(response.data);
       } catch (error) {
@@ -28,7 +28,9 @@ const AsideList = ({ restaurantId }) => {
         {isLoading ? (
           <p className="text-center text-gray-500">Cargando platos...</p>
         ) : dishes.length === 0 ? (
-          <p className="text-start text-xl font-bold pt-10 0">No hay platos favoritos todavía</p>
+          <p className="text-start text-xl font-bold pt-10 0">
+            No hay platos favoritos todavía
+          </p>
         ) : (
           dishes.map((item, index) => (
             <div
@@ -36,7 +38,9 @@ const AsideList = ({ restaurantId }) => {
               className="p-3 mb-3 rounded-lg flex justify-between items-center bg-[#D4AF37]/10"
             >
               <p className="text-lg font-medium text-[#333]">{item.name}</p>
-              <p className="text-lg font-semibold text-[#D4AF37]">Cantidad: {item.quantity}</p>
+              <p className="text-lg font-semibold text-[#D4AF37]">
+                Cantidad: {item.quantity}
+              </p>
             </div>
           ))
         )}

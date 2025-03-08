@@ -32,7 +32,7 @@ export default function Orders() {
   useEffect(() => {
     async function getPendingOrders() {
       const response = await axiosGet(
-        "http://localhost:8080/restaurants/orders"
+        "https://resticy-production.up.railway.app/restaurants/orders"
       );
 
       response.data.forEach((order) => {

@@ -11,7 +11,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
     async function fetchItems() {
       try {
         const response = await axiosGet(
-          `http://localhost:8080/items/${restaurantID}`
+          `https://resticy-production.up.railway.app/items/${restaurantID}`
         );
         setItems(response.data || []);
       } catch (error) {
@@ -92,7 +92,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
           <div className="flex items-center gap-5">
             <div className="w-[40%]">
               <img
-                src={`http://localhost:8080/uploads/${item.img}`}
+                src={`https://resticy-production.up.railway.app/uploads/${item.img}`}
                 alt={item.name}
                 className="w-[200px] object-cover aspect-square rounded-[200px]"
               />

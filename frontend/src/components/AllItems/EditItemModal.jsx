@@ -35,7 +35,10 @@ export default function EditItemModal({
 
     const updateData = { ...formData, id: selectedItem?.id };
 
-    const response = await axiosPut("http://localhost:8080/items", updateData);
+    const response = await axiosPut(
+      "https://resticy-production.up.railway.app/items",
+      updateData
+    );
 
     if (response.data) {
       setSelectedItem(null);
