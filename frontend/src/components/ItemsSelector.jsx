@@ -111,7 +111,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
             >
               Eliminar
             </button>
-            <p className="text-xl font-bold">
+            <p className="text-xl font-[sans-serif] font-bold">
               {orderData.items[item.id]?.quantity || 0}
             </p>
             <button

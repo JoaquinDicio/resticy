@@ -51,13 +51,13 @@ const TotalMouthAndYear = ({ restaurantID }) => {
       <div className="z-20">
         <div className="absolute top-2 right-2 z-20 flex w-[40%] gap-3 p-2">
           <button
-            className={`w-full rounded p-2 ${activeButton === 'mes' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
+            className={`w-full font-bold rounded p-2 ${activeButton === 'mes' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
             onClick={() => setActiveButton('mes')}
           >
             Mes
           </button>
           <button
-            className={`w-full rounded p-2 ${activeButton === 'año' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
+            className={`w-full font-bold rounded p-2 ${activeButton === 'año' ? 'bg-[#ffc814]' : 'bg-transparent'}`}
             onClick={() => setActiveButton('año')}
           >
             Semana

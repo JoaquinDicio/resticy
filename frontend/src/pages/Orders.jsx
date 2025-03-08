@@ -78,7 +78,7 @@ export default function Orders() {
       const newOrders = orders.filter((anOrder) => anOrder.id !== id);
       setOrders(newOrders);
 
-      // verifica si hay mas ordenes en la mesa
+      // verifica si hay mas Órdenes en la mesa
       const ordersInTable = newOrders.filter(
         (order) => order.table_id === table_id
       );
@@ -116,7 +116,7 @@ export default function Orders() {
       <div className="p-10 pt-24">
         <h1 className="font-bold text-2xl mb-2">Mesas</h1>
         <p>
-          Aqui podrás ver las ordenes que recibe tu restaurante en tiempo real.
+          Aqui podrás ver las órdenes  que recibe tu restaurante en tiempo real.
         </p>
         <TableSelector
           setModal={setShowSide}

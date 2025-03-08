@@ -19,7 +19,7 @@ const AsideData = ({ title, typeIcon , quantity}) => {
             
         <Icon sx={{ fontSize: 55, color: iconColor }} />
         <div className={`flex items-center gap-1 items-start justify-center z-20`}>
-            <p className="font-bold text-xl">{quantity}</p>
+        <p className="font-[sans-serif] font-bold text-xl">{quantity}</p>
             <p className="text-md ">{title}</p>
         </div>
         </div>

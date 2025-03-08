@@ -30,26 +30,27 @@ export default function TableSelector({
 
   return (
     <>
-      <ul className="mt-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4  lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-5">
-        {tables?.length == 0 && (
+      <ul className="mt-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-5">
+        {isLoading ? (
+          <Skeleton variant="rectangular" className="rounded-lg" width={100} height={100} />
+        ) : tables?.length === 0 ? (
           <i className="text-[var(--yellow-color)] w-[250px]">
             No hay mesas para mostrar.
           </i>
+        ) : (
+          tables?.map((table) => (
+            <li
+              key={table.id}
+              onClick={() => handleSelectTable(table)}
+              className={`hover:shadow-lg duration-200 aspect-square md:min-w-[100px] md:min-h-[100px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center justify-center p-4 
+        ${table.hasOrders ? "blinking" : "bg-[#3e3e3e22]"}`}
+            >
+              <p className="text-4xl">{table.number}</p>
+            </li>
+          ))
         )}
-        {isLoading && (
-          <Skeleton variant="rectangular" width={210} height={118} />
-        )}
-        {tables?.map((table) => (
-          <li
-            key={table.id}
-            onClick={() => handleSelectTable(table)}
-            className={`hover:shadow-lg duration-200  aspect-square md:min-w-[100px] md:min-h-[100px] cursor-pointer relative shadow-sm rounded-lg flex flex-col items-center justify-center p-4 
-              ${table.hasOrders ? "blinking" : "bg-[#3e3e3e22]"}`}
-          >
-            <p className="text-4xl">{table.number}</p>
-          </li>
-        ))}
       </ul>
+
     </>
   );
 }
