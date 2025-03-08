@@ -16,7 +16,10 @@ export default function TablesAdminModal({
   const { user, isAuth } = useContext(AuthContext);
 
   async function handleSubmit(newTable) {
-    const response = await axiosPost("http://localhost:8080/tables", newTable);
+    const response = await axiosPost(
+      "https://resticy-production.up.railway.app/tables",
+      newTable
+    );
     //si esta todo ok agrega la mesa al array, evitando llamar de nuevo a la API
     if (response.ok) {
       setTables((prev) => [...prev, { ...response.data }]);
@@ -27,7 +30,7 @@ export default function TablesAdminModal({
 
   async function handleDelete(tableID) {
     const response = await axiosDelete(
-      `http://localhost:8080/tables/${tableID}`
+      `https://resticy-production.up.railway.app/tables/${tableID}`
     );
 
     if (response.ok) {

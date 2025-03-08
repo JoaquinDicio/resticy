@@ -12,7 +12,7 @@ export default async function createPreference(
   });
 
   const { data } = await axios.post(
-    "http://localhost:8080/payment/create-preference",
+    "https://resticy-production.up.railway.app/payment/create-preference",
     { items: formatedItems, external_reference }
   );
 

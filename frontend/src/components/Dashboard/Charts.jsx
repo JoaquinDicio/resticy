@@ -30,7 +30,7 @@ const Charts = ({ restaurantId }) => {
 
         // Actualizar valores con los datos de la API
         response.data.forEach((item) => {
-          const monthNumber = parseInt(item.month.split("-")[1], 10); 
+          const monthNumber = parseInt(item.month.split("-")[1], 10);
           fixedData[monthNumber - 1].total = item.total;
         });
 

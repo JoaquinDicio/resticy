@@ -20,7 +20,7 @@ const Dashboard = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/payment/summary/${user?.restaurantID}`
+          `https://resticy-production.up.railway.app/payment/summary/${user?.restaurantID}`
         );
         const restaurantSummary = await response.json();
 
@@ -36,7 +36,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchingWeekQuantity = async () => {
       const { data } = await axios.get(
-        `http://localhost:8080/restaurant/${user?.restaurantID}/weekly`
+        `https://resticy-production.up.railway.app/restaurant/${user?.restaurantID}/weekly`
       );
       const ordersWeekQuantity = data.data.length;
       setOrdersWeekQuantity(ordersWeekQuantity);
@@ -44,7 +44,7 @@ const Dashboard = () => {
 
     const fetchingMonthlyQuantity = async () => {
       const { data } = await axios.get(
-        `http://localhost:8080/restaurant/${user?.restaurantID}/monthly`
+        `https://resticy-production.up.railway.app/restaurant/${user?.restaurantID}/monthly`
       );
       const totalOrdersMonthly = data.totalOrders;
       setOrdersMonthlyQuantity(totalOrdersMonthly);

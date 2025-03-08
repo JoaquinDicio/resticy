@@ -33,7 +33,9 @@ export default function AllItems() {
 
   async function confirmDelete(id) {
     if (selectedItem) {
-      await axiosDelete(`http://localhost:8080/itemDelete/${selectedItem.id}`);
+      await axiosDelete(
+        `https://resticy-production.up.railway.app/itemDelete/${selectedItem.id}`
+      );
       setIsModalOpen(false);
       setSelectedItem(null);
       await fetchItems();
@@ -44,7 +46,7 @@ export default function AllItems() {
   async function fetchItems() {
     try {
       const response = await axiosGet(
-        `http://localhost:8080/items/${user.restaurantID}`
+        `https://resticy-production.up.railway.app/items/${user.restaurantID}`
       );
       setItems(response.data || []);
     } catch (error) {
@@ -71,7 +73,7 @@ export default function AllItems() {
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
               <img
-                src={`http://localhost:8080/uploads/${item.img}`}
+                src={`https://resticy-production.up.railway.app/uploads/${item.img}`}
                 alt={item.name}
                 className="w-full h-48 object-cover"
               />
