@@ -24,7 +24,7 @@ const SystemInnovation = () => {
     {
       title: "On-line",
       description:
-        "¡No necesitas instalar nada! \n Accede desde cualquier lugar, \n en cualquier momento.",
+        "¡No necesitas instalar nada! \n Accede desde cualquier lugar.",
       icon: sencilloIcon,
     },
   ];
@@ -62,10 +62,13 @@ const SystemInnovation = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg p-5 flex flex-col text-center justify-center items-center md:w-1/3"
+              className="bg-white min-w-[330px] rounded-lg shadow-lg p-5 flex flex-col text-center justify-center items-center md:w-1/3"
             >
-              <img src={feature.icon} alt={`icono ${feature.title}`} className="p-5 min-w-[300px] max-w-[300px]
-                  min-h-[300px] max-h-[300px] object-contain" />
+              <div className="min-h-[300px]">
+              <img src={feature.icon} alt={`icono ${feature.title}`} className="p-5 w-full
+                  aspect-square object-contain" />
+              </div>
+              
               <p className="font-medium text-2xl pb-2  pt-3">{feature.title}</p>
               <p className="text-sm pt-3 whitespace-pre-line">{feature.description}</p>
             </div>
