@@ -20,7 +20,10 @@ sequelize.sync({ alter: true });
 
 const server = http.createServer(app); // crea un servidor http
 const io = new SocketServer(server, {
-  cors: { origin: "https://frontend-resticy.vercel.app" },
+  cors: {
+    origin: "https://frontend-resticy.vercel.app",
+    origin: "http://localhost:5173",
+  },
 });
 
 app.use(cors());
