@@ -30,9 +30,9 @@ const paymentService = {
         items,
         external_reference,
         back_urls: {
-          success: "http://localhost:5173/success",
-          failure: "http://localhost:8080/feedback",
-          pending: "http://localhost:8080/feedback",
+          success: "https://frontend-resticy.vercel.app/success",
+          failure: "https://frontend-resticy.vercel.app/feedback",
+          pending: "https://frontend-resticy.vercel.app/feedback",
         },
         auto_return: "approved",
       },
