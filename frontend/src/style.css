@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import "https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   font-family: "Raleway";
@@ -7,11 +10,10 @@
 }
 :root {
   --dark-color: #333333;
-  --wine-color: #51161F;
+  --wine-color: #51161f;
   --yellow-color: #d4af37;
   --yellow-secondary: #ebc341;
-  --marfil-color: #FFFFF0;
-  
+  --marfil-color: #fffff0;
 }
 body {
   background-color: var(--wine-color);
@@ -62,11 +64,16 @@ svg {
   }
 }
 
-
 @keyframes blink {
-  0% { background-color: #3e3e3e22; }
-  50% { background-color: var(--yellow-secondary);}
-  100% { background-color: #3e3e3e22; }
+  0% {
+    background-color: #3e3e3e22;
+  }
+  50% {
+    background-color: var(--yellow-secondary);
+  }
+  100% {
+    background-color: #3e3e3e22;
+  }
 }
 
 @keyframes slideIn {
@@ -77,7 +84,6 @@ svg {
     transform: translateX(0);
   }
 }
-
 
 .blinking {
   animation: blink 2s infinite;
@@ -111,13 +117,13 @@ input[type="radio"] {
   appearance: none;
 }
 input[type="radio"]:checked {
-  background-color:  var(--yellow-color);
+  background-color: var(--yellow-color);
 }
-.swiper-pagination{
+.swiper-pagination {
   padding-top: 15px;
   position: relative;
 }
-.swiper-pagination-bullet{
+.swiper-pagination-bullet {
   background-color: var(--wine-color);
 }
 @media (max-width: 1200px) {

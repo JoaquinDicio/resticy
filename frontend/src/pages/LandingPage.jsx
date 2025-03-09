@@ -1,4 +1,4 @@
-import mackMockup from "../assets/Macbook.png";
+import mackMockup from "../assets/macbook.png";
 import iphoneMp from "../assets/iphonemp.png";
 import logoGris from "../assets/logotitulo.png";
 
@@ -12,8 +12,6 @@ import PlansLanding from "../components/LandingPage/PlansLanding";
 import SystemInnovation from "../components/LandingPage/SystemInnovation";
 
 export default function LandingPage() {
-
-
   return (
     <>
       <HeaderLanding />
@@ -22,7 +20,10 @@ export default function LandingPage() {
         id="home"
         className="bg-cover pt-20 min-h-[50vh] flex flex-col justify-center items-center bg-no-repeat z-50 md:px-0 bg-red-200 banner1"
       >
-        <div className="md:flex px-12 lg:px-20 justify-between max-w-[1200px] md:mt-20" data-aos="fade-right">
+        <div
+          className="md:flex px-12 lg:px-20 justify-between max-w-[1200px] md:mt-20"
+          data-aos="fade-right"
+        >
           <div>
             <p className="text-white mb-2 font-light text-[1.0rem] md:text-[1.1rem]">
               Software de gestión para restaurantes
@@ -31,17 +32,24 @@ export default function LandingPage() {
               Preocupate sólo por la comida
             </p>
             <p className="text-3xl md:text-3xl xl:text-5xl font-[800] md:font-[900] text-white">
-              <span className="text-[--yellow-color]">Resticy</span> mejora <br /> tu
-              restaurante
+              <span className="text-[--yellow-color]">Resticy</span> mejora{" "}
+              <br /> tu restaurante
             </p>
             <p className="text-white text-xl mt-5 font-light mb-5">
-              Impulsa tu negocio 
+              Impulsa tu negocio
               <br />
               <span className="font-bold">desde $20.000 por mes</span>
             </p>
-            <ButtonLink link={'/register'} text={"Registrarse"} width={"px-8"} />
+            <ButtonLink
+              link={"/register"}
+              text={"Registrarse"}
+              width={"px-8"}
+            />
           </div>
-          <div className="hidden lg:flex px-10 max-w-[600px] justify-center" data-aos="fade-left">
+          <div
+            className="hidden lg:flex px-10 max-w-[600px] justify-center"
+            data-aos="fade-left"
+          >
             <img
               src={imageLanding}
               alt="hombre realizando pedido con tablet"
@@ -67,7 +75,10 @@ export default function LandingPage() {
         id="functions"
         className="bg-[--marfil-color] min-h-[75vh] w-full  pb-14 flex justify-center"
       >
-        <div className="lg:flex-row lg:max-w-[1200px] w-full flex flex-col items-center" data-aos="fade-up">
+        <div
+          className="lg:flex-row lg:max-w-[1200px] w-full flex flex-col items-center"
+          data-aos="fade-up"
+        >
           <img
             src={mackMockup}
             className="object-cover h-[40vh] md:h-fit md:w-[600px]"
@@ -100,15 +111,17 @@ export default function LandingPage() {
                 </li>
               </ul>
 
-              <ButtonLink link={'#'} text={"Ver más"} width={"px-8"} />
-
+              <ButtonLink link={"#"} text={"Ver más"} width={"px-8"} />
             </div>
           </div>
         </div>
       </section>
 
       <section className="bg-white pt-10 min-h-[70vh] pb-14 flex items-center justify-center">
-        <div className="flex items-center flex-col px-10 md:flex-row max-w-[1100px]" data-aos="fade-up">
+        <div
+          className="flex items-center flex-col px-10 md:flex-row max-w-[1100px]"
+          data-aos="fade-up"
+        >
           <img
             src={iphoneMp}
             className="w-fit object-cover h-[400px] md:w-full md:max-w-[300px] md:w-[600px] md:h-fit"
@@ -116,7 +129,9 @@ export default function LandingPage() {
           />
           <div className="mt-10 md:px-10">
             <div className="pb-10">
-              <p className="font-light text-[1.10rem] my-2">Servicio Eficiente</p>
+              <p className="font-light text-[1.10rem] my-2">
+                Servicio Eficiente
+              </p>
               <p className="font-[800] md:font-[900] text-3xl md:text-5xl text-[--dark-color]">
                 Realiza pagos <br /> por
                 <span className="text-[--yellow-color]"> Mercado pago</span>
@@ -129,14 +144,20 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <ButtonLink link={'#'} text={"Ver funcionalidades"} width={"px-8"} />
-
+            <ButtonLink
+              link={"#"}
+              text={"Ver funcionalidades"}
+              width={"px-8"}
+            />
           </div>
         </div>
       </section>
 
       <section className="bg-[--marfil-color] min-h-[70vh] flex items-center md:px-20 py-32 banner2">
-        <div className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center" data-aos="fade-up">
+        <div
+          className="max-w-[1100px] mx-auto lg:flex lg:flex-row-reverse flex flex-col items-center"
+          data-aos="fade-up"
+        >
           <img
             src={logoGris}
             alt="Logo de resticy"
@@ -159,8 +180,11 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <ButtonLink link={'#'} text={"Ver funcionalidades"} width={"px-8"} />
-
+            <ButtonLink
+              link={"#"}
+              text={"Ver funcionalidades"}
+              width={"px-8"}
+            />
           </div>
         </div>
       </section>
