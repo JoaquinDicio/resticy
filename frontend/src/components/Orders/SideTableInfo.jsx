@@ -23,9 +23,8 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
 
   //extrae los datos de la orden de la base de datos
   async function findOrder(orderId) {
-    const orderData = await axiosGet(
-      `https://resticy-production.up.railway.app/orders/${orderId}`
-    );
+    const baseUrl = import.meta.env.VITE_API_URL;
+    const orderData = await axiosGet(`${baseUrl}/orders/${orderId}`);
     setDisplayOrder(orderData.data);
   }
 

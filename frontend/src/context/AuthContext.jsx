@@ -7,7 +7,7 @@ export default function AuthContextProvider({ children }) {
   const [isAuth, setIsAuth] = useState(!!Cookies.get("authToken"));
   const [user, setUser] = useState(() => {
     const userCookie = Cookies.get("user");
-    return userCookie ? JSON.parse(userCookie) : null; 
+    return userCookie ? JSON.parse(userCookie) : null;
   });
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -18,9 +18,8 @@ export default function AuthContextProvider({ children }) {
     }
 
     if (userCookie) {
-      setUser(JSON.parse(userCookie)); 
+      setUser(JSON.parse(userCookie));
     }
-
   }, []);
 
   function logout() {

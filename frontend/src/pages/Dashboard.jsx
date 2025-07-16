@@ -7,12 +7,14 @@ import AsideChart from "../components/Dashboard/AsideChart";
 import AsideList from "../components/Dashboard/AsideList";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { json } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [dailyTotal, setDailyTotal] = useState();
   const [ordersWeekQuantity, setOrdersWeekQuantity] = useState();
   const [ordersMonthlyQuantity, setOrdersMonthlyQuantity] = useState();
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const getRestaurantSummary = async () => {
@@ -20,7 +22,7 @@ const Dashboard = () => {
 
       try {
         const response = await fetch(
-          `https://resticy-production.up.railway.app/payment/summary/${user?.restaurantID}`
+          `${baseUrl}/payment/summary/${user?.restaurantID}`
         );
         const restaurantSummary = await response.json();
 
@@ -36,7 +38,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchingWeekQuantity = async () => {
       const { data } = await axios.get(
-        `https://resticy-production.up.railway.app/restaurant/${user?.restaurantID}/weekly`
+        `${baseUrl}/restaurant/${user?.restaurantID}/weekly`
       );
       const ordersWeekQuantity = data.data.length;
       setOrdersWeekQuantity(ordersWeekQuantity);
@@ -44,7 +46,7 @@ const Dashboard = () => {
 
     const fetchingMonthlyQuantity = async () => {
       const { data } = await axios.get(
-        `https://resticy-production.up.railway.app/restaurant/${user?.restaurantID}/monthly`
+        `${baseUrl}/restaurant/${user?.restaurantID}/monthly`
       );
       const totalOrdersMonthly = data.totalOrders;
       setOrdersMonthlyQuantity(totalOrdersMonthly);

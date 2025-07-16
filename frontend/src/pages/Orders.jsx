@@ -31,9 +31,9 @@ export default function Orders() {
 
   useEffect(() => {
     async function getPendingOrders() {
-      const response = await axiosGet(
-        "https://resticy-production.up.railway.app/restaurants/orders"
-      );
+      const baseUrl = import.meta.env.VITE_API_URL;
+
+      const response = await axiosGet(`${baseUrl}/restaurants/orders`);
 
       response.data.forEach((order) => {
         handleNewOrder(order);

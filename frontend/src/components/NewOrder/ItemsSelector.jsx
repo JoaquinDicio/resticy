@@ -6,13 +6,12 @@ export default function ItemsSelector({ setOrderData, orderData }) {
   const { axiosGet, isLoading } = useAxios();
   const [items, setItems] = useState(null);
   const { restaurantID } = useParams();
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function fetchItems() {
       try {
-        const response = await axiosGet(
-          `https://resticy-production.up.railway.app/items/${restaurantID}`
-        );
+        const response = await axiosGet(`${baseUrl}/items/${restaurantID}`);
         setItems(response.data || []);
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -92,7 +91,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
           <div className="flex items-center gap-5">
             <div className="w-[40%]">
               <img
-                src={`https://resticy-production.up.railway.app/uploads/${item.img}`}
+                src={`${baseUrl}/${item.img}`}
                 alt={item.name}
                 className="w-[200px] object-cover aspect-square rounded-[200px]"
               />

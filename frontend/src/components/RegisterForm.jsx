@@ -66,7 +66,6 @@ const RegisterForm = () => {
             Iniciar sesión
           </a>
         </p>
-
       </div>
     </form>
   );

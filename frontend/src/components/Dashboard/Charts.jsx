@@ -8,9 +8,9 @@ const Charts = ({ restaurantId }) => {
   useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
-        const response = await axios.get(
-          `https://resticy-production.up.railway.app/payments/monthly-summary/${restaurantId}`
-        );
+        const baseUrl = import.meta.env.VITE_API_URL;
+
+        const response = await axios.get(`${baseUrl}/${restaurantId}`);
 
         const fixedData = [
           { month: "Enero", total: 0 },

@@ -42,13 +42,12 @@ export default function NewOrder() {
       order["is_cash"] = true;
     }
 
+    const baseUrl = import.meta.env.VITE_API_URL;
+
     // envia la orden y aguarda la respuesta
-    const response = await axiosPost(
-      "https://resticy-production.up.railway.app/orders",
-      {
-        order,
-      }
-    );
+    const response = await axiosPost(`${baseUrl}/orders`, {
+      order,
+    });
 
     if (response.ok) {
       orderId = response.data.id;

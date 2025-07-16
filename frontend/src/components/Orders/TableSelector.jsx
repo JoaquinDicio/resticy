@@ -14,9 +14,8 @@ export default function TableSelector({
 
   useEffect(() => {
     async function getTables() {
-      const response = await axiosGet(
-        `https://resticy-production.up.railway.app/tables/${user.restaurantID}`
-      );
+      const baseUrl = import.meta.env.VITE_API_URL;
+      const response = await axiosGet(`${baseUrl}/tables/${user.restaurantID}`);
       setTables(response.data);
     }
 

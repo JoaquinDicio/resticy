@@ -35,10 +35,9 @@ export default function EditItemModal({
 
     const updateData = { ...formData, id: selectedItem?.id };
 
-    const response = await axiosPut(
-      "https://resticy-production.up.railway.app/items",
-      updateData
-    );
+    const baseUrl = import.meta.env.VITE_API_URL;
+
+    const response = await axiosPut(`${baseUrl}/items`, updateData);
 
     if (response.data) {
       setSelectedItem(null);

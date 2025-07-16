@@ -9,12 +9,13 @@ const TotalMouthAndYear = ({ restaurantID }) => {
   const [weeklyData, setWeeklyData] = useState([]);
   const [totalWeek, setTotalWeek] = useState("");
   const [totalMonth, setTotalMonth] = useState("");
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchWeeklyPayments = async () => {
       try {
         const { data } = await axios.get(
-          `https://resticy-production.up.railway.app/payments/weekly/${restaurantID}`
+          `${baseUrl}/payments/weekly/${restaurantID}`
         );
         const weeklyData = data.map((payment) => parseFloat(payment.amount));
         const totalAmount = weeklyData.reduce(
@@ -35,7 +36,7 @@ const TotalMouthAndYear = ({ restaurantID }) => {
     const fetchMonthlyPayment = async () => {
       try {
         const { data } = await axios.get(
-          `https://resticy-production.up.railway.app/payments/monthly/${restaurantID}`
+          `${baseUrl}/payments/monthly/${restaurantID}`
         );
         const monthlyPayment = data.map((payment) =>
           parseFloat(payment.amount)

@@ -1,5 +1,7 @@
 import { io } from "socket.io-client";
 
-const socket = io("https://resticy-production.up.railway.app");
+const baseUrl = import.meta.env.VITE_API_URL;
+
+const socket = io(baseUrl);
 
 export default socket;

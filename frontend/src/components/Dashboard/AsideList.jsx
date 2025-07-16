@@ -8,8 +8,9 @@ const AsideList = ({ restaurantId }) => {
   useEffect(() => {
     const fetchPopularDishes = async () => {
       try {
+        const baseUrl = import.meta.env.VITE_API_URL;
         const response = await axios.get(
-          `https://resticy-production.up.railway.app/restaurant/${restaurantId}/popular-dishes`
+          `${baseUrl}/${restaurantId}/popular-dishes`
         );
         setDishes(response.data);
       } catch (error) {

@@ -45,7 +45,10 @@ export default function NewItem({
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "https://resticy-production.up.railway.app/items";
+
+    const baseUrl = import.meta.env.VITE_API_URL;
+
+    const url = `${baseUrl}/items`; //api url
 
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);

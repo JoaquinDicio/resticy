@@ -11,10 +11,12 @@ export default async function createPreference(
     formatedItems.push({ ...item, unit_price: parseInt(item.price) });
   });
 
-  const { data } = await axios.post(
-    "https://resticy-production.up.railway.app/payment/create-preference",
-    { items: formatedItems, external_reference }
-  );
+  const baseUrl = import.meta.env.VITE_API_URL;
+
+  const { data } = await axios.post(`${baseUrl}/payment/create-preference`, {
+    items: formatedItems,
+    external_reference,
+  });
 
   if (callback) callback();
 

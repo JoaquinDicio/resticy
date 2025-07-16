@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 export default function AllItems() {
   const user = JSON.parse(Cookies.get("user") || "{}");
   const [items, setItems] = useState([]);
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   const { axiosGet, axiosDelete, isLoading } = useAxios();
   const [selectedItem, setSelectedItem] = useState(null);
@@ -33,9 +34,7 @@ export default function AllItems() {
 
   async function confirmDelete(id) {
     if (selectedItem) {
-      await axiosDelete(
-        `https://resticy-production.up.railway.app/itemDelete/${selectedItem.id}`
-      );
+      await axiosDelete(`${baseUrl}/itemDelete/${selectedItem.id}`);
       setIsModalOpen(false);
       setSelectedItem(null);
       await fetchItems();
@@ -45,9 +44,7 @@ export default function AllItems() {
 
   async function fetchItems() {
     try {
-      const response = await axiosGet(
-        `https://resticy-production.up.railway.app/items/${user.restaurantID}`
-      );
+      const response = await axiosGet(`${baseUrl}/items/${user.restaurantID}`);
       setItems(response.data || []);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -73,7 +70,7 @@ export default function AllItems() {
           items.map((item) => (
             <div key={item.id} className="bg-white overflow-hidden rounded-lg">
               <img
-                src={`https://resticy-production.up.railway.app/uploads/${item.img}`}
+                src={`${baseUrl}/uploads/${item.img}`}
                 alt={item.name}
                 className="w-full h-48 object-cover"
               />
