@@ -11,11 +11,13 @@ import ordersRouter from "./routes/orders.routes.js";
 import tablesRouter from "./routes/tables.routes.js";
 import restaurantsRouter from "./routes/restaurants.routes.js";
 import paymentRouter from "./routes/payment.routes.js";
+import seedRoles from "./seedRoles.js";
 
 const app = express();
 
 //enlaza la base de datos e inicializa los modelos
 intializeModels();
+seedRoles();
 sequelize.sync({ alter: true });
 
 const server = http.createServer(app); // crea un servidor http
