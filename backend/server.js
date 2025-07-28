@@ -11,7 +11,7 @@ import ordersRouter from "./routes/orders.routes.js";
 import tablesRouter from "./routes/tables.routes.js";
 import restaurantsRouter from "./routes/restaurants.routes.js";
 import paymentRouter from "./routes/payment.routes.js";
-import seedRoles from "./seedRoles.js";
+import seedRoles from "./seeders/seedRoles.js";
 
 const app = express();
 
