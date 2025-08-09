@@ -15,8 +15,6 @@ import seedRoles from "./seeders/seedRoles.js";
 
 const app = express();
 
-// this is a comment in dev
-
 //enlaza la base de datos e inicializa los modelos
 intializeModels();
 sequelize.sync({ alter: true });
@@ -25,8 +23,7 @@ seedRoles();
 const server = http.createServer(app); // crea un servidor http
 const io = new SocketServer(server, {
   cors: {
-    origin:
-      "https://resticy-frontend-jzxl9knto-joaquindicios-projects.vercel.app/",
+    origin: "http://localhost:5173",
   },
 });
 
