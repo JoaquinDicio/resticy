@@ -17,8 +17,8 @@ const app = express();
 
 //enlaza la base de datos e inicializa los modelos
 intializeModels();
-seedRoles();
 sequelize.sync({ alter: true });
+seedRoles();
 
 const server = http.createServer(app); // crea un servidor http
 const io = new SocketServer(server, {
