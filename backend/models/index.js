@@ -6,8 +6,9 @@ import User from "./User.js";
 import Restaurant from "./Restaurant.js";
 import Table from "./Table.js";
 import Payment from "./Payment.js";
+import sequalize from "../database.js";
 
-const initModels = () => {
+async function initModels() {
   Order.hasOne(Payment, { foreignKey: "order_id", as: "payment" });
   Payment.belongsTo(Order, { foreignKey: "order_id", as: "order" });
 
@@ -36,11 +37,9 @@ const initModels = () => {
     foreignKey: "restaurant_id",
     as: "restaurant",
   });
+
+  await sequalize.sync()
 };
 
-const initializeModels = () => {
-  initModels();
-  return { Order, Item, OrderItem, Role, User, Restaurant, Table, Payment };
-};
 
-export default initializeModels;
+export default initModels;
