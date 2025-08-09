@@ -22,7 +22,7 @@ seedRoles();
 
 const server = http.createServer(app); // crea un servidor http
 const io = new SocketServer(server, {
-  cors: { origin: "http://localhost:5173" },
+  cors: { origin: "https://resticy-frontend-jzxl9knto-joaquindicios-projects.vercel.app/" },
 });
 
 app.use(cors());
