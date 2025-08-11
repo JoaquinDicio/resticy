@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({});
-  const { authenticate, errors, isLoading } = useAuth();
+  const { authenticate, error, isLoading } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,9 +26,7 @@ export default function LoginForm() {
       method="POST"
       className="flex flex-col"
     >
-      {errors.credentials && (
-        <p className="text-red-500">{errors.credentials}</p>
-      )}
+      {error && <p className="text-red-500">{error.message}</p>}
       <InputField
         label="Email"
         type="email"
@@ -36,7 +34,6 @@ export default function LoginForm() {
         onChange={handleChange}
         placeholder="TuEmpresa@gmail.com"
       />
-      {errors.email && <p className="text-red-500">{errors.email}</p>}
       <InputField
         label="Contraseña"
         type="password"

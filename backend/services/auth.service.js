@@ -1,26 +1,31 @@
 import User from "../models/User.js";
 import Restaurant from "../models/Restaurant.js";
-
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import HttpError from "../errors/httpError.js";
+import checkIfInputsAreEmpty from "../utils/checkIfInputsAreEmpty.js";
 
 const authService = {
-
   async login(req) {
-    
     const { email, password } = req.body;
+
+    const REQUIRED = ["email", "password"];
+
+    //chequea inputs vacios
+    if (checkIfInputsAreEmpty(req.body, REQUIRED)) {
+      throw new HttpError("Debe completar todos los campos.", 400);
+    }
+
+    //chequea si el usuario existe
     const user = await User.findOne({ where: { email: email } });
 
     if (!user) {
-      return {
-        code: 400,
-        error: { email: "No existe un usuario con ese email" },
-        ok: false,
-      };
+      throw new HttpError("No existe un usuario con ese email", 400);
     }
 
     const validCredentials = await bcrypt.compare(password, user.password);
 
+    // si todo fue bien, valida las credenciales y genera el token
     if (validCredentials) {
       const token = jwt.sign(
         { id: user.id, email: user.email, restaurantID: user.restaurant_id },
@@ -28,6 +33,13 @@ const authService = {
         { expiresIn: "1h" }
       );
 
+      return {
+        user: {
+          restaurantID: user.restaurant_id,
+          name: user.name,
+        },
+        token,
+      };
       return {
         code: 200,
         user: {
@@ -40,11 +52,7 @@ const authService = {
     }
 
     //si las credenciales son invalidas
-    return {
-      code: 400,
-      error: { credentials: "Credenciales inválidas" },
-      ok: false,
-    };
+    throw new HttpError("Las credenciales son incorrectas.", 400);
   },
 
   async register(req) {
