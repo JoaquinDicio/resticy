@@ -13,9 +13,9 @@ const authController = {
   async register(req, res) {
     try {
       const response = await authService.register(req);
-      res.status(response.code).json(response);
-    } catch (e) {
-      console.log("Error creando el usuario:", e);
+      res.status(200).json(response);
+    } catch (error) {
+      res.status(error.code || 500).json({ ...error, message: error.message });
     }
   },
 };

@@ -48,7 +48,7 @@ export default function useAuth() {
       navigate("/login");
     } catch (error) {
       const { response } = error;
-      setError(response.data.error || "Algo salio mal");
+      setError(response.data || "Algo salio mal");
     } finally {
       setLoading(false);
     }

@@ -40,15 +40,6 @@ const authService = {
         },
         token,
       };
-      return {
-        code: 200,
-        user: {
-          restaurantID: user.restaurant_id,
-          name: user.name,
-        },
-        ok: true,
-        token,
-      };
     }
 
     //si las credenciales son invalidas
@@ -61,19 +52,11 @@ const authService = {
     const userByEmail = await User.findOne({ where: { email: email } });
 
     if (userByEmail) {
-      return {
-        code: 400,
-        error: { email: "Ya existe un usuario con este email" },
-        ok: false,
-      };
+      throw new HttpError("Ya existe un usuario con ese email.", 404);
     }
 
     if (password.trim().length < 6) {
-      return {
-        code: 400,
-        error: { password: "La contraseña debe tener al menos 6 caracteres" },
-        ok: false,
-      };
+      throw new HttpError("La clave debe tener al menos 6 caracteres.");
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -94,7 +77,7 @@ const authService = {
       restaurant_id: restaurant.id,
     });
 
-    return { code: 200, message: "Usuario creado correctamente", ok: true };
+    return { message: "Usuario creado correctamente.", ok: true };
   },
 };
 
