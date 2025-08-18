@@ -16,11 +16,7 @@ const RegisterForm = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    try {
-      await register(formData);
-    } catch (error) {
-      console.log(error);
-    }
+    await register(formData)
   }
 
   return (
