@@ -8,7 +8,7 @@ const baseUrl = import.meta.env.VITE_API_URL;
 export default function useAuth() {
   const { setIsAuth, setUser } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState({});
   const navigate = useNavigate();
 
   const authenticate = async (formData) => {
@@ -35,7 +35,7 @@ export default function useAuth() {
       }
     } catch (error) {
       const { response } = error;
-      setErrors(response.data.error || "Algo salio mal");
+      setError(response.data || "Algo salio mal");
     } finally {
       setLoading(false);
     }
@@ -48,11 +48,11 @@ export default function useAuth() {
       navigate("/login");
     } catch (error) {
       const { response } = error;
-      setErrors(response.data.error || "Algo salio mal");
+      setError(response.data || "Algo salio mal");
     } finally {
       setLoading(false);
     }
   };
 
-  return { authenticate, register, errors, isLoading };
+  return { authenticate, register, error, isLoading };
 }

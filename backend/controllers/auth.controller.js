@@ -8,11 +8,13 @@ const authController = {
 
       res.status(response.code).json(response);
 
+      res.status(200).json(response);
     } catch (error) {
 
       res
         .status(500)
         .json({ message: "Ha ocurrido un error al iniciar sesion", error });
+      res.status(error.code || 500).json({ ...error, message: error.message });
     }
   },
 
@@ -20,10 +22,10 @@ const authController = {
     try {
       const response = await authService.register(req);
 
-      res.status(response.code).json(response);
+      res.status(200).json(response);
 
-    } catch (e) {
-      console.log("Error creando el usuario:", e);
+    } catch (error) {
+      res.status(error.code || 500).json({ ...error, message: error.message });
     }
   },
 };
