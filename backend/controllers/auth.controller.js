@@ -1,3 +1,4 @@
+import { response } from "express";
 import authService from "../services/auth.service.js";
 
 const authController = {
@@ -13,6 +14,16 @@ const authController = {
   async register(req, res) {
     try {
       const response = await authService.register(req);
+      res.status(200).json(response);
+    } catch (error) {
+      res.status(error.code || 500).json({ ...error, message: error.message });
+    }
+  },
+
+  //validates token and return user data
+  async me(req, res) {
+    try {
+      const repsonse = await authService.me(req);
       res.status(200).json(response);
     } catch (error) {
       res.status(error.code || 500).json({ ...error, message: error.message });
