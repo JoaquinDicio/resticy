@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import useAxios from "../../hooks/useAxios";
-import Cookies from "js-cookie";
 import Skeleton from "@mui/material/Skeleton";
 
 export default function TableSelector({
@@ -9,13 +9,15 @@ export default function TableSelector({
   setTables,
   setModal,
 }) {
-  const user = JSON.parse(Cookies.get("user") || "{}");
+  const { user } = useContext(AuthContext);
   const { axiosGet, isLoading } = useAxios();
 
   useEffect(() => {
     async function getTables() {
       const baseUrl = import.meta.env.VITE_API_URL;
-      const response = await axiosGet(`${baseUrl}/tables/${user.restaurantID}`);
+      const response = await axiosGet(
+        `${baseUrl}/tables/${user?.restaurantID}`
+      );
       setTables(response.data);
     }
 

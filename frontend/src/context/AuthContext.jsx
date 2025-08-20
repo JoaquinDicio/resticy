@@ -13,6 +13,7 @@ export default function AuthContextProvider({ children }) {
 
   useEffect(() => {
     const token = Cookies.get("authToken");
+
     if (token) {
       verifyToken(token);
     }
@@ -30,10 +31,9 @@ export default function AuthContextProvider({ children }) {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (user) {
+    if (data.user) {
       setUser(data.user);
       setIsAuth(true);
-      console.log(user);
     }
   }
 

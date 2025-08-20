@@ -1,48 +1,51 @@
-import { useRef, useState } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import QrCodeIcon from '@mui/icons-material/QrCode';
+import { useContext, useEffect, useRef, useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
+import { AuthContext } from "../../context/AuthContext";
 
 const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
-    const qrCanvasRef = useRef(null);
-    const [open, setOpen] = useState(false);
-    const [qrReady, setQrReady] = useState(false);
+  const qrCanvasRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [qrReady, setQrReady] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-        if (restaurantID && tableID) {
-            const url = `http://localhost:5173/neworder/${restaurantID}/${tableID}`;
-            import("qrcode").then((QRCode) => {
-                QRCode.toCanvas(qrCanvasRef.current, url, {
-                    width: 350,
-                })
-                    .then(() => setQrReady(true))
-                    .catch((err) => console.error("Ocurrió un error al generar el QR", err));
-            });
-        }
-    };
+  const handleOpen = () => {
+    setOpen(true);
+    if (restaurantID && tableID) {
+      const url = `http://localhost:5173/neworder/${restaurantID}/${tableID}`;
+      import("qrcode").then((QRCode) => {
+        QRCode.toCanvas(qrCanvasRef.current, url, {
+          width: 350,
+        })
+          .then(() => setQrReady(true))
+          .catch((err) =>
+            console.error("Ocurrió un error al generar el QR", err)
+          );
+      });
+    }
+  };
 
-    const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false);
 
-    const handlePrint = () => {
-        const canvas = qrCanvasRef.current;
-        if (!canvas) {
-            console.error("El canvas no está disponible.");
-            return;
-        }
-    
-        const image = canvas.toDataURL("image/png");
-        if (!image) {
-            console.error("No se pudo generar la imagen del QR.");
-            return;
-        }
-    
-        setTimeout(() => {
-            const printWindow = window.open("", "_blank", "width=600,height=600");
-    
-            if (printWindow) {
-                printWindow.document.write(`
+  const handlePrint = () => {
+    const canvas = qrCanvasRef.current;
+    if (!canvas) {
+      console.error("El canvas no está disponible.");
+      return;
+    }
+
+    const image = canvas.toDataURL("image/png");
+    if (!image) {
+      console.error("No se pudo generar la imagen del QR.");
+      return;
+    }
+
+    setTimeout(() => {
+      const printWindow = window.open("", "_blank", "width=600,height=600");
+
+      if (printWindow) {
+        printWindow.document.write(`
                     <html>
                       <head>
                       <title>Imprimir QR Code</title>
@@ -96,45 +99,61 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
                       </body>
                   </html>
                 `);
-    
-                printWindow.document.close();
-                printWindow.focus();
-    
-                setTimeout(() => {
-                    printWindow.print();
-                    printWindow.close();
-                }, 500);
-            } else {
-                console.error("No se pudo abrir la ventana de impresión.");
-            }
-        }, 100);
-    };
-    
 
-    return (
-        <>
-            <QrCodeIcon sx={{ fontSize: 40 }} onClick={handleOpen}  className='cursor-pointer hover:text-blue-500' />
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                className="w-full h-[100vh] flex justify-center items-center flex-col text-dark"
+        printWindow.document.close();
+        printWindow.focus();
+
+        setTimeout(() => {
+          printWindow.print();
+          printWindow.close();
+        }, 500);
+      } else {
+        console.error("No se pudo abrir la ventana de impresión.");
+      }
+    }, 100);
+  };
+
+  return (
+    <>
+      <QrCodeIcon
+        sx={{ fontSize: 40 }}
+        onClick={handleOpen}
+        className="cursor-pointer hover:text-blue-500"
+      />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="w-full h-[100vh] flex justify-center items-center flex-col text-dark"
+      >
+        <Box
+          className="pt-4 p-4 md:p-4 bg-white flex justify-center flex-col rounded-lg"
+          data-aos="fade-up"
+        >
+          <p className="text-xl text-center">
+            Escanea el QR para ir a la mesa.
+          </p>
+          <a
+            target="_blank"
+            href={`http://localhost:5173/neworder/${restaurantID}/${tableID}`}
+          >
+            <canvas ref={qrCanvasRef} />
+          </a>
+          {qrReady && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handlePrint}
+              sx={{ mt: 2 }}
             >
-                <Box className="pt-4 p-4 md:p-4 bg-white flex justify-center flex-col rounded-lg" data-aos="fade-up">
-                    <p className="text-xl text-center">Escanea el QR para ir a la mesa.</p>
-                    <a target='_blank' href={`http://localhost:5173/neworder/${restaurantID}/${tableID}`}>
-                    <canvas ref={qrCanvasRef} />
-                    </a>
-                    {qrReady && (
-                        <Button variant="contained" color="primary" onClick={handlePrint} sx={{ mt: 2 }}>
-                            Imprimir QR
-                        </Button>
-                    )}
-                </Box>
-            </Modal>
-        </>
-    );
-}
+              Imprimir QR
+            </Button>
+          )}
+        </Box>
+      </Modal>
+    </>
+  );
+};
 
-export default QRCodeGenerator
+export default QRCodeGenerator;

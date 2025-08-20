@@ -89,9 +89,6 @@ export default function Orders() {
         )
       );
 
-      console.log(tables);
-      //da paso a las nuevas ordenes si la mesa tiene mas de 1
-      //newOrders.forEach((order) => handleNewOrder(order));
       return;
     }
 
