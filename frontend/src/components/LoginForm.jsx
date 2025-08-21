@@ -22,11 +22,9 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
-      action=""
       method="POST"
       className="flex flex-col"
     >
-      {error && <p className="text-red-500">{error.message}</p>}
       <InputField
         label="Email"
         type="email"
@@ -41,6 +39,8 @@ export default function LoginForm() {
         onChange={handleChange}
         placeholder="Ingresa una contraseña"
       />
+      {error && <p className="text-red-500">{error.message}</p>}
+
       <div className="flex flex-col md:flex-row items-center gap-5 mt-5">
         <input
           type="submit"

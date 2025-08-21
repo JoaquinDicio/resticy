@@ -79,6 +79,18 @@ const authService = {
 
     return { message: "Usuario creado correctamente.", ok: true };
   },
+
+  async me(req) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) throw HttpError("Acceso no autorizado", 401);
+
+    //extracts de user info from the token
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (user) return user;
+  },
 };
 
 export default authService;

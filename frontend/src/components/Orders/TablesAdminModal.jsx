@@ -10,17 +10,18 @@ export default function TablesAdminModal({
   tables,
   setTables,
   setShowModal,
+  createTable,
   handleShowToast,
 }) {
   const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
-  const { user, isAuth } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const baseUrl = import.meta.env.VITE_API_URL;
 
   async function handleSubmit(newTable) {
-    const response = await axiosPost(`${baseUrl}/tables`, newTable);
+    const response = await createTable(newTable);
+
     //si esta todo ok agrega la mesa al array, evitando llamar de nuevo a la API
-    if (response.ok) {
-      setTables((prev) => [...prev, { ...response.data }]);
+    if (response.status === 200) {
       setShowModal(false);
       handleShowToast("Mesa agregada correctamente", "success");
     }

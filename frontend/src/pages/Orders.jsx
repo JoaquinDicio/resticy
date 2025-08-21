@@ -7,12 +7,13 @@ import useAxios from "../hooks/useAxios.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import { ToastContainer } from "react-toastify";
 import { showToast } from "../utils/toastConfig.js";
+import UseTables from "../hooks/useTables.jsx";
 
 export default function Orders() {
   const { axiosGet } = useAxios();
   const [orders, setOrders] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
-  const [tables, setTables] = useState([]);
+  const { tables, setTables, createTable, isPosting } = UseTables();
   const [showAdminTables, setShowAdminTables] = useState(false);
   const [showSide, setShowSide] = useState(false);
 
@@ -89,9 +90,6 @@ export default function Orders() {
         )
       );
 
-      console.log(tables);
-      //da paso a las nuevas ordenes si la mesa tiene mas de 1
-      //newOrders.forEach((order) => handleNewOrder(order));
       return;
     }
 
@@ -134,6 +132,8 @@ export default function Orders() {
         <TablesAdminModal
           setShowModal={setShowAdminTables}
           tables={tables}
+          createTable={createTable}
+          isPosting={isPosting}
           setTables={setTables}
           handleShowToast={handleShowToast}
         />
