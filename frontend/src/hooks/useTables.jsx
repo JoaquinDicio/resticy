@@ -44,10 +44,15 @@ export default function UseTables() {
   }
 
   async function createTable(newTable) {
+
     try {
+      setError(null)
+
+      setPosting(true)
+
       const response = await axios.post(
         `${baseUrl}/tables`,
-        { data: newTable },
+        newTable,
         axiosConfig
       );
 
@@ -56,11 +61,38 @@ export default function UseTables() {
         setTables((prev) => [...prev, { ...response.data }]);
         return response;
       }
+
     } catch (error) {
-      console.log("Error creando la mesa", error);
-      setError(error);
+
+      setError(error?.response.data);
+
+    } finally {
+
+      setPosting(false)
+
     }
   }
 
-  return { tables, setTables, error, isPosting, createTable };
+  async function deleteTable(tableID) {
+    try {
+
+      const response = await axios.delete(`${baseUrl}/tables/${tableID}`, axiosConfig)
+
+      if (response.status === 200) {
+
+        setTables(tables.filter((table) => table.id !== tableID));
+
+      }
+
+      return response
+    } catch (error) {
+
+      console.log(error)
+
+      setError(error.response.data.message)
+    }
+
+  }
+
+  return { tables, deleteTable, setTables, error, isPosting, createTable };
 }

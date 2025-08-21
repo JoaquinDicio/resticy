@@ -1,4 +1,5 @@
 import Table from "../models/Table.js";
+import HttpError from "../errors/HttpError.js"
 
 const tablesService = {
   async getTablesByRestaurant(req) {
@@ -12,23 +13,21 @@ const tablesService = {
   },
 
   async createTable(req) {
+
     const { user, body } = req;
     const { restaurantID } = user;
 
+    console.log('REACHED', body)
     // verificamos si ya tiene una mesa con ese numero
     const existingTable = await Table.findAll({
       where: {
         restaurant_id: restaurantID,
-        number: body.number,
+        number: body.number
       },
     });
 
     if (existingTable[0]) {
-      return {
-        code: 400,
-        error: { number: "Ya existe una mesa con ese numero" },
-        ok: false,
-      };
+      throw new HttpError("Ya existe una mesa con ese numero", 400)
     }
 
     //si no existe la mesa se crea
@@ -37,18 +36,15 @@ const tablesService = {
       restaurant_id: restaurantID,
     });
 
-    return { code: 200, data: newTable, ok: true };
+    return newTable
   },
 
   async deleteTableById(req) {
     const { tableID } = req.params;
 
-    try {
-      const deleted = await Table.destroy({ where: { id: tableID } });
-      return { code: 200, data: deleted, ok: true };
-    } catch (e) {
-      console.log("ERROR destruyendo la mesa:", e);
-    }
+    const deleted = await Table.destroy({ where: { id: tableID } });
+
+    return deleted
   },
 };
 

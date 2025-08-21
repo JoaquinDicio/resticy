@@ -13,7 +13,7 @@ export default function Orders() {
   const { axiosGet } = useAxios();
   const [orders, setOrders] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
-  const { tables, setTables, createTable, isPosting } = UseTables();
+  const { tables, setTables, createTable, isPosting, error, deleteTable } = UseTables();
   const [showAdminTables, setShowAdminTables] = useState(false);
   const [showSide, setShowSide] = useState(false);
 
@@ -134,8 +134,9 @@ export default function Orders() {
           tables={tables}
           createTable={createTable}
           isPosting={isPosting}
-          setTables={setTables}
           handleShowToast={handleShowToast}
+          deleteTable={deleteTable}
+          error={error}
         />
       )}
       <ToastContainer className="custom-toast-container" />

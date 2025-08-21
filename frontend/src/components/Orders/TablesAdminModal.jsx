@@ -1,4 +1,3 @@
-import useAxios from "../../hooks/useAxios";
 import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
 import QRCodeGenerator from "../QR code/QrCode";
@@ -8,18 +7,17 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function TablesAdminModal({
   tables,
-  setTables,
   setShowModal,
   createTable,
+  deleteTable,
   handleShowToast,
+  isPosting,
+  error
 }) {
-  const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
   const { user } = useContext(AuthContext);
-  const baseUrl = import.meta.env.VITE_API_URL;
 
   async function handleSubmit(newTable) {
     const response = await createTable(newTable);
-
     //si esta todo ok agrega la mesa al array, evitando llamar de nuevo a la API
     if (response.status === 200) {
       setShowModal(false);
@@ -28,10 +26,10 @@ export default function TablesAdminModal({
   }
 
   async function handleDelete(tableID) {
-    const response = await axiosDelete(`${baseUrl}/tables/${tableID}`);
+    const response = await deleteTable(tableID)
 
-    if (response.ok) {
-      setTables(tables.filter((table) => table.id !== tableID));
+    if (response.status === 200) {
+      setShowModal(false)
       handleShowToast("Mesa eliminada correctamente", "info");
     }
   }
@@ -76,7 +74,7 @@ export default function TablesAdminModal({
           ))}
         </ul>
         <AddTablesForm handleSubmit={handleSubmit} isPosting={isPosting} />
-        <i className="text-red-500 text-sm pt-5">{errors?.number}</i>
+        <i className="text-red-500 text-sm pt-5">{error?.message}</i>
       </div>
     </div>
   );
