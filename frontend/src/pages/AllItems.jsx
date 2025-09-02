@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { useState } from "react";
 import useAxios from "../hooks/useAxios";
 import ConfirmDelete from "../components/AllItems/ConfirmDelete.jsx";
 import NewItem from "../components/AllItems/NewItem.jsx";
@@ -9,13 +8,17 @@ import AddIcon from "@mui/icons-material/Add";
 import Skeleton from "@mui/material/Skeleton";
 import { showToast } from "../utils/toastConfig";
 import { ToastContainer } from "react-toastify";
+import useItems from "../hooks/useItems.jsx";
 
 export default function AllItems() {
-  const user = JSON.parse(Cookies.get("user") || "{}");
-  const [items, setItems] = useState([]);
+
+  // TODO -> Hay que utilizar las funciones de delete y edit desde el customHook de items
+  // ademas actualmente se hace un fetch cada que se agrega elimina o edita algo, lo cual esta mal
+
   const baseUrl = import.meta.env.VITE_API_URL;
 
-  const { axiosGet, axiosDelete, isLoading } = useAxios();
+  const { deleteItem, setItems, items, getItems, isLoading } = useItems()
+
   const [selectedItem, setSelectedItem] = useState(null);
 
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -32,32 +35,21 @@ export default function AllItems() {
     setIsModalOpen(true);
   }
 
-  async function confirmDelete(id) {
-    if (selectedItem) {
-      await axiosDelete(`${baseUrl}/itemDelete/${selectedItem.id}`);
-      setIsModalOpen(false);
-      setSelectedItem(null);
-      await fetchItems();
-      handleShowToast("Producto eliminado correctamente", "info");
-    }
+  async function confirmDelete() {
+    const response = await deleteItem(selectedItem.id)
+
+    setIsModalOpen(false);
+
+    setSelectedItem(null);
+
+    handleShowToast("Producto eliminado correctamente", "info");
   }
 
-  async function fetchItems() {
-    try {
-      const response = await axiosGet(`${baseUrl}/items/${user.restaurantID}`);
-      setItems(response.data || []);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  }
 
   const handleShowToast = (message, type) => {
     showToast(message, type);
   };
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
@@ -118,7 +110,7 @@ export default function AllItems() {
         <NewItem
           isOpen={isNewItemOpen}
           onClose={() => setIsNewItemOpen(false)}
-          onItemAdded={fetchItems}
+          onItemAdded={getItems}
           handleShowToast={handleShowToast}
         />
       )}
@@ -127,7 +119,7 @@ export default function AllItems() {
         <EditItemModal
           setSelectedItem={setSelectedItem}
           selectedItem={selectedItem}
-          onEdit={fetchItems}
+          onEdit={getItems}
           onClose={() => setIsEditOpen(false)}
           handleShowToast={handleShowToast}
         />

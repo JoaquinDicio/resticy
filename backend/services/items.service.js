@@ -1,18 +1,21 @@
 import Item from "../models/Item.js";
 import fs from "fs";
+import HttpError from '../errors/HttpError.js'
 
 const itemsService = {
   async getItemsByRestaurant(req) {
+
     const { restaurantID } = req.params;
 
-    try {
-      const items = await Item.findAll({
-        where: { restaurant_id: restaurantID },
-      });
-      return { code: 200, data: [...items], ok: true };
-    } catch (e) {
-      console.log("Error obteniendo los items:", e);
+    if (!restaurantID) {
+      throw new HttpError('restaurantID es un parametro requerido', 400)
     }
+
+    const items = await Item.findAll({
+      where: { restaurant_id: restaurantID },
+    });
+
+    return items;
   },
 
   async addNewItem(req) {
