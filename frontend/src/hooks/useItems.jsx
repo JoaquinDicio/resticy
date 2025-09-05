@@ -1,57 +1,81 @@
-import axios from 'axios'
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import Cookies from "js-cookie";
 
 export default function useItems() {
+  const [items, setItems] = useState([]);
 
-    const [items, setItems] = useState([])
+  const [isLoading, setLoading] = useState(false);
 
-    const [isLoading, setLoading] = useState(false)
+  const { user } = useContext(AuthContext);
 
-    const { user } = useContext(AuthContext)
+  const token = Cookies.get("authToken"); //token de autenticacion de usuario
 
-    const baseUrl = import.meta.env.VITE_API_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
 
-    useEffect(() => {
+  const axiosConfig = {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  };
 
-        getItems()
+  useEffect(() => {
+    getItems();
+  }, []);
 
-    }, [])
+  async function getItems() {
+    try {
+      setLoading(true);
 
-    async function getItems() {
-        try {
-            setLoading(true)
+      const response = await axios.get(
+        `${baseUrl}/items/${user?.restaurantID}`
+      );
 
-            const response = await axios.get(`${baseUrl}/items/${user?.restaurantID}`)
-
-            if (response.status === 200) {
-                setItems(response.data)
-            }
-
-        } catch (error) {
-
-            console.log("ERROR obteniendo los items:", error)
-
-        } finally {
-
-            setLoading(false)
-
-        }
+      if (response.status === 200) {
+        setItems(response.data);
+      }
+    } catch (error) {
+      console.log("ERROR obteniendo los items:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    async function deleteItem(id) {
+  async function deleteItem(id) {
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/itemDelete/${id}`,
+        axiosConfig
+      );
 
-        try {
+      // modifica el array evitando hacer fetch nuevamente
+      if (response.status === 200) {
+        setItems(items.filter((item) => item.id !== id));
+      }
 
-            return await axios.delete(`${baseUrl}/itemDelete/${id}`)
-
-        } catch (error) {
-
-            console.log('ERROR eliminado el articulo:', error)
-
-        }
-
+      return response;
+    } catch (error) {
+      console.log("ERROR eliminado el articulo:", error);
     }
+  }
 
-    return { deleteItem, items, setItems, getItems, isLoading }
+  async function addItem(itemData) {
+    try {
+      const response = await axios.post(`${baseUrl}/items`, itemData, {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200) {
+        setItems([...items, response.data]);
+      }
+    } catch (error) {
+      console.log("ERROR agregando el articulo", error);
+    }
+  }
+
+  return { deleteItem, items, setItems, getItems, isLoading, addItem };
 }

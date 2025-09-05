@@ -5,18 +5,14 @@ import ClearIcon from "@mui/icons-material/Clear";
 import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
 import Button from "@mui/material/Button";
 
-export default function NewItem({
-  isOpen,
-  onClose,
-  onItemAdded,
-  handleShowToast,
-}) {
-  if (!isOpen) return null;
-
+export default function NewItem({ onClose, addItem, handleShowToast }) {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
   });
+
+  // TODO -> el posting deberia venir de useItems y el toast deberia estar llamandose en
+  // el componente padre como en los demas casos.
 
   const { axiosPost, errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
@@ -29,6 +25,7 @@ export default function NewItem({
       [name]: value,
     }));
   };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -51,35 +48,32 @@ export default function NewItem({
     const url = `${baseUrl}/items`; //api url
 
     const formDataObj = new FormData();
+
     formDataObj.append("name", formData.name);
+
     formDataObj.append("price", formData.price);
 
     if (formData.file) {
       formDataObj.append("img", formData.file);
     }
 
-    try {
-      await axiosPost(url, formDataObj, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      handleShowToast("Producto agregado correctamente", "success");
-      if (onItemAdded) {
-        onItemAdded();
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setFormData({
-        name: "",
-        price: "",
-        file: null,
-      });
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      onClose();
+    addItem(formDataObj);
+
+    handleShowToast("Producto agregado correctamente", "success");
+
+    setFormData({
+      name: "",
+      price: "",
+      file: null,
+    });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
+
+    onClose();
   };
+
   const handleFileClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();

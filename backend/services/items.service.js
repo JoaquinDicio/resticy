@@ -1,14 +1,13 @@
 import Item from "../models/Item.js";
 import fs from "fs";
-import HttpError from '../errors/HttpError.js'
+import HttpError from "../errors/HttpError.js";
 
 const itemsService = {
   async getItemsByRestaurant(req) {
-
     const { restaurantID } = req.params;
 
     if (!restaurantID) {
-      throw new HttpError('restaurantID es un parametro requerido', 400)
+      throw new HttpError("restaurantID es un parametro requerido", 400);
     }
 
     const items = await Item.findAll({
@@ -20,72 +19,34 @@ const itemsService = {
 
   async addNewItem(req) {
     const { user } = req;
+
     const restaurant_id = user.restaurantID;
-    const { name, price } = req.body;
+
     const uploadedFile = req.file;
 
-    // validaciones
+    const itemData = { ...req.body, uploadedFile, restaurant_id };
 
-    if (name === "") {
-      return {
-        code: 400,
-        error: {
-          name: "El nombre es obligatorio.",
-        },
-      };
-    }
-    if (price === "") {
-      return {
-        code: 400,
-        error: {
-          price: "El precio es obligatorio",
-        },
-      };
-    }
-    if (restaurant_id === "") {
-      return {
-        code: 400,
-        error: {
-          restaurant_id: "El restaurant ID es obligatorio",
-        },
-      };
-    }
-    if (uploadedFile === null) {
-      return {
-        code: 400,
-        error: {
-          file: "La imagen es obligatoria",
-        },
-      };
-    }
+    const REQUIRED = ["name", "price", "restaurant_id", "uploadedFile"];
+
+    REQUIRED.forEach((field) => {
+      if (itemData[field] === null || itemData[field] === "") {
+        throw new HttpError(`El ${field} es un dato obligatorio`);
+      }
+    });
 
     //se crea la ruta que se guarda en la base de datos
-
     let imgPath = null;
     uploadedFile ? (imgPath = `${uploadedFile.filename}`) : "No existe la ruta";
 
     // crea el nuevo producto en la base de datos
+    const newItem = await Item.create({
+      name: itemData.name,
+      price: itemData.price,
+      restaurant_id,
+      img: imgPath,
+    });
 
-    try {
-      const newItem = await Item.create({
-        name,
-        price,
-        restaurant_id,
-        img: imgPath,
-      });
-
-      return {
-        code: 200,
-        data: newItem,
-        ok: true,
-      };
-    } catch (error) {
-      console.error("Error al crear el producto:", error);
-      return {
-        code: 500,
-        message: "Error interno del servidor",
-      };
-    }
+    return newItem;
   },
 
   async deleteItem(req) {

@@ -9,18 +9,12 @@ import Skeleton from "@mui/material/Skeleton";
 import { showToast } from "../utils/toastConfig";
 import { ToastContainer } from "react-toastify";
 import useItems from "../hooks/useItems.jsx";
+import ItemCard from "../components/ItemCard.jsx";
 
 export default function AllItems() {
-
-  // TODO -> Hay que utilizar las funciones de delete y edit desde el customHook de items
-  // ademas actualmente se hace un fetch cada que se agrega elimina o edita algo, lo cual esta mal
-
-  const baseUrl = import.meta.env.VITE_API_URL;
-
-  const { deleteItem, setItems, items, getItems, isLoading } = useItems()
-
+  const { deleteItem, setItems, items, getItems, isLoading, addItem } =
+    useItems();
   const [selectedItem, setSelectedItem] = useState(null);
-
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
@@ -36,20 +30,24 @@ export default function AllItems() {
   }
 
   async function confirmDelete() {
-    const response = await deleteItem(selectedItem.id)
+    const response = await deleteItem(selectedItem.id);
 
-    setIsModalOpen(false);
+    if (response.status === 200) {
+      setIsModalOpen(false);
 
-    setSelectedItem(null);
+      setSelectedItem(null);
 
-    handleShowToast("Producto eliminado correctamente", "info");
+      handleShowToast("Producto eliminado correctamente", "info");
+
+      return;
+    }
+
+    handleShowToast("Error intentando eliminar el producto", "error");
   }
-
 
   const handleShowToast = (message, type) => {
     showToast(message, type);
   };
-
 
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
@@ -58,33 +56,14 @@ export default function AllItems() {
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"
         data-aos="fade-in"
       >
-        {!isLoading && items?.length > 0 ? (
+        {!isLoading && items.length > 0 ? (
           items.map((item) => (
-            <div key={item.id} className="bg-white overflow-hidden rounded-lg">
-              <img
-                src={`${baseUrl}/uploads/${item.img}`}
-                alt={item.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">{item.name}</h3>
-                <p className="text-gray-700 text-sm">${item.price}</p>
-              </div>
-              <div>
-                <button
-                  onClick={() => handleEdit(item)}
-                  className="h-[4rem] w-[50%] text-white bg-[var(--yellow-color)]"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => handleDelete(item)}
-                  className="h-[4rem] w-[50%] bg-red-500 text-white"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
+            <ItemCard
+              key={item.id}
+              item={item}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
           ))
         ) : (
           <p className="text-white text-center text-lg col-span-full">
@@ -99,7 +78,6 @@ export default function AllItems() {
 
       {isModalOpen && (
         <ConfirmDelete
-          isOpen={isModalOpen}
           item={selectedItem}
           onClose={() => setIsModalOpen(false)}
           onConfirm={() => confirmDelete(selectedItem?.id)}
@@ -108,9 +86,8 @@ export default function AllItems() {
 
       {isNewItemOpen && (
         <NewItem
-          isOpen={isNewItemOpen}
           onClose={() => setIsNewItemOpen(false)}
-          onItemAdded={getItems}
+          addItem={addItem}
           handleShowToast={handleShowToast}
         />
       )}
