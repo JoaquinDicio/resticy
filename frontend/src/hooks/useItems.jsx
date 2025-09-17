@@ -8,6 +8,8 @@ export default function useItems() {
 
   const [isLoading, setLoading] = useState(false);
 
+  const [isPosting, setPosting] = useState(false);
+
   const { user } = useContext(AuthContext);
 
   const token = Cookies.get("authToken"); //token de autenticacion de usuario
@@ -62,6 +64,7 @@ export default function useItems() {
 
   async function addItem(itemData) {
     try {
+      setPosting(true);
       const response = await axios.post(`${baseUrl}/items`, itemData, {
         headers: {
           Authorization: token ? `Bearer ${token}` : "",
@@ -71,11 +74,22 @@ export default function useItems() {
 
       if (response.status === 200) {
         setItems([...items, response.data]);
+        return response;
       }
     } catch (error) {
       console.log("ERROR agregando el articulo", error);
+    } finally {
+      setPosting(false);
     }
   }
 
-  return { deleteItem, items, setItems, getItems, isLoading, addItem };
+  return {
+    deleteItem,
+    items,
+    setItems,
+    getItems,
+    isLoading,
+    addItem,
+    isPosting,
+  };
 }

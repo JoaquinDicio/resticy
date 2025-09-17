@@ -11,10 +11,7 @@ export default function NewItem({ onClose, addItem, handleShowToast }) {
     price: "",
   });
 
-  // TODO -> el posting deberia venir de useItems y el toast deberia estar llamandose en
-  // el componente padre como en los demas casos.
-
-  const { axiosPost, errors, isPosting } = useAxios();
+  const { errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState("");
 
@@ -40,12 +37,9 @@ export default function NewItem({ onClose, addItem, handleShowToast }) {
       file: file,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const baseUrl = import.meta.env.VITE_API_URL;
-
-    const url = `${baseUrl}/items`; //api url
 
     const formDataObj = new FormData();
 
@@ -57,27 +51,16 @@ export default function NewItem({ onClose, addItem, handleShowToast }) {
       formDataObj.append("img", formData.file);
     }
 
-    addItem(formDataObj);
+    const response = await addItem(formDataObj);
 
-    handleShowToast("Producto agregado correctamente", "success");
-
-    setFormData({
-      name: "",
-      price: "",
-      file: null,
-    });
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    if (response.status === 200) {
+      handleShowToast("Producto agregado correctamente", "success");
+      onClose();
     }
-
-    onClose();
   };
 
   const handleFileClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    if (fileInputRef.current) fileInputRef.current.click();
   };
 
   return (
