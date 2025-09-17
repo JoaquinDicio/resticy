@@ -12,7 +12,7 @@ import useItems from "../hooks/useItems.jsx";
 import ItemCard from "../components/ItemCard.jsx";
 
 export default function AllItems() {
-  const { deleteItem, setItems, items, getItems, isLoading, addItem } =
+  const { deleteItem, error, isPosting, items, getItems, isLoading, addItem } =
     useItems();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -88,6 +88,8 @@ export default function AllItems() {
         <NewItem
           onClose={() => setIsNewItemOpen(false)}
           addItem={addItem}
+          isPosting={isPosting}
+          error={error}
           handleShowToast={handleShowToast}
         />
       )}

@@ -5,14 +5,20 @@ import ClearIcon from "@mui/icons-material/Clear";
 import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
 import Button from "@mui/material/Button";
 
-export default function NewItem({ onClose, addItem, handleShowToast }) {
+export default function NewItem({
+  onClose,
+  addItem,
+  handleShowToast,
+  error,
+  isPosting,
+}) {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
   });
 
-  const { errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
+
   const [fileName, setFileName] = useState("");
 
   const handleChange = (e) => {
@@ -53,7 +59,7 @@ export default function NewItem({ onClose, addItem, handleShowToast }) {
 
     const response = await addItem(formDataObj);
 
-    if (response.status === 200) {
+    if (response?.status === 200) {
       handleShowToast("Producto agregado correctamente", "success");
       onClose();
     }
@@ -96,7 +102,6 @@ export default function NewItem({ onClose, addItem, handleShowToast }) {
               placeholder="Hamburguesa"
               required
             />
-            {errors && <p className="text-red-500">{errors.name}</p>}
           </div>
           <div>
             <InputField
@@ -109,9 +114,9 @@ export default function NewItem({ onClose, addItem, handleShowToast }) {
               max="100000"
               required
             />
-            {errors && <p className="text-red-500">{errors.price}</p>}
           </div>
 
+          <i className="text-xs text-red-500">ERROR: {error.message}</i>
           <div className="flex flex-col items-center w-full md:flex-row">
             <div className="flex items-center w-full">
               <input

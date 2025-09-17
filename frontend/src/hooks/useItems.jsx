@@ -10,6 +10,8 @@ export default function useItems() {
 
   const [isPosting, setPosting] = useState(false);
 
+  const [error, setError] = useState(false);
+
   const { user } = useContext(AuthContext);
 
   const token = Cookies.get("authToken"); //token de autenticacion de usuario
@@ -39,6 +41,7 @@ export default function useItems() {
       }
     } catch (error) {
       console.log("ERROR obteniendo los items:", error);
+      setError(error.response.data);
     } finally {
       setLoading(false);
     }
@@ -52,13 +55,14 @@ export default function useItems() {
       );
 
       // modifica el array evitando hacer fetch nuevamente
-      if (response.status === 200) {
+      if (response?.status === 200) {
         setItems(items.filter((item) => item.id !== id));
       }
 
       return response;
     } catch (error) {
       console.log("ERROR eliminado el articulo:", error);
+      setError(error.response.data);
     }
   }
 
@@ -72,12 +76,13 @@ export default function useItems() {
         },
       });
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         setItems([...items, response.data]);
         return response;
       }
     } catch (error) {
       console.log("ERROR agregando el articulo", error);
+      setError(error.response.data);
     } finally {
       setPosting(false);
     }
@@ -91,5 +96,6 @@ export default function useItems() {
     isLoading,
     addItem,
     isPosting,
+    error,
   };
 }

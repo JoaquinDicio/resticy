@@ -30,7 +30,7 @@ const itemsService = {
 
     REQUIRED.forEach((field) => {
       if (itemData[field] === null || itemData[field] === "") {
-        throw new HttpError(`El ${field} es un dato obligatorio`);
+        throw new HttpError(`${field} es un dato obligatorio`, 400);
       }
     });
 

@@ -16,7 +16,7 @@ const itemsController = {
       const response = await itemsService.addNewItem(req);
       res.status(200).json(response);
     } catch (error) {
-      res.status(500 || error.code).json({ ...error, message: error.message });
+      res.status(error.code || 500).json({ ...error, message: error.message });
     }
   },
 
@@ -25,7 +25,7 @@ const itemsController = {
       const response = await itemsService.deleteItem(req);
       res.status(200).json(response);
     } catch (error) {
-      res.status(500 || error.code).json({ ...error, message: error.message });
+      res.status(error.code || 500).json({ ...error, message: error.message });
     }
   },
 
