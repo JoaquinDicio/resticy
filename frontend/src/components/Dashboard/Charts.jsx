@@ -10,7 +10,11 @@ const Charts = ({ restaurantId }) => {
       try {
         const baseUrl = import.meta.env.VITE_API_URL;
 
-        const response = await axios.get(`${baseUrl}/${restaurantId}`);
+        const response = await axios.get(
+          `${baseUrl}/restaurant/${restaurantId}/monthly`
+        );
+
+        console.log(response);
 
         const fixedData = [
           { month: "Enero", total: 0 },
@@ -32,6 +36,7 @@ const Charts = ({ restaurantId }) => {
           const monthNumber = parseInt(item.month.split("-")[1], 10);
           fixedData[monthNumber - 1].total = item.total;
         });
+        console.log("RESPONSE>>", response);
 
         setMonthlyData(fixedData);
       } catch (error) {

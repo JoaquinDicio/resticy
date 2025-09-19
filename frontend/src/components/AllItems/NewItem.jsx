@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import useAxios from "../../hooks/useAxios";
 import InputField from "../InputField";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
@@ -115,8 +114,7 @@ export default function NewItem({
               required
             />
           </div>
-
-          <i className="text-xs text-red-500">ERROR: {error.message}</i>
+          <i className="text-xs text-red-500">{error?.message}</i>
           <div className="flex flex-col items-center w-full md:flex-row">
             <div className="flex items-center w-full">
               <input

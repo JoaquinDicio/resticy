@@ -13,7 +13,8 @@ export default function Orders() {
   const { axiosGet } = useAxios();
   const [orders, setOrders] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
-  const { tables, setTables, createTable, isPosting, error, deleteTable } = UseTables();
+  const { tables, setTables, createTable, isPosting, error, deleteTable } =
+    UseTables();
   const [showAdminTables, setShowAdminTables] = useState(false);
   const [showSide, setShowSide] = useState(false);
 
@@ -50,11 +51,13 @@ export default function Orders() {
 
   function handleNewOrder(newOrder) {
     setOrders((prev) => [...prev, newOrder]);
+
     const tableId = newOrder.table_id;
+
     // actualiza el estado para mostrar la campanita en la mesa correspondiente
     setTables((prevTables) =>
       prevTables.map((table) =>
-        table.id === tableId ? { ...table, hasOrders: true } : { ...table }
+        table.id == tableId ? { ...table, hasOrders: true } : table
       )
     );
   }
