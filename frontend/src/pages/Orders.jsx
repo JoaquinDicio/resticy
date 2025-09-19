@@ -45,6 +45,10 @@ export default function Orders() {
     getPendingOrders();
   }, []);
 
+  useEffect(() => {
+    console.log(orders);
+  }, [orders]);
+
   function handleShowToast(message, type) {
     showToast(message, type);
   }
@@ -77,29 +81,30 @@ export default function Orders() {
 
     if (is_completed == true) {
       // si la orden se marco como completada la elimina
-      const newOrders = orders.filter((anOrder) => anOrder.id !== id);
-      setOrders(newOrders);
+      setOrders((prevOrders) =>
+        prevOrders.filter((anOrder) => anOrder.id != id)
+      );
 
       // verifica si hay mas Órdenes en la mesa
+      const newOrders = orders.filter((anOrder) => anOrder.id !== id);
       const ordersInTable = newOrders.filter(
-        (order) => order.table_id === table_id
+        (order) => order.table_id == table_id
       );
 
       setTables((prevTables) =>
         prevTables.map((table) =>
-          table.id === table_id
+          table.id == table_id
             ? { ...table, hasOrders: ordersInTable.length > 0 }
             : table
         )
       );
-
       return;
     }
 
-    // si el cambio fue otro, por ejemplo cambio el estado del pago, actualiza en el array orders
+    //si el cambio fue otro, por ejemplo cambio el estado del pago, actualiza en el array orders
     setOrders((prevOrders) => {
       return prevOrders.map((oldOrder) =>
-        oldOrder.id === id ? { ...oldOrder, ...order } : oldOrder
+        oldOrder.id == id ? { ...oldOrder, ...order } : oldOrder
       );
     });
   }
