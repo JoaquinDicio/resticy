@@ -165,31 +165,22 @@ const paymentService = {
         where: { restaurant_id: restaurantId },
         attributes: [
           [Sequelize.fn("SUM", Sequelize.col("amount")), "total"],
-          [
-            Sequelize.fn("DATE_FORMAT", Sequelize.col("createdAt"), "%Y-%m"),
-            "month",
-          ],
+          [Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), 'YYYY-MM'), "month"],
         ],
-        group: [
-          Sequelize.fn("DATE_FORMAT", Sequelize.col("createdAt"), "%Y-%m"),
-        ],
-        order: [
-          [
-            Sequelize.fn("DATE_FORMAT", Sequelize.col("createdAt"), "%Y-%m"),
-            "ASC",
-          ],
-        ],
+        group: [Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), 'YYYY-MM')],
+        order: [[Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), 'YYYY-MM'), "ASC"]],
       });
 
       return payments.map((p) => ({
-        month: p.dataValues.month,
-        total: parseInt(p.dataValues.total, 10) || 0,
+        month: p.get("month"),
+        total: parseInt(p.get("total"), 10) || 0,
       }));
+
+
     } catch (error) {
       console.error("Error obteniendo el resumen de pagos mensuales:", error);
       throw error;
     }
-  },
-};
-
+  }
+}
 export default paymentService;

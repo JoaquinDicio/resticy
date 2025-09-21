@@ -1,5 +1,4 @@
 import { useState } from "react";
-import useAxios from "../hooks/useAxios";
 import ConfirmDelete from "../components/AllItems/ConfirmDelete.jsx";
 import NewItem from "../components/AllItems/NewItem.jsx";
 import EditItemModal from "../components/AllItems/EditItemModal.jsx";
@@ -12,11 +11,16 @@ import useItems from "../hooks/useItems.jsx";
 import ItemCard from "../components/ItemCard.jsx";
 
 export default function AllItems() {
+
   const { deleteItem, error, isPosting, items, getItems, isLoading, addItem } =
     useItems();
+
   const [selectedItem, setSelectedItem] = useState(null);
+
   const [isEditOpen, setIsEditOpen] = useState(false);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
 
   function handleEdit(item) {

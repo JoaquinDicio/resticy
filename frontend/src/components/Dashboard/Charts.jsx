@@ -11,10 +11,8 @@ const Charts = ({ restaurantId }) => {
         const baseUrl = import.meta.env.VITE_API_URL;
 
         const response = await axios.get(
-          `${baseUrl}/restaurant/${restaurantId}/monthly`
+          `${baseUrl}/payments/monthly-summary/${restaurantId}`
         );
-
-        console.log(response);
 
         const fixedData = [
           { month: "Enero", total: 0 },
@@ -36,11 +34,13 @@ const Charts = ({ restaurantId }) => {
           const monthNumber = parseInt(item.month.split("-")[1], 10);
           fixedData[monthNumber - 1].total = item.total;
         });
-        console.log("RESPONSE>>", response);
 
         setMonthlyData(fixedData);
+
       } catch (error) {
+
         console.error("Error obteniendo los pagos mensuales:", error);
+
       }
     };
 
@@ -69,9 +69,9 @@ const Charts = ({ restaurantId }) => {
           width: "100%",
           height: "100%",
           "& .MuiChartsAxis-tickLabel, & .MuiChartsAxis-label, & .MuiChartsLegend-series text, & .MuiBarElement-root text":
-            {
-              fill: "black !important",
-            },
+          {
+            fill: "black !important",
+          },
           "& .MuiChartsAxis-line, & .MuiChartsAxis-tick": {
             stroke: "#D4AF37 !important",
           },

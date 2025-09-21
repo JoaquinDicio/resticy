@@ -100,10 +100,10 @@ const ordersService = {
 
     return {
       code: 200,
-      totalOrders, 
+      totalOrders,
       ok: true,
     };
-},
+  },
 
 
   async getPopularDishes(restaurantId) {
@@ -121,7 +121,7 @@ const ordersService = {
             where: { restaurant_id: restaurantId },
           },
         ],
-        group: ["item_id", "Item.name"],
+        group: ["item_id", "Item.id", "Item.name"],
         order: [[Sequelize.fn("SUM", Sequelize.col("quantity")), "DESC"]],
         limit: 10,
       });

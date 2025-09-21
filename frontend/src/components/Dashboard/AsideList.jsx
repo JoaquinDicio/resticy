@@ -10,7 +10,7 @@ const AsideList = ({ restaurantId }) => {
       try {
         const baseUrl = import.meta.env.VITE_API_URL;
         const response = await axios.get(
-          `${baseUrl}/${restaurantId}/popular-dishes`
+          `${baseUrl}/restaurant/${restaurantId}/popular-dishes`
         );
         setDishes(response.data);
       } catch (error) {

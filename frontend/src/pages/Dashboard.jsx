@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TotalCard from "../components/Dashboard/TotalCard";
 import TotalMouthAndYear from "../components/Dashboard/TotalMouthAndYear";
 import AsideData from "../components/Dashboard/AsideData";
@@ -7,7 +7,7 @@ import AsideChart from "../components/Dashboard/AsideChart";
 import AsideList from "../components/Dashboard/AsideList";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import { json } from "react-router-dom";
+
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -22,13 +22,14 @@ const Dashboard = () => {
 
       try {
         const response = await fetch(
-          `${baseUrl}/payment/summary/${user?.restaurantID}`
+          `${baseUrl}/payments/summary/${user?.restaurantID}`
         );
-        const restaurantSummary = await response.json();
+
+        const restaurantSummary = await response.json()
 
         setDailyTotal(restaurantSummary.dailyTotal);
       } catch (error) {
-        console.error("❌ Error obteniendo el resumen:", error);
+        console.error("Error obteniendo el resumen:", error);
       }
     };
 
@@ -37,10 +38,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchingWeekQuantity = async () => {
+
       const { data } = await axios.get(
         `${baseUrl}/restaurant/${user?.restaurantID}/weekly`
       );
+
       const ordersWeekQuantity = data.data.length;
+
       setOrdersWeekQuantity(ordersWeekQuantity);
     };
 
@@ -48,11 +52,16 @@ const Dashboard = () => {
       const { data } = await axios.get(
         `${baseUrl}/restaurant/${user?.restaurantID}/monthly`
       );
+
       const totalOrdersMonthly = data.totalOrders;
+
       setOrdersMonthlyQuantity(totalOrdersMonthly);
     };
+
     fetchingWeekQuantity();
+
     fetchingMonthlyQuantity();
+
   }, [user]);
 
   if (user) {
