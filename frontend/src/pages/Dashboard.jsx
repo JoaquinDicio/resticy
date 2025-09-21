@@ -39,23 +39,21 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchingWeekQuantity = async () => {
 
-      const { data } = await axios.get(
+      const response = await axios.get(
         `${baseUrl}/restaurant/${user?.restaurantID}/weekly`
       );
 
-      const ordersWeekQuantity = data.data.length;
-
-      setOrdersWeekQuantity(ordersWeekQuantity);
+      setOrdersWeekQuantity(response.data.length);
     };
 
     const fetchingMonthlyQuantity = async () => {
-      const { data } = await axios.get(
+
+      const response = await axios.get(
         `${baseUrl}/restaurant/${user?.restaurantID}/monthly`
       );
 
-      const totalOrdersMonthly = data.totalOrders;
+      setOrdersMonthlyQuantity(response.data);
 
-      setOrdersMonthlyQuantity(totalOrdersMonthly);
     };
 
     fetchingWeekQuantity();

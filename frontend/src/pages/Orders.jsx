@@ -45,10 +45,6 @@ export default function Orders() {
     getPendingOrders();
   }, []);
 
-  useEffect(() => {
-    console.log(orders);
-  }, [orders]);
-
   function handleShowToast(message, type) {
     showToast(message, type);
   }
