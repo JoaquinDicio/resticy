@@ -8,7 +8,7 @@ paymentRouter.post(
   paymentController.createPreference
 );
 
-paymentRouter.post("/payment/new/:orderId", paymentController.markAsPayed);
+paymentRouter.post("/payments/new/:orderId", paymentController.markAsPayed);
 
 paymentRouter.get("/payments/summary/:restaurantId", paymentController.getPaymentsSummary);
 
