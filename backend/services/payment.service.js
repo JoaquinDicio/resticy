@@ -119,13 +119,21 @@ const paymentService = {
         order: [["createdAt", "ASC"]],
       });
 
-      return payments.map((payment) => ({
-        amount: payment.amount,
-        date: payment.createdAt,
+      const paymentsFormatted = payments.map((payment) => ({
+        ...payment.dataValues,
+        amount: parseFloat(payment.dataValues.amount),
       }));
+
+      const totalAmount = paymentsFormatted.reduce((acc, payment) => acc + payment.amount, 0)
+
+      return { payments: paymentsFormatted, totalAmount }
+
     } catch (error) {
+
       console.error("Error obteniendo los pagos de los últimos 7 días:", error);
+
       throw error;
+
     }
   },
 
@@ -154,15 +162,12 @@ const paymentService = {
         order: [["createdAt", "ASC"]],
       });
 
-      const totalAmount = payments.reduce(
-        (total, payment) => total + parseInt(payment.dataValues.amount),
-        0
-      );
-
       const paymentsFormatted = payments.map((payment) => ({
         ...payment.dataValues,
         amount: parseFloat(payment.dataValues.amount),
       }));
+
+      const totalAmount = paymentsFormatted.reduce((acc, payment) => acc + payment.amount, 0)
 
       return { payments: paymentsFormatted, totalAmount };
     } catch (error) {
@@ -191,14 +196,33 @@ const paymentService = {
         ],
       });
 
-      return payments.map((p) => ({
-        month: p.get("month"),
+      const MONTHS = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      ];
+
+      const rawData = payments.map((p) => ({
+        month: p.get("month"), // e.g., "2025-04"
         total: parseInt(p.get("total"), 10) || 0,
       }));
+
+      const totalsByMonth = {};
+
+      rawData.forEach(({ month, total }) => {
+        const monthIndex = parseInt(month.split("-")[1], 10) - 1;
+        totalsByMonth[monthIndex] = total;
+      });
+
+      const formatted = MONTHS.map((name, index) => ({
+        month: name,
+        total: totalsByMonth[index] || 0,
+      }));
+
+      return formatted;
     } catch (error) {
       console.error("Error obteniendo el resumen de pagos mensuales:", error);
       throw error;
     }
-  },
+  }
 };
 export default paymentService;

@@ -1,15 +1,12 @@
-import { useContext, useEffect, useState } from "react";
 import TotalCard from "../components/Dashboard/TotalCard";
 import TotalMouthAndYear from "../components/Dashboard/TotalMouthAndYear";
 import AsideData from "../components/Dashboard/AsideData";
 import Charts from "../components/Dashboard/Charts";
 import AsideChart from "../components/Dashboard/AsideChart";
 import AsideList from "../components/Dashboard/AsideList";
-import { AuthContext } from "../context/AuthContext";
 import useStats from "../hooks/useStats";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
 
   const {
     dailyTotal,
@@ -17,6 +14,8 @@ const Dashboard = () => {
     ordersWeekQuantity,
     ordersMonthQuantity,
     monthPayments,
+    weekPayments,
+    popularDishes
   } = useStats();
 
   return (
@@ -29,7 +28,7 @@ const Dashboard = () => {
 
         <TotalMouthAndYear
           monthPayments={monthPayments}
-          restaurantID={user?.restaurantID}
+          weekPayments={weekPayments}
         />
 
         <div className="flex flex-col gap-5 rounded-lg overflow-hidden">
@@ -52,7 +51,7 @@ const Dashboard = () => {
         <div className="bg-[var(--marfil-color)] rounded-lg overflow-hidden flex flex-col">
           <AsideChart />
           <div className="flex-1 overflow-hidden">
-            <AsideList restaurantId={user?.restaurantID} />
+            <AsideList popularDishes={popularDishes} />
           </div>
         </div>
       </div>
