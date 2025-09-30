@@ -132,7 +132,9 @@ const paymentService = {
   async getCurrentMonthPayments(restaurantId) {
     try {
       const today = new Date();
+
       const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
       const endOfMonth = new Date(
         today.getFullYear(),
         today.getMonth() + 1,
@@ -152,7 +154,17 @@ const paymentService = {
         order: [["createdAt", "ASC"]],
       });
 
-      return payments;
+      const totalAmount = payments.reduce(
+        (total, payment) => total + parseInt(payment.dataValues.amount),
+        0
+      );
+
+      const paymentsFormatted = payments.map((payment) => ({
+        ...payment.dataValues,
+        amount: parseFloat(payment.dataValues.amount),
+      }));
+
+      return { payments: paymentsFormatted, totalAmount };
     } catch (error) {
       console.error("Error obteniendo los pagos del mes:", error);
       throw error;
@@ -165,22 +177,28 @@ const paymentService = {
         where: { restaurant_id: restaurantId },
         attributes: [
           [Sequelize.fn("SUM", Sequelize.col("amount")), "total"],
-          [Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), 'YYYY-MM'), "month"],
+          [
+            Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), "YYYY-MM"),
+            "month",
+          ],
         ],
-        group: [Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), 'YYYY-MM')],
-        order: [[Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), 'YYYY-MM'), "ASC"]],
+        group: [Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), "YYYY-MM")],
+        order: [
+          [
+            Sequelize.fn("TO_CHAR", Sequelize.col("createdAt"), "YYYY-MM"),
+            "ASC",
+          ],
+        ],
       });
 
       return payments.map((p) => ({
         month: p.get("month"),
         total: parseInt(p.get("total"), 10) || 0,
       }));
-
-
     } catch (error) {
       console.error("Error obteniendo el resumen de pagos mensuales:", error);
       throw error;
     }
-  }
-}
+  },
+};
 export default paymentService;

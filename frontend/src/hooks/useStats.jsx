@@ -10,6 +10,8 @@ export default function useStats() {
 
   const [ordersMonthQuantity, setOrdersMonthQuantity] = useState(0);
 
+  const [monthPayments, setMonthPayments] = useState([]);
+
   const [monthlyData, setMonthlyData] = useState([]);
 
   const { user } = useContext(AuthContext);
@@ -21,6 +23,7 @@ export default function useStats() {
     getRestaurantMonthlyData();
     getOrdersWeekQuantity();
     getOrdersMonthQuantity();
+    getMonthTotalPayments();
   }, [user]);
 
   // gets the daily summary with withdrawed chash
@@ -98,14 +101,24 @@ export default function useStats() {
     }
   }
 
+  // returns the total cash of the current month
+  async function getMonthTotalPayments() {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/payments/monthly/${user?.restaurantID}`
+      );
+
+      if (response.status === 200) setMonthPayments(response.data);
+    } catch (e) {
+      console.error("Error obteniendo pagos mensuales:", e);
+    }
+  }
+
   return {
     dailyTotal,
     ordersWeekQuantity,
-    getRestaurantDaliy,
-    getRestaurantMonthlyData,
     monthlyData,
-    getOrdersWeekQuantity,
-    getOrdersMonthQuantity,
     ordersMonthQuantity,
+    monthPayments,
   };
 }

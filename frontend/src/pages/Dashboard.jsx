@@ -9,11 +9,15 @@ import { AuthContext } from "../context/AuthContext";
 import useStats from "../hooks/useStats";
 
 const Dashboard = () => {
-  // TODO -> USER NO DEBERIA ESTAR EN ESTE COMPONENTE
   const { user } = useContext(AuthContext);
 
-  const { dailyTotal, monthlyData, ordersWeekQuantity, ordersMonthQuantity } =
-    useStats();
+  const {
+    dailyTotal,
+    monthlyData,
+    ordersWeekQuantity,
+    ordersMonthQuantity,
+    monthPayments,
+  } = useStats();
 
   return (
     <div className="pt-20 p-4 md:p-20 md:pt-22 grid gap-5">
@@ -23,7 +27,10 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <TotalCard dailyTotal={dailyTotal} />
 
-        <TotalMouthAndYear restaurantID={user?.restaurantID} />
+        <TotalMouthAndYear
+          monthPayments={monthPayments}
+          restaurantID={user?.restaurantID}
+        />
 
         <div className="flex flex-col gap-5 rounded-lg overflow-hidden">
           <AsideData

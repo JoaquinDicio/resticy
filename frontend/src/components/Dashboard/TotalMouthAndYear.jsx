@@ -3,12 +3,10 @@ import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import axios from "axios";
 
-const TotalMouthAndYear = ({ restaurantID }) => {
+const TotalMouthAndYear = ({ restaurantID, monthPayments }) => {
   const [activeButton, setActiveButton] = useState("año");
-  const [monthlyData, setMonthlyData] = useState([]);
   const [weeklyData, setWeeklyData] = useState([]);
   const [totalWeek, setTotalWeek] = useState("");
-  const [totalMonth, setTotalMonth] = useState("");
   const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -30,29 +28,6 @@ const TotalMouthAndYear = ({ restaurantID }) => {
       }
     };
     fetchWeeklyPayments();
-  }, []);
-
-  useEffect(() => {
-    const fetchMonthlyPayment = async () => {
-      try {
-        const { data } = await axios.get(
-          `${baseUrl}/payments/monthly/${restaurantID}`
-        );
-        const monthlyPayment = data.map((payment) =>
-          parseFloat(payment.amount)
-        );
-        const totalAmount = monthlyPayment.reduce(
-          (total, amount) => total + amount,
-          0
-        );
-
-        setTotalMonth(totalAmount);
-        setMonthlyData(monthlyPayment);
-      } catch (error) {
-        console.error("Error obteniendo pagos mensuales:", error);
-      }
-    };
-    fetchMonthlyPayment();
   }, []);
 
   return (
@@ -80,22 +55,12 @@ const TotalMouthAndYear = ({ restaurantID }) => {
         </div>
 
         <p className="z-20 text-4xl bold font-bold mb-2">
-          ${activeButton === "mes" ? totalMonth : totalWeek}
+          ${activeButton === "mes" ? monthPayments.totalAmount : totalWeek}
         </p>
         <p className="w-[130px]">
           Total acumulado por {activeButton === "mes" ? " mes" : "semana"}
         </p>
       </div>
-
-      <Box sx={{ width: "100%", height: "50px", mt: 1 }} className="z-20">
-        <SparkLineChart
-          data={activeButton === "mes" ? monthlyData : weeklyData}
-          height={100}
-          showHighlight={true}
-          showTooltip={true}
-          colors={["#fffff0"]}
-        />
-      </Box>
     </div>
   );
 };
