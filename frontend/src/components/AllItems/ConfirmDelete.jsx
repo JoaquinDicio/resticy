@@ -10,7 +10,7 @@ export default function ConfirmDelete({
     const response = await deleteFn(item.id);
 
     if (response.status === 200) {
-      closeModal();
+      onClose();
       handleShowToast("Producto eliminado correctamente", "info");
       return;
     }
