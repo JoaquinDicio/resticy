@@ -3,12 +3,12 @@ import InputField from "../InputField";
 import { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
+import { showToast } from "../../utils/toastConfig";
 
 export default function EditItemModal({
   selectedItem,
   onClose,
   onEdit,
-  handleShowToast,
 }) {
   const { axiosPut, errors } = useAxios();
   const [formData, setFormData] = useState({ name: "", price: "" });
@@ -41,7 +41,7 @@ export default function EditItemModal({
     if (response.data) {
       onClose();
       onEdit();
-      handleShowToast("Producto editado correctamente", "success");
+      showToast("Producto editado correctamente", "success");
     }
   }
 

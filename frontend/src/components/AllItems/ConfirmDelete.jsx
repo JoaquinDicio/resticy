@@ -1,21 +1,18 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { showToast } from "../../utils/toastConfig";
 
-export default function ConfirmDelete({
-  item,
-  onClose,
-  deleteFn,
-  handleShowToast,
-}) {
+export default function ConfirmDelete({ item, onClose, deleteFn }) {
+
   async function onConfirm() {
     const response = await deleteFn(item.id);
 
     if (response.status === 200) {
       onClose();
-      handleShowToast("Producto eliminado correctamente", "info");
+      showToast("Producto eliminado correctamente", "info");
       return;
     }
 
-    handleShowToast("Error intentando eliminar el producto", "error");
+    showToast("Error intentando eliminar el producto", "error");
   }
 
   return (

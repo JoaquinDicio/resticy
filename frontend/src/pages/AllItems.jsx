@@ -4,7 +4,6 @@ import EditItemModal from "../components/AllItems/EditItemModal.jsx";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Skeleton from "@mui/material/Skeleton";
-import { showToast } from "../utils/toastConfig";
 import { ToastContainer } from "react-toastify";
 import useItems from "../hooks/useItems.jsx";
 import ItemCard from "../components/ItemCard.jsx";
@@ -16,9 +15,6 @@ export default function AllItems() {
 
   const { modal, closeModal, openModal, payload } = useModal();
 
-  const handleShowToast = (message, type) => {
-    showToast(message, type);
-  };
 
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
@@ -52,7 +48,6 @@ export default function AllItems() {
           item={payload}
           onClose={() => closeModal()}
           deleteFn={deleteItem}
-          handleShowToast={handleShowToast}
         />
       )}
 
@@ -62,7 +57,6 @@ export default function AllItems() {
           addItem={addItem}
           isPosting={isPosting}
           error={error}
-          handleShowToast={handleShowToast}
         />
       )}
 
@@ -71,7 +65,6 @@ export default function AllItems() {
           selectedItem={payload}
           onEdit={getItems}
           onClose={() => closeModal()}
-          handleShowToast={handleShowToast}
         />
       )}
 

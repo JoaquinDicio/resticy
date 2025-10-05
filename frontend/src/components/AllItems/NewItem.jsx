@@ -3,11 +3,11 @@ import InputField from "../InputField";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
 import Button from "@mui/material/Button";
+import { showToast } from "../../utils/toastConfig";
 
 export default function NewItem({
   onClose,
   addItem,
-  handleShowToast,
   error,
   isPosting,
 }) {
@@ -59,7 +59,7 @@ export default function NewItem({
     const response = await addItem(formDataObj);
 
     if (response?.status === 200) {
-      handleShowToast("Producto agregado correctamente", "success");
+      showToast("Producto agregado correctamente", "success");
       onClose();
     }
   };
