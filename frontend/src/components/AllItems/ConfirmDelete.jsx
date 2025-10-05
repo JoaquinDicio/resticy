@@ -1,6 +1,23 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-export default function ConfirmDelete({ item, onClose, onConfirm }) {
+export default function ConfirmDelete({
+  item,
+  onClose,
+  deleteFn,
+  handleShowToast,
+}) {
+  async function onConfirm() {
+    const response = await deleteFn(item.id);
+
+    if (response.status === 200) {
+      closeModal();
+      handleShowToast("Producto eliminado correctamente", "info");
+      return;
+    }
+
+    handleShowToast("Error intentando eliminar el producto", "error");
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div

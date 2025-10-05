@@ -6,7 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 
 export default function EditItemModal({
   selectedItem,
-  setSelectedItem,
   onClose,
   onEdit,
   handleShowToast,
@@ -40,7 +39,6 @@ export default function EditItemModal({
     const response = await axiosPut(`${baseUrl}/items`, updateData);
 
     if (response.data) {
-      setSelectedItem(null);
       onClose();
       onEdit();
       handleShowToast("Producto editado correctamente", "success");

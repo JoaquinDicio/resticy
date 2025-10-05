@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ConfirmDelete from "../components/AllItems/ConfirmDelete.jsx";
 import NewItem from "../components/AllItems/NewItem.jsx";
 import EditItemModal from "../components/AllItems/EditItemModal.jsx";
@@ -9,45 +8,13 @@ import { showToast } from "../utils/toastConfig";
 import { ToastContainer } from "react-toastify";
 import useItems from "../hooks/useItems.jsx";
 import ItemCard from "../components/ItemCard.jsx";
+import useModal from "../hooks/useModal.jsx";
 
 export default function AllItems() {
-
   const { deleteItem, error, isPosting, items, getItems, isLoading, addItem } =
     useItems();
 
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  const [isEditOpen, setIsEditOpen] = useState(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
-
-  function handleEdit(item) {
-    setSelectedItem(item);
-    setIsEditOpen(true);
-  }
-
-  function handleDelete(item) {
-    setSelectedItem(item);
-    setIsModalOpen(true);
-  }
-
-  async function confirmDelete() {
-    const response = await deleteItem(selectedItem.id);
-
-    if (response.status === 200) {
-      setIsModalOpen(false);
-
-      setSelectedItem(null);
-
-      handleShowToast("Producto eliminado correctamente", "info");
-
-      return;
-    }
-
-    handleShowToast("Error intentando eliminar el producto", "error");
-  }
+  const { modal, closeModal, openModal, payload } = useModal();
 
   const handleShowToast = (message, type) => {
     showToast(message, type);
@@ -65,8 +32,8 @@ export default function AllItems() {
             <ItemCard
               key={item.id}
               item={item}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
+              handleDelete={() => openModal("delete", item)}
+              handleEdit={() => openModal("edit", item)}
             />
           ))
         ) : (
@@ -80,17 +47,18 @@ export default function AllItems() {
         )}
       </div>
 
-      {isModalOpen && (
+      {modal?.type === "delete" && (
         <ConfirmDelete
-          item={selectedItem}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={() => confirmDelete(selectedItem?.id)}
+          item={payload}
+          onClose={() => closeModal()}
+          deleteFn={deleteItem}
+          handleShowToast={handleShowToast}
         />
       )}
 
-      {isNewItemOpen && (
+      {modal?.type === "newItem" && (
         <NewItem
-          onClose={() => setIsNewItemOpen(false)}
+          onClose={() => closeModal()}
           addItem={addItem}
           isPosting={isPosting}
           error={error}
@@ -98,12 +66,11 @@ export default function AllItems() {
         />
       )}
 
-      {isEditOpen && (
+      {modal?.type === "edit" && (
         <EditItemModal
-          setSelectedItem={setSelectedItem}
-          selectedItem={selectedItem}
+          selectedItem={payload}
           onEdit={getItems}
-          onClose={() => setIsEditOpen(false)}
+          onClose={() => closeModal()}
           handleShowToast={handleShowToast}
         />
       )}
@@ -112,7 +79,7 @@ export default function AllItems() {
         <Fab
           color="primary"
           aria-label="add"
-          onClick={() => setIsNewItemOpen(true)}
+          onClick={() => openModal("newItem")}
           style={{ background: "#d4af37" }}
           className="hover:transition duration-300 hover:rotate-90 ease-in-out "
         >
