@@ -17,7 +17,6 @@ const tablesService = {
     const { user, body } = req;
     const { restaurantID } = user;
 
-    console.log('REACHED', body)
     // verificamos si ya tiene una mesa con ese numero
     const existingTable = await Table.findAll({
       where: {

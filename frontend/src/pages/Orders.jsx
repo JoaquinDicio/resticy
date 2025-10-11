@@ -6,17 +6,22 @@ import socket from "../socket.js";
 import useAxios from "../hooks/useAxios.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import { ToastContainer } from "react-toastify";
-import { showToast } from "../utils/toastConfig.js";
 import UseTables from "../hooks/useTables.jsx";
+import useModal from "../hooks/useModal.jsx";
 
 export default function Orders() {
   const { axiosGet } = useAxios();
+
   const [orders, setOrders] = useState([]);
+
   const [selectedTable, setSelectedTable] = useState(null);
+
   const { tables, setTables, createTable, isPosting, error, deleteTable } =
     UseTables();
-  const [showAdminTables, setShowAdminTables] = useState(false);
+
   const [showSide, setShowSide] = useState(false);
+
+  const { modal, openModal, closeModal } = useModal()
 
   useEffect(() => {
     socket.on("order", (newOrder) => handleNewOrder(newOrder));
@@ -45,9 +50,6 @@ export default function Orders() {
     getPendingOrders();
   }, []);
 
-  function handleShowToast(message, type) {
-    showToast(message, type);
-  }
 
   function handleNewOrder(newOrder) {
     setOrders((prev) => [...prev, newOrder]);
@@ -129,16 +131,16 @@ export default function Orders() {
       <div className="flex gap-3 fixed bottom-0 right-0 p-10">
         <CustomButton
           text="Administrar mesas"
-          onClick={() => setShowAdminTables(!showAdminTables)}
+          onClick={() => openModal("AdminTables")}
         />
       </div>
-      {showAdminTables && (
+
+      {modal?.type === "AdminTables" && (
         <TablesAdminModal
-          setShowModal={setShowAdminTables}
+          closeModal={closeModal}
           tables={tables}
           createTable={createTable}
           isPosting={isPosting}
-          handleShowToast={handleShowToast}
           deleteTable={deleteTable}
           error={error}
         />

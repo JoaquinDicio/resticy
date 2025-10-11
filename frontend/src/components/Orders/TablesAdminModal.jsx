@@ -4,13 +4,13 @@ import QRCodeGenerator from "../QR code/QrCode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { showToast } from "../../utils/toastConfig";
 
 export default function TablesAdminModal({
   tables,
-  setShowModal,
+  closeModal,
   createTable,
   deleteTable,
-  handleShowToast,
   isPosting,
   error
 }) {
@@ -18,19 +18,21 @@ export default function TablesAdminModal({
 
   async function handleSubmit(newTable) {
     const response = await createTable(newTable);
+
     //si esta todo ok agrega la mesa al array, evitando llamar de nuevo a la API
     if (response.status === 200) {
-      setShowModal(false);
-      handleShowToast("Mesa agregada correctamente", "success");
+      closeModal();
+      showToast("Mesa agregada correctamente", "success");
     }
+
   }
 
   async function handleDelete(tableID) {
     const response = await deleteTable(tableID)
 
     if (response.status === 200) {
-      setShowModal(false)
-      handleShowToast("Mesa eliminada correctamente", "info");
+      closeModal()
+      showToast("Mesa eliminada correctamente", "info");
     }
   }
 
@@ -44,7 +46,7 @@ export default function TablesAdminModal({
           <p className="text-3xl">Mesas actuales</p>
           <ClearIcon
             sx={{ fontSize: 40 }}
-            onClick={() => setShowModal(false)}
+            onClick={() => closeModal()}
             className="cursor-pointer"
           />
         </div>
