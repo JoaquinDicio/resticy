@@ -3,6 +3,7 @@ import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
 import { Sequelize } from "sequelize";
 import { Op } from "sequelize";
+import HttpError from "../errors/httpError.js";
 
 // Agrega credenciales
 const client = new MercadoPagoConfig({
@@ -17,11 +18,7 @@ const paymentService = {
     const { items, external_reference } = req.body;
 
     if (!items || items.length <= 0) {
-      return {
-        status: 400,
-        error: "No se puede crear una orden sin items",
-        ok: false,
-      };
+      return new HttpError("No se puede crear una orden sin items", 400)
     }
 
     //el metodo create retorna una promesa
@@ -38,27 +35,23 @@ const paymentService = {
     });
 
     if (!result.init_point) {
-      return {
-        status: 500,
-        error: "Algo salio mal creando el link de pago",
-        ok: false,
-      };
+      return new HttpError("Algo salio mal creando el link de pago", 500)
     }
 
-    return { status: 200, ok: true, data: result };
+    return { ok: true, data: result };
   },
 
   async markAsPayed(orderId) {
-    // buscar el registro en la base de datos y actualizar el pago
     const PAYMENTS_METHODS = ["Efectivo", "Debito / Credito", "MercadoPago"];
+
+    // buscar el registro en la base de datos y actualizar el pago
     const order = await Order.findByPk(orderId);
-
     order.is_payed = true;
-
     const data = await order.save();
 
     const payment_method =
       PAYMENTS_METHODS[order.dataValues.payment_method - 1];
+
     //registra el pago en la base de datos
     const newPayment = {
       order_id: order.id,
@@ -69,7 +62,7 @@ const paymentService = {
 
     await Payment.create(newPayment);
 
-    return { data, ok: true, status: 200 };
+    return { data, ok: true };
   },
 
   async getPaymentsToday(restaurantId) {

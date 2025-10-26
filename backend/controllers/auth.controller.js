@@ -29,7 +29,7 @@ const authController = {
   //validates token and return user data
   async me(req, res) {
     try {
-      const repsonse = await authService.me(req);
+      const response = await authService.me(req);
       res.status(200).json(response);
     } catch (error) {
       res.status(error.code || 500).json({ ...error, message: error.message });

@@ -4,7 +4,6 @@ const itemsController = {
   async getItemsByRestaurant(req, res) {
     try {
       const response = await itemsService.getItemsByRestaurant(req);
-
       res.status(200).json(response);
     } catch (error) {
       res.status(500 || error.code).json({ ...error, message: error.message });
