@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import Restaurant from "../models/Restaurant.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import HttpError from "../errors/httpError.js";
+import HttpError from "../errors/HttpError.js";
 import checkIfInputsAreEmpty from "../utils/checkIfInputsAreEmpty.js";
 
 const authService = {
