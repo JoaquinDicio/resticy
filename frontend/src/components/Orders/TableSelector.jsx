@@ -1,27 +1,6 @@
-import { useEffect } from "react";
-import useAxios from "../../hooks/useAxios";
-import Cookies from "js-cookie";
 import Skeleton from "@mui/material/Skeleton";
 
-export default function TableSelector({
-  tables,
-  setSelectedTable,
-  setTables,
-  setModal,
-}) {
-  const user = JSON.parse(Cookies.get("user") || "{}");
-  const { axiosGet, isLoading } = useAxios();
-
-  useEffect(() => {
-    async function getTables() {
-      const baseUrl = import.meta.env.VITE_API_URL;
-      const response = await axiosGet(`${baseUrl}/tables/${user.restaurantID}`);
-      setTables(response.data);
-    }
-
-    getTables();
-  }, []);
-
+export default function TableSelector({ tables, setSelectedTable, setModal }) {
   async function handleSelectTable(table) {
     setSelectedTable(table);
     setModal(true);
@@ -30,7 +9,7 @@ export default function TableSelector({
   return (
     <>
       <ul className="mt-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-10 gap-5">
-        {isLoading ? (
+        {false ? (
           <Skeleton
             variant="rectangular"
             className="rounded-lg"

@@ -12,7 +12,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
     async function fetchItems() {
       try {
         const response = await axiosGet(`${baseUrl}/items/${restaurantID}`);
-        setItems(response.data || []);
+        setItems(response || []);
       } catch (error) {
         console.error("Error fetching items:", error);
       }

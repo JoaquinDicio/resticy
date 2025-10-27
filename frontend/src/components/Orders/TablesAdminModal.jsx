@@ -1,37 +1,38 @@
-import useAxios from "../../hooks/useAxios";
 import AddTablesForm from "./AddTablesForm";
 import ClearIcon from "@mui/icons-material/Clear";
 import QRCodeGenerator from "../QR code/QrCode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { showToast } from "../../utils/toastConfig";
 
 export default function TablesAdminModal({
   tables,
-  setTables,
-  setShowModal,
-  handleShowToast,
+  closeModal,
+  createTable,
+  deleteTable,
+  isPosting,
+  error
 }) {
-  const { axiosPost, isPosting, errors, axiosDelete } = useAxios();
-  const { user, isAuth } = useContext(AuthContext);
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const { user } = useContext(AuthContext);
 
   async function handleSubmit(newTable) {
-    const response = await axiosPost(`${baseUrl}/tables`, newTable);
+    const response = await createTable(newTable);
+
     //si esta todo ok agrega la mesa al array, evitando llamar de nuevo a la API
-    if (response.ok) {
-      setTables((prev) => [...prev, { ...response.data }]);
-      setShowModal(false);
-      handleShowToast("Mesa agregada correctamente", "success");
+    if (response.status === 200) {
+      closeModal();
+      showToast("Mesa agregada correctamente", "success");
     }
+
   }
 
   async function handleDelete(tableID) {
-    const response = await axiosDelete(`${baseUrl}/tables/${tableID}`);
+    const response = await deleteTable(tableID)
 
-    if (response.ok) {
-      setTables(tables.filter((table) => table.id !== tableID));
-      handleShowToast("Mesa eliminada correctamente", "info");
+    if (response.status === 200) {
+      closeModal()
+      showToast("Mesa eliminada correctamente", "info");
     }
   }
 
@@ -45,7 +46,7 @@ export default function TablesAdminModal({
           <p className="text-3xl">Mesas actuales</p>
           <ClearIcon
             sx={{ fontSize: 40 }}
-            onClick={() => setShowModal(false)}
+            onClick={() => closeModal()}
             className="cursor-pointer"
           />
         </div>
@@ -75,7 +76,7 @@ export default function TablesAdminModal({
           ))}
         </ul>
         <AddTablesForm handleSubmit={handleSubmit} isPosting={isPosting} />
-        <i className="text-red-500 text-sm pt-5">{errors?.number}</i>
+        <i className="text-red-500 text-sm pt-5">{error?.message}</i>
       </div>
     </div>
   );

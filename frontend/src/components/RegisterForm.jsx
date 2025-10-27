@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth.jsx";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({});
-  const { errors, isLoading, register } = useAuth();
+  const { error, isLoading, register } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,11 +16,7 @@ const RegisterForm = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    try {
-      await register(formData);
-    } catch (error) {
-      console.log(error);
-    }
+    await register(formData);
   }
 
   return (
@@ -41,7 +37,6 @@ const RegisterForm = () => {
         onChange={handleChange}
         placeholder="TuEmpresa@gmail.com"
       />
-      {errors.email && <p className="text-red-500">{errors.email}</p>}
       <InputField
         label="Contraseña"
         type="password"
@@ -50,7 +45,8 @@ const RegisterForm = () => {
         onChange={handleChange}
         placeholder="Ingresa una contraseña"
       />
-      {errors.password && <p className="text-red-500">{errors.password}</p>}
+
+      {error.message && <p className="text-red-500">{error.message}</p>}
 
       <div className="flex flex-col lg:flex-row items-center gap-5 mt-5">
         <input

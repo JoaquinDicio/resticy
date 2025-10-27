@@ -12,6 +12,7 @@ export default function SideTableInfo({ selectedTable, orders, setModal }) {
     if (selectedTable) {
       //busca en el array de ordenes la orden de la mesa seleccionada
       const order = orders.find((order) => order.table_id == selectedTable.id);
+
       if (order) {
         //si existe extrae la info de la orden de la bbdd
         findOrder(order.id);

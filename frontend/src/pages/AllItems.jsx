@@ -1,63 +1,21 @@
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import useAxios from "../hooks/useAxios";
 import ConfirmDelete from "../components/AllItems/ConfirmDelete.jsx";
 import NewItem from "../components/AllItems/NewItem.jsx";
 import EditItemModal from "../components/AllItems/EditItemModal.jsx";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Skeleton from "@mui/material/Skeleton";
-import { showToast } from "../utils/toastConfig";
 import { ToastContainer } from "react-toastify";
+import useItems from "../hooks/useItems.jsx";
+import ItemCard from "../components/ItemCard.jsx";
+import useModal from "../hooks/useModal.jsx";
 
 export default function AllItems() {
-  const user = JSON.parse(Cookies.get("user") || "{}");
-  const [items, setItems] = useState([]);
-  const baseUrl = import.meta.env.VITE_API_URL;
 
-  const { axiosGet, axiosDelete, isLoading } = useAxios();
-  const [selectedItem, setSelectedItem] = useState(null);
+  const { deleteItem, error, isPosting, items, editItem, isLoading, addItem } =
+    useItems();
 
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
+  const { modal, closeModal, openModal, payload } = useModal();
 
-  function handleEdit(item) {
-    setSelectedItem(item);
-    setIsEditOpen(true);
-  }
-
-  function handleDelete(item) {
-    setSelectedItem(item);
-    setIsModalOpen(true);
-  }
-
-  async function confirmDelete(id) {
-    if (selectedItem) {
-      await axiosDelete(`${baseUrl}/itemDelete/${selectedItem.id}`);
-      setIsModalOpen(false);
-      setSelectedItem(null);
-      await fetchItems();
-      handleShowToast("Producto eliminado correctamente", "info");
-    }
-  }
-
-  async function fetchItems() {
-    try {
-      const response = await axiosGet(`${baseUrl}/items/${user.restaurantID}`);
-      setItems(response.data || []);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  }
-
-  const handleShowToast = (message, type) => {
-    showToast(message, type);
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--wine-color)] pt-20 px-10 lg:px-20">
@@ -66,33 +24,14 @@ export default function AllItems() {
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"
         data-aos="fade-in"
       >
-        {!isLoading && items?.length > 0 ? (
+        {!isLoading && items.length > 0 ? (
           items.map((item) => (
-            <div key={item.id} className="bg-white overflow-hidden rounded-lg">
-              <img
-                src={`${baseUrl}/uploads/${item.img}`}
-                alt={item.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">{item.name}</h3>
-                <p className="text-gray-700 text-sm">${item.price}</p>
-              </div>
-              <div>
-                <button
-                  onClick={() => handleEdit(item)}
-                  className="h-[4rem] w-[50%] text-white bg-[var(--yellow-color)]"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => handleDelete(item)}
-                  className="h-[4rem] w-[50%] bg-red-500 text-white"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
+            <ItemCard
+              key={item.id}
+              item={item}
+              handleDelete={() => openModal("delete", item)}
+              handleEdit={() => openModal("edit", item)}
+            />
           ))
         ) : (
           <p className="text-white text-center text-lg col-span-full">
@@ -105,31 +44,29 @@ export default function AllItems() {
         )}
       </div>
 
-      {isModalOpen && (
+      {modal?.type === "delete" && (
         <ConfirmDelete
-          isOpen={isModalOpen}
-          item={selectedItem}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={() => confirmDelete(selectedItem?.id)}
+          item={payload}
+          onClose={() => closeModal()}
+          deleteFn={deleteItem}
         />
       )}
 
-      {isNewItemOpen && (
+      {modal?.type === "newItem" && (
         <NewItem
-          isOpen={isNewItemOpen}
-          onClose={() => setIsNewItemOpen(false)}
-          onItemAdded={fetchItems}
-          handleShowToast={handleShowToast}
+          onClose={() => closeModal()}
+          addItem={addItem}
+          isPosting={isPosting}
+          error={error}
         />
       )}
 
-      {isEditOpen && (
+      {modal?.type === "edit" && (
         <EditItemModal
-          setSelectedItem={setSelectedItem}
-          selectedItem={selectedItem}
-          onEdit={fetchItems}
-          onClose={() => setIsEditOpen(false)}
-          handleShowToast={handleShowToast}
+          selectedItem={payload}
+          editItem={editItem}
+          error={error}
+          onClose={() => closeModal()}
         />
       )}
 
@@ -137,7 +74,7 @@ export default function AllItems() {
         <Fab
           color="primary"
           aria-label="add"
-          onClick={() => setIsNewItemOpen(true)}
+          onClick={() => openModal("newItem")}
           style={{ background: "#d4af37" }}
           className="hover:transition duration-300 hover:rotate-90 ease-in-out "
         >

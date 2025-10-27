@@ -1,25 +1,23 @@
 import { useState, useRef } from "react";
-import useAxios from "../../hooks/useAxios";
 import InputField from "../InputField";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddReactionOutlinedIcon from "@mui/icons-material/AddReactionOutlined";
 import Button from "@mui/material/Button";
+import { showToast } from "../../utils/toastConfig";
 
 export default function NewItem({
-  isOpen,
   onClose,
-  onItemAdded,
-  handleShowToast,
+  addItem,
+  error,
+  isPosting,
 }) {
-  if (!isOpen) return null;
-
   const [formData, setFormData] = useState({
     name: "",
     price: "",
   });
 
-  const { axiosPost, errors, isPosting } = useAxios();
   const fileInputRef = useRef(null);
+
   const [fileName, setFileName] = useState("");
 
   const handleChange = (e) => {
@@ -29,6 +27,7 @@ export default function NewItem({
       [name]: value,
     }));
   };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -43,47 +42,30 @@ export default function NewItem({
       file: file,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const baseUrl = import.meta.env.VITE_API_URL;
-
-    const url = `${baseUrl}/items`; //api url
-
     const formDataObj = new FormData();
+
     formDataObj.append("name", formData.name);
+
     formDataObj.append("price", formData.price);
 
     if (formData.file) {
       formDataObj.append("img", formData.file);
     }
 
-    try {
-      await axiosPost(url, formDataObj, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      handleShowToast("Producto agregado correctamente", "success");
-      if (onItemAdded) {
-        onItemAdded();
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setFormData({
-        name: "",
-        price: "",
-        file: null,
-      });
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+    const response = await addItem(formDataObj);
+
+    if (response?.status === 200) {
+      showToast("Producto agregado correctamente", "success");
       onClose();
     }
   };
+
   const handleFileClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    if (fileInputRef.current) fileInputRef.current.click();
   };
 
   return (
@@ -119,7 +101,6 @@ export default function NewItem({
               placeholder="Hamburguesa"
               required
             />
-            {errors && <p className="text-red-500">{errors.name}</p>}
           </div>
           <div>
             <InputField
@@ -132,9 +113,8 @@ export default function NewItem({
               max="100000"
               required
             />
-            {errors && <p className="text-red-500">{errors.price}</p>}
           </div>
-
+          <i className="text-xs text-red-500">{error?.message}</i>
           <div className="flex flex-col items-center w-full md:flex-row">
             <div className="flex items-center w-full">
               <input

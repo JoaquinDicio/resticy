@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({});
-  const { authenticate, errors, isLoading } = useAuth();
+  const { authenticate, error, isLoading } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,13 +22,9 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
-      action=""
       method="POST"
       className="flex flex-col"
     >
-      {errors.credentials && (
-        <p className="text-red-500">{errors.credentials}</p>
-      )}
       <InputField
         label="Email"
         type="email"
@@ -36,7 +32,6 @@ export default function LoginForm() {
         onChange={handleChange}
         placeholder="TuEmpresa@gmail.com"
       />
-      {errors.email && <p className="text-red-500">{errors.email}</p>}
       <InputField
         label="Contraseña"
         type="password"
@@ -44,6 +39,8 @@ export default function LoginForm() {
         onChange={handleChange}
         placeholder="Ingresa una contraseña"
       />
+      {error && <p className="text-red-500">{error.message}</p>}
+
       <div className="flex flex-col md:flex-row items-center gap-5 mt-5">
         <input
           type="submit"

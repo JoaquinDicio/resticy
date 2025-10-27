@@ -9,4 +9,11 @@ restaurantsRouter.get(
   restaurantsController.getPendingOrders
 );
 
+restaurantsRouter.get("/restaurant/:restaurantId/weekly", restaurantsController.getWeeklyOrders);
+
+restaurantsRouter.get("/restaurant/:restaurantId/monthly", restaurantsController.getMonthlyOrders);
+
+restaurantsRouter.get("/restaurant/:restaurantId/popular-dishes", restaurantsController.getPopularDishes);
+
+
 export default restaurantsRouter;
