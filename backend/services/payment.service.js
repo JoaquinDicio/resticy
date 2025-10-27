@@ -3,7 +3,7 @@ import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
 import { Sequelize } from "sequelize";
 import { Op } from "sequelize";
-import HttpError from "../errors/httpError.js";
+import HttpError from "../errors/HttpError.js";
 
 // Agrega credenciales
 const client = new MercadoPagoConfig({
@@ -66,107 +66,93 @@ const paymentService = {
   },
 
   async getPaymentsToday(restaurantId) {
-    try {
-      const now = new Date();
-      const startOfDay = new Date(now);
-      startOfDay.setHours(0, 0, 0, 0);
 
-      const endOfDay = new Date(now);
-      endOfDay.setHours(23, 59, 59, 999);
+    const now = new Date();
+    const startOfDay = new Date(now);
+    startOfDay.setHours(0, 0, 0, 0);
 
-      const whereCondition = {
-        restaurant_id: restaurantId,
-        createdAt: {
-          [Op.gte]: startOfDay,
-          [Op.lte]: endOfDay,
-        },
-      };
+    const endOfDay = new Date(now);
+    endOfDay.setHours(23, 59, 59, 999);
 
-      // Obtener el total de pagos de hoy
-      const dailyTotal = await Payment.sum("amount", { where: whereCondition });
-      return {
-        dailyTotal: dailyTotal ?? 0,
-      };
-    } catch (error) {
-      console.error("Error obteniendo los pagos del día de hoy", error);
-      throw error;
-    }
+    const whereCondition = {
+      restaurant_id: restaurantId,
+      createdAt: {
+        [Op.gte]: startOfDay,
+        [Op.lte]: endOfDay,
+      },
+    };
+
+    // Obtener el total de pagos de hoy
+    const dailyTotal = await Payment.sum("amount", { where: whereCondition });
+    return {
+      dailyTotal: dailyTotal ?? 0,
+    };
+
   },
 
   async getWeeklyPayments(restaurantId) {
-    try {
-      const today = new Date();
-      const lastSevenDays = new Date(today);
-      lastSevenDays.setDate(today.getDate() - 7);
-      lastSevenDays.setHours(0, 0, 0, 0);
 
-      const payments = await Payment.findAll({
-        where: {
-          restaurant_id: restaurantId,
-          createdAt: {
-            [Op.gte]: lastSevenDays,
-            [Op.lte]: today,
-          },
+    const today = new Date();
+    const lastSevenDays = new Date(today);
+    lastSevenDays.setDate(today.getDate() - 7);
+    lastSevenDays.setHours(0, 0, 0, 0);
+
+    const payments = await Payment.findAll({
+      where: {
+        restaurant_id: restaurantId,
+        createdAt: {
+          [Op.gte]: lastSevenDays,
+          [Op.lte]: today,
         },
-        attributes: ["amount", "createdAt"],
-        order: [["createdAt", "ASC"]],
-      });
+      },
+      attributes: ["amount", "createdAt"],
+      order: [["createdAt", "ASC"]],
+    });
 
-      const paymentsFormatted = payments.map((payment) => ({
-        ...payment.dataValues,
-        amount: parseFloat(payment.dataValues.amount),
-      }));
+    const paymentsFormatted = payments.map((payment) => ({
+      ...payment.dataValues,
+      amount: parseFloat(payment.dataValues.amount),
+    }));
 
-      const totalAmount = paymentsFormatted.reduce((acc, payment) => acc + payment.amount, 0)
+    const totalAmount = paymentsFormatted.reduce((acc, payment) => acc + payment.amount, 0)
 
-      return { payments: paymentsFormatted, totalAmount }
-
-    } catch (error) {
-
-      console.error("Error obteniendo los pagos de los últimos 7 días:", error);
-
-      throw error;
-
-    }
+    return { payments: paymentsFormatted, totalAmount }
   },
 
   async getCurrentMonthPayments(restaurantId) {
-    try {
-      const today = new Date();
 
-      const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const today = new Date();
 
-      const endOfMonth = new Date(
-        today.getFullYear(),
-        today.getMonth() + 1,
-        0,
-        23,
-        59,
-        59,
-        999
-      );
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-      const payments = await Payment.findAll({
-        where: {
-          restaurant_id: restaurantId,
-          createdAt: { [Op.between]: [startOfMonth, endOfMonth] },
-        },
-        attributes: ["amount", "createdAt"],
-        order: [["createdAt", "ASC"]],
-      });
+    const endOfMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    );
 
-      const paymentsFormatted = payments.map((payment) => ({
-        ...payment.dataValues,
-        amount: parseFloat(payment.dataValues.amount),
-      }));
+    const payments = await Payment.findAll({
+      where: {
+        restaurant_id: restaurantId,
+        createdAt: { [Op.between]: [startOfMonth, endOfMonth] },
+      },
+      attributes: ["amount", "createdAt"],
+      order: [["createdAt", "ASC"]],
+    });
 
-      const totalAmount = paymentsFormatted.reduce((acc, payment) => acc + payment.amount, 0)
+    const paymentsFormatted = payments.map((payment) => ({
+      ...payment.dataValues,
+      amount: parseFloat(payment.dataValues.amount),
+    }));
 
-      return { payments: paymentsFormatted, totalAmount };
-    } catch (error) {
-      console.error("Error obteniendo los pagos del mes:", error);
-      throw error;
-    }
+    const totalAmount = paymentsFormatted.reduce((acc, payment) => acc + payment.amount, 0)
+
+    return { payments: paymentsFormatted, totalAmount };
+
   },
 
   async getMonthlySummary(restaurantId) {

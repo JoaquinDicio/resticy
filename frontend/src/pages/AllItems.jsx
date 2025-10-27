@@ -10,7 +10,8 @@ import ItemCard from "../components/ItemCard.jsx";
 import useModal from "../hooks/useModal.jsx";
 
 export default function AllItems() {
-  const { deleteItem, error, isPosting, items, getItems, isLoading, addItem } =
+
+  const { deleteItem, error, isPosting, items, editItem, isLoading, addItem } =
     useItems();
 
   const { modal, closeModal, openModal, payload } = useModal();
@@ -63,7 +64,8 @@ export default function AllItems() {
       {modal?.type === "edit" && (
         <EditItemModal
           selectedItem={payload}
-          onEdit={getItems}
+          editItem={editItem}
+          error={error}
           onClose={() => closeModal()}
         />
       )}

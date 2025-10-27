@@ -8,20 +8,17 @@ const paymentController = {
       const response = await paymentService.createPreference(req);
       res.status(200).json(response);
     } catch (e) {
-      console.log("Algo salio mal generando el link de pago", e);
+      res.status(500 || error.code).json({ ...error, message: error.message });
     }
   },
 
   async markAsPayed(req, res) {
     try {
       const response = await paymentService.markAsPayed(req.params.orderId);
-
-      // emito el evento con los datos de la orden que ha sido pagada
       io.emit("order-payment", response.data);
-
       res.status(200).json(response);
     } catch (e) {
-      console.log("Error actualizando el pago en la orden", e);
+      res.status(500 || error.code).json({ ...error, message: error.message });
     }
   },
 
@@ -32,7 +29,7 @@ const paymentController = {
       res.status(200).json(response);
     } catch (e) {
       console.log("Error obteniendo el resumen de pagos", e);
-      res.status(500).json({ error: "Error interno del servidor" });
+      res.status(500 || error.code).json({ ...error, message: error.message });
     }
   },
 
@@ -43,7 +40,7 @@ const paymentController = {
       res.status(200).json(response);
     } catch (e) {
       console.log("Error obteniendo los pagos de la semana", e);
-      res.status(500).json({ error: "Error interno del servidor" });
+      res.status(500 || error.code).json({ ...error, message: error.message });
     }
   },
 
@@ -53,7 +50,7 @@ const paymentController = {
       const response = await paymentService.getCurrentMonthPayments(restaurantId);
       res.status(200).json(response);
     } catch (error) {
-      res.status(500).json({ error: "Error obteniendo los pagos del mes" });
+      res.status(500 || error.code).json({ ...error, message: error.message });
     }
   },
 

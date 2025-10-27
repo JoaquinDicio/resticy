@@ -7,7 +7,6 @@ import initModels from './models/index.js'
 import sequalize from './database.js';
 import seedRoles from './seeders/seedRoles.js';
 
-//Crea una instancia de express
 const app = express()
 
 //middlewares
@@ -22,9 +21,7 @@ mountRouters(app);
 //configuracion inicial de la base datos
 async function initDatabase() {
     initModels()
-
     await sequalize.sync()
-
     await seedRoles()
 }
 

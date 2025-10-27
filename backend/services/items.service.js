@@ -1,6 +1,9 @@
 import Item from "../models/Item.js";
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import HttpError from "../errors/HttpError.js";
+
 
 const itemsService = {
   async getItemsByRestaurant(req) {
@@ -51,96 +54,58 @@ const itemsService = {
 
   async deleteItem(req) {
     const { id } = req.params;
+    const item = await Item.findByPk(id);
 
-    try {
-      const item = await Item.findByPk(id); // se usa para obtener la url y eliminar la foto relacionada
-      //elimina el archivo usando la ruta del img
-      if (item) {
-        fs.unlink(`backend/public/uploads/${item.img}`, (err) => {
-          if (err) {
-            console.error("Ocurrio un error al eliminar el archivo:", err);
-            return;
-          }
-        });
-      }
+    //elimina el archivo usando la ruta del img
+    if (item) {
+      const __filename = fileURLToPath(import.meta.url)
+      const __dirname = path.dirname(__filename)
+      const imagePath = path.join(__dirname, "../public/uploads", item.img);
 
-      //busca el item y lo destruye mediante el ID
-      const itemToDestroy = await Item.destroy({
-        where: { id },
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          throw new HttpError("Error eliminando la imagen de portada", 400)
+        }
       });
-
-      if (!itemToDestroy) {
-        return {
-          code: 404,
-          error: {
-            message: "El item no fue encontrado.",
-          },
-        };
-      }
-
-      return {
-        code: 200,
-        message: "El item fue eliminado exitosamente.",
-        ok: true,
-      };
-    } catch (error) {
-      console.error("Error al eliminar el producto:", error);
-      return {
-        code: 500,
-        error: {
-          message: "Error interno del servidor al eliminar el producto.",
-        },
-      };
     }
+
+    //busca el item y lo destruye mediante el ID
+    const itemToDestroy = await Item.destroy({
+      where: { id },
+    });
+
+    if (!itemToDestroy) {
+      throw new HttpError("El item no existe", 404)
+    }
+
+    return {
+      message: "El item fue eliminado exitosamente.",
+      ok: true,
+    };
+
   },
 
   async updateItem(req) {
     const { name, price, id } = req.body;
+
     const required = ["name", "price"];
-    const error = {};
 
     required.forEach((field) => {
-      if (!req.body[field] || req.body[field].trim() == "") {
-        error[field] = "El campo es obligatorio";
-      }
+      if (!req.body[field] || req.body[field].trim() == "") return new HttpError(`El campo ${field} es obligatorio`)
     });
 
-    try {
-      const item = await Item.findByPk(id);
+    const item = await Item.findByPk(id);
 
-      if (!item) {
-        return {
-          code: 404,
-          error: {
-            message: "No existe un producto con ese id para actualizar",
-          },
-        };
-      }
-
-      // si el objeto de errores tiene valores
-      if (Object.keys(error).length > 0) {
-        return {
-          code: 400,
-          error,
-          ok: false,
-        };
-      }
-
-      //si existe el item, se actualiza el producto deseado
-      await item.update({
-        name: name || item.name,
-        price: price || item.price,
-      });
-
-      return {
-        code: 200,
-        data: {
-          message: "Producto actualizado con exito",
-        },
-      };
-    } catch (error) {
-      console.log("Error actualizando el producto:", error);
+    if (!item) {
+      throw new HttpError("No existe un producto con ese ID para actualizar", 404)
     }
+
+    await item.update({
+      name: name || item.name,
+      price: price || item.price,
+    });
+
+    return { ok: true }
   },
 };
 

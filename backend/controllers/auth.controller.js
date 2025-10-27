@@ -1,4 +1,3 @@
-import { response } from "express";
 import authService from "../services/auth.service.js";
 
 const authController = {

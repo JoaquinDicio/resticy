@@ -5,7 +5,9 @@ import Cookies from "js-cookie";
 export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
+
   const [isAuth, setIsAuth] = useState(!!Cookies.get("authToken"));
+
   const [user, setUser] = useState(() => {
     const userCookie = Cookies.get("user");
     return userCookie ? JSON.parse(userCookie) : null;
@@ -13,7 +15,6 @@ export default function AuthContextProvider({ children }) {
 
   useEffect(() => {
     const token = Cookies.get("authToken");
-
     if (token) {
       verifyToken(token);
     }
@@ -27,13 +28,18 @@ export default function AuthContextProvider({ children }) {
   }
 
   async function verifyToken(token) {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    try {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    if (data.user) {
-      setUser(data.user);
-      setIsAuth(true);
+      if (data.user) {
+        setUser(data.user);
+        setIsAuth(true);
+      }
+
+    } catch (error) {
+      logout()
     }
   }
 

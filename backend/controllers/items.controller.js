@@ -31,11 +31,12 @@ const itemsController = {
   async updateItem(req, res) {
     try {
       const response = await itemsService.updateItem(req);
-      res.status(response.code).json(response);
+      res.status(200).json(response);
     } catch (error) {
-      console.log("Error al actualizar el producto", error);
+      res.status(error.code || 500).json({ ...error, message: error.message });
     }
   },
+
 };
 
 export default itemsController;

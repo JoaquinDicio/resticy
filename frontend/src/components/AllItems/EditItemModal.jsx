@@ -1,4 +1,3 @@
-import useAxios from "../../hooks/useAxios";
 import InputField from "../InputField";
 import { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -8,9 +7,10 @@ import { showToast } from "../../utils/toastConfig";
 export default function EditItemModal({
   selectedItem,
   onClose,
-  onEdit,
+  editItem,
+  error
 }) {
-  const { axiosPut, errors } = useAxios();
+
   const [formData, setFormData] = useState({ name: "", price: "" });
 
   useEffect(() => {
@@ -32,15 +32,13 @@ export default function EditItemModal({
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const updateData = { ...formData, id: selectedItem?.id };
+    const updateData = { ...formData, id: selectedItem?.id, img: selectedItem?.img };
 
-    const baseUrl = import.meta.env.VITE_API_URL;
+    const response = await editItem(updateData)
 
-    const response = await axiosPut(`${baseUrl}/items`, updateData);
 
-    if (response.data) {
+    if (response.status === 200) {
       onClose();
-      onEdit();
       showToast("Producto editado correctamente", "success");
     }
   }
@@ -74,7 +72,6 @@ export default function EditItemModal({
               name="name"
               value={formData.name}
             />
-            <i className="text-sm text-red-500">{errors?.name}</i>
           </div>
           <div className="mb-4">
             <InputField
@@ -85,7 +82,7 @@ export default function EditItemModal({
               name="price"
               value={formData.price}
             />
-            <i className="text-sm text-red-500">{errors?.price}</i>
+            <i className="text-sm text-red-500">{error.message}</i>
           </div>
           <div className="w-full flex justify-end">
             <button

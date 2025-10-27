@@ -80,11 +80,33 @@ export default function useItems() {
         setItems([...items, response.data]);
         return response;
       }
+
     } catch (error) {
       console.log("ERROR agregando el articulo", error);
       setError(error.response.data);
     } finally {
       setPosting(false);
+    }
+  }
+
+  async function editItem(newData) {
+
+    try {
+
+      const response = await axios.put(`${baseUrl}/items`, newData, {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+      });
+
+      if (response.status === 200) {
+        setItems((prev) => (prev.map(item => item.id === newData.id ? newData : item)))
+      }
+
+      return response
+    } catch (error) {
+      console.log("ERROR editando el articulo:", error)
+      setError(error.response.data)
     }
   }
 
@@ -95,6 +117,7 @@ export default function useItems() {
     getItems,
     isLoading,
     addItem,
+    editItem,
     isPosting,
     error,
   };
