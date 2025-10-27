@@ -21,7 +21,7 @@ mountRouters(app);
 //configuracion inicial de la base datos
 async function initDatabase() {
     initModels()
-    await sequalize.sync()
+    await sequalize.sync({ alter: true })
     await seedRoles()
 }
 
