@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputField from "./InputField";
 import useAuth from "../hooks/useAuth.jsx";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({});
@@ -58,9 +59,9 @@ const RegisterForm = () => {
 
         <p className="text-center flex flex-col lg:flex-row lg:gap-1">
           ¿Ya tienes una cuenta?{" "}
-          <a href="/login" className="text-blue-800 font-bold">
+          <Link to={{ pathname: "/login" }} className="text-blue-800 font-bold">
             Iniciar sesión
-          </a>
+          </Link>
         </p>
       </div>
     </form>

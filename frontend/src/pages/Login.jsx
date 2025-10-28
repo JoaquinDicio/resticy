@@ -1,23 +1,25 @@
 import LoginForm from "../components/LoginForm";
 import back from "../assets/flecha-atras.png";
+import imgForm from "../assets/imgForm.jpg";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
     <main data-aos="fade-in">
-      <a href="/">
+      <Link to={{ pathname: "/" }}>
         <img
           className="w-[40px] absolute top-10 left-10"
           src={back}
           alt="back icon"
         />
-      </a>
+      </Link>
 
       <div className="w-full min-h-screen bg-[var(--wine-color)] flex justify-center items-center">
         <div className="flex-col w-[85%] max-w-[1000px] md:flex-row lg:w-[75%] rounded-lg flex justify-center">
           <div className="w-[40%]">
             <img
               className="h-full w-full object-cover overflow-hidden rounded-l-lg hidden md:block"
-              src={"../assets/imgForm.jpg"}
+              src={imgForm}
               alt="Imagen de fondo"
             />
           </div>
@@ -25,9 +27,9 @@ export default function Login() {
             <div className="mb-9">
               <p className="text-xl lg:text-2xl">
                 Iniciar sesión o{" "}
-                <a href="/register" className="text-blue-800">
+                <Link to={{ pathname: "/register" }} className="text-blue-800">
                   Registrarse
-                </a>
+                </Link>
               </p>
             </div>
             <div className="h-[100%]">

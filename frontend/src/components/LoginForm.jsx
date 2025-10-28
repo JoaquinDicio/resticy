@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputField from "./InputField";
 import useAuth from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({});
@@ -48,12 +49,6 @@ export default function LoginForm() {
           value={isLoading ? "Autenticando.." : "Iniciar sesión"}
           className="bg-[#D4AF37] px-10 py-3 rounded w-full md:w-[auto] cursor-pointer"
         />
-        <p className="text-center flex flex-col 2xl:flex-row lg:gap-1">
-          ¿Olvidaste tu contraseña?{" "}
-          <a href="/register" className="text-blue-800 font-bold">
-            Recuperar contraseña
-          </a>
-        </p>
       </div>
     </form>
   );
