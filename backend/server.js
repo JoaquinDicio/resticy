@@ -36,7 +36,7 @@ server.listen(process.env.PORT, () => {
 
 const io = new Socket(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://helpful-gaufre-aa12e6.netlify.app/",
   },
 });
 
