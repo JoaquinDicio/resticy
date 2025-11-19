@@ -13,7 +13,7 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
   const handleOpen = () => {
     setOpen(true);
     if (restaurantID && tableID) {
-      const url = `http://localhost:5173/neworder/${restaurantID}/${tableID}`;
+      const url = `https://helpful-gaufre-aa12e6.netlify.app/${restaurantID}/${tableID}`;
       import("qrcode").then((QRCode) => {
         QRCode.toCanvas(qrCanvasRef.current, url, {
           width: 350,
