@@ -10,7 +10,7 @@ import seedRoles from "./seeders/seedRoles.js";
 const app = express();
 
 //middlewares
-app.use(cors({ origin: ["https://helpful-gaufre-aa12e6.netlify.app"] }));
+app.use(cors({ origin: ["https://resticy.netlify.app"] }));
 
 app.use(express.json());
 
@@ -36,7 +36,7 @@ server.listen(process.env.PORT, () => {
 
 const io = new Socket(server, {
   cors: {
-    origin: "https://helpful-gaufre-aa12e6.netlify.app",
+    origin: "https://resticy.netlify.app",
   },
 });
 
