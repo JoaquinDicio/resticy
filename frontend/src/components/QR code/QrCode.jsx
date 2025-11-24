@@ -135,7 +135,7 @@ const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
           </p>
           <a
             target="_blank"
-            href={`http://localhost:5173/neworder/${restaurantID}/${tableID}`}
+            href={`https://resticy.netlify.app/neworder/${restaurantID}/${tableID}`}
           >
             <canvas ref={qrCanvasRef} />
           </a>
