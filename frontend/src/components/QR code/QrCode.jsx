@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import Button from "@mui/material/Button";
-import { AuthContext } from "../../context/AuthContext";
 
 const QRCodeGenerator = ({ restaurantID, tableID, tableNumber }) => {
   const qrCanvasRef = useRef(null);

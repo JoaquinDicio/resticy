@@ -91,7 +91,7 @@ export default function ItemsSelector({ setOrderData, orderData }) {
           <div className="flex items-center gap-5">
             <div className="w-[40%]">
               <img
-                src={`${baseUrl}/${item.img}`}
+                src={`${baseUrl}/uploads/${item.img}`}
                 alt={item.name}
                 className="w-[200px] object-cover aspect-square rounded-[200px]"
               />
